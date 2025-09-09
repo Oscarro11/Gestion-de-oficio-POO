@@ -6,7 +6,15 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-}
+    background-image:
+        radial-gradient(circle 18px at 30px 35px, rgba(233, 198, 159, 0.28) 90%, transparent 100%),
+        radial-gradient(circle 11px at 90px 70px, rgba(233, 198, 159, 0.20) 90%, transparent 100%),
+        radial-gradient(circle 24px at 60px 110px, rgba(216, 176, 124, 0.18) 90%, transparent 100%),
+        radial-gradient(circle 15px at 120px 40px, rgba(233, 198, 159, 0.17) 90%, transparent 100%),
+        radial-gradient(circle 10px at 150px 90px, rgba(216, 176, 124, 0.15) 90%, transparent 100%),
+        radial-gradient(circle 22px at 200px 60px, rgba(233, 198, 159, 0.18) 90%, transparent 100%);
+    background-size: 220px 140px;
+}   
 
 .login-box {
     background: #fff;
@@ -86,6 +94,10 @@ button:hover {
 .link a:hover {
     text-decoration: underline;
     color: #1b5e20;
+}
+.logo {
+    height: 104px;
+    margin-bottom: 16px;
 }
 
 /* Responsive para pantallas pequeñas */
