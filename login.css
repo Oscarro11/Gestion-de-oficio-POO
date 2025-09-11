@@ -42,6 +42,19 @@ form {
     gap: 13px;
 }
 
+.btn {
+    margin-top: 8px;
+    background: #4caf50;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.08em;
+    padding: 11px 0;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
 label {
     color: #333;
     font-size: 1em;
