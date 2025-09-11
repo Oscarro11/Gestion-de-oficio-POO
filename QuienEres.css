@@ -20,14 +20,28 @@ body {
 
 .h1{
     font-size: 28px;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
+}
+.contenedor {
+    display: flex;
+    width: 100%;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    max-width: 400px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    background-color: white;
 }
 
 .opcion {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: 10px;
+    gap: 12px;
     width: 180px;
     margin: 15px auto;
     padding: 10px;
@@ -39,14 +53,15 @@ body {
 }
 
 .icono {
-    width: 40px;
-    height: 40px;
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 20px;
+    font-size: 22px;
 }
 .amarillo {
     background-color: #F4C430;
@@ -59,7 +74,7 @@ body {
 }
 
 .extra {
-    margin-top: 25px;
+    margin-top: 30px;
     font-size: 14px;
 }
 .extra a {
