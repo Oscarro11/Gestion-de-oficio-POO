@@ -24,6 +24,19 @@ body {
     position: relative;
     overflow: hidden;
 }
+.back-arrow {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 30px;
+    text-decoration: none;
+    color: #1d71f2;
+    font-weight: bold;
+    z-index: 2;
+}
+.back-arrow:hover {
+    color: #0b4fb3;
+}
 
 h2 {
     font-size: 18px;
