@@ -82,14 +82,3 @@ body {
     text-decoration: underline;
     cursor: pointer;
 }
-
-/* Responsive para pantallas pequeñas */
-@media (max-width: 480px) {
-    .login-box {
-        width: 98vw;
-        padding: 20px 3vw;
-    }
-    h2 {
-        font-size: 1.3em;
-    }
-}
