@@ -50,4 +50,33 @@ public class ListaUsuarios{
             return mensaje_Usuarios;
         }
     }
+
+    public Usuario buscarUsuario (String nombre){
+        for (Usuario usuario : listaUsuarios) {
+            if (usuario.getNombre().equals(nombre)) {
+                return usuario;
+            }
+        }
+        return null;
+    }
+
+    public boolean usuarioExiste(String nombre){
+        for (Usuario usuario : listaUsuarios) {
+            if (usuario.getNombre().equals(nombre)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean contrasenaUsuarioCorrecta(String nombre, String contrasena){
+        for (Usuario usuario : listaUsuarios) {
+            if (usuario.getNombre().equals(nombre) && usuario.getContrasena().equals(contrasena)){
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
 }

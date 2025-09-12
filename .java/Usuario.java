@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+//import java.util.ArrayList;
 
 public class Usuario {
     private final String nombre;
@@ -17,6 +17,9 @@ public class Usuario {
 
     public String getNombre() {
         return nombre;
+    }
+    public String getContrasena() {
+        return contrasena;
     }
 
     public void setContrasena(String contrasena) {
