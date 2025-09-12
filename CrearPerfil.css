@@ -1,0 +1,108 @@
+body {
+    background: #FFF8EE;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image:
+        radial-gradient(circle 18px at 30px 35px, rgba(233, 198, 159, 0.28) 90%, transparent 100%),
+        radial-gradient(circle 11px at 90px 70px, rgba(233, 198, 159, 0.20) 90%, transparent 100%),
+        radial-gradient(circle 24px at 60px 110px, rgba(216, 176, 124, 0.18) 90%, transparent 100%),
+        radial-gradient(circle 15px at 120px 40px, rgba(233, 198, 159, 0.17) 90%, transparent 100%),
+        radial-gradient(circle 10px at 150px 90px, rgba(216, 176, 124, 0.15) 90%, transparent 100%),
+        radial-gradient(circle 22px at 200px 60px, rgba(233, 198, 159, 0.18) 90%, transparent 100%);
+    background-size: 220px 140px;
+} 
+.container {
+    width: 320px;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+}
+.back-arrow {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 30px;
+    text-decoration: none;
+    color: #1d71f2;
+    font-weight: bold;
+    z-index: 2;
+}
+.back-arrow:hover {
+    color: #0b4fb3;
+}
+
+h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+.user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0;
+    position: relative;
+    z-index: 1;
+}
+.user-icon {
+    width: 50px;
+    height: 50px;
+    background: #fdd835;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+}
+.user input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+fieldset {
+    border: none;
+    margin: 15px 0;
+    padding: 0;
+    position: relative;
+    z-index: 1;
+}
+legend {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+.roles label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    margin: 5px 0;
+}
+input[type="radio"] {
+    accent-color: #1d71f2;
+}
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #a7d84c;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+}
+button:hover {
+    background: #8fc13a;
+}

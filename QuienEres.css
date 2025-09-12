@@ -1,0 +1,84 @@
+body {
+    background: #FFF8EE;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image:
+        radial-gradient(circle 18px at 30px 35px, rgba(233, 198, 159, 0.28) 90%, transparent 100%),
+        radial-gradient(circle 11px at 90px 70px, rgba(233, 198, 159, 0.20) 90%, transparent 100%),
+        radial-gradient(circle 24px at 60px 110px, rgba(216, 176, 124, 0.18) 90%, transparent 100%),
+        radial-gradient(circle 15px at 120px 40px, rgba(233, 198, 159, 0.17) 90%, transparent 100%),
+        radial-gradient(circle 10px at 150px 90px, rgba(216, 176, 124, 0.15) 90%, transparent 100%),
+        radial-gradient(circle 22px at 200px 60px, rgba(233, 198, 159, 0.18) 90%, transparent 100%);
+    background-size: 220px 140px;
+    text-align: center;
+    padding: 40px;
+}   
+
+.h1{
+    font-size: 28px;
+    margin-bottom: 40px;
+}
+.contenedor {
+    display: flex;
+    width: 100%;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    max-width: 400px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    background-color: white;
+}
+
+.opcion {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    width: 180px;
+    margin: 15px auto;
+    padding: 10px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 18px;
+    text-decoration: none;
+    color: #333;
+}
+
+.icono {
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 22px;
+}
+.amarillo {
+    background-color: #F4C430;
+}
+.azul {
+    background-color: #1E90FF;
+}
+.rojo {
+    background-color: #FF4500;
+}
+
+.extra {
+    margin-top: 30px;
+    font-size: 14px;
+}
+.extra a {
+    color: #333;
+    text-decoration: underline;
+    cursor: pointer;
+}
