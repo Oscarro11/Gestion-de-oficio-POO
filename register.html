@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="register.css">
+</head>
+<body>
+    <div class="login-box">
+        <img src="D:\Personal\Images\Organ.png" alt="Logo" class="logo">
+        <h2>Registrarse</h2>
+        <form action="register" method="post">
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email">
+
+            <label for="username">Usuario</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Contraseña</label>
+            <input type="password" id="password" name="password" required>
+
+            <label for="confirm-password">Confirmar Contraseña</label>
+            <input type="password" id="confirm-password" name="confirm-password" required>
+            
+            <div class="remember-me">
+                <input type="checkbox" id="remember-me" name="remember-me">
+                <label for="remember-me">Recuérdame</label>
+            </div>
+
+            <input type ="submit" value="Registrarse" href="dashboard.html" class="btn">
+            
+
+        </form>
+        <p class="link">
+            ¿Tienes un código? <a href="IngresoCodigo.html">Haz click aquí</a>
+        </p>
+        <p class="link2">
+            ¿Ya tienes una cuenta? <a href="Principal.html">Inicia sesión aquí</a>
+        </p>
+    </div>
+</body>
+</html>
