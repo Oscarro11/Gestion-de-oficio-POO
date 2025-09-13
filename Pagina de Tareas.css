@@ -1,0 +1,87 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #FFF8EE;
+    text-align: center;
+    background-image:
+        radial-gradient(circle 18px at 30px 35px, rgba(233, 198, 159, 0.28) 90%, transparent 100%),
+        radial-gradient(circle 11px at 90px 70px, rgba(233, 198, 159, 0.20) 90%, transparent 100%),
+        radial-gradient(circle 24px at 60px 110px, rgba(216, 176, 124, 0.18) 90%, transparent 100%),
+        radial-gradient(circle 15px at 120px 40px, rgba(233, 198, 159, 0.17) 90%, transparent 100%),
+        radial-gradient(circle 10px at 150px 90px, rgba(216, 176, 124, 0.15) 90%, transparent 100%),
+        radial-gradient(circle 22px at 200px 60px, rgba(233, 198, 159, 0.18) 90%, transparent 100%);
+    background-size: 220px 140px;
+} 
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+}
+
+header a {
+    text-decoration: none;
+    color: #5A9E6F;
+    font-size: 24px;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.task-list {
+    width: 90%;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.task {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #cfcfcf;
+    padding: 10px 0;
+}
+
+.circle {
+    width: 24px;
+    height: 24px;
+    border: 2px solid #5A9E6F;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.task-name {
+    font-weight: bold;
+}
+
+.points {
+    font-size: 12px;
+    color: gray;
+}
+
+.footer {
+    margin-top: 40px;
+    font-size: 14px;
+}
+
+.add-task {
+    margin-top: 10px;
+    display: inline-block;
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: 2px solid #5A9E6F;
+    background-color: #E6F4E6;
+    color: #333;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.add-task:hover {
+    background-color: #d3f0d3;
+}
