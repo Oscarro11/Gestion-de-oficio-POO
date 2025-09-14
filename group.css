@@ -114,7 +114,7 @@ body {
     padding-bottom: 24px;
     border-bottom: 2px solid #e9c69f;
 }
-.Agregar, .Editar, .Eliminar {
+.Agregar, .Unirse, .Eliminar {
     background: transparent;
     color: rgb(74, 74, 74);
     border: none;
@@ -125,17 +125,17 @@ body {
     font-family: 'Segoe UI', Arial, sans-serif;
     transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
 }
-.agregarbotton, .editarbotton, .eliminarbotton {
+.agregarbotton, .unirsebotton, .eliminarbotton {
     border-bottom: 2px solid #e9c69f;
 }
-.agregarbotton:hover, .editarbotton:hover, .eliminarbotton:hover {
+.agregarbotton:hover, .unirsebotton:hover, .eliminarbotton:hover {
     border-bottom: 2px solid #8d7456;
     transform: translateY(-2px);
 }
 .Eliminar {
     color: #7a2421;
 }
-.add-icon, .edit-icon, .delete-icon {
+.add-icon, .join-icon, .delete-icon {
     width: 24px;
     height: 24px;
     vertical-align: middle; 
@@ -148,6 +148,11 @@ body {
 }
 .Agregar {
     color: darkgreen;
+}
+.join-icon {
+    width: 22px;
+    height: 22px;
+    filter: opacity(0.7); 
 }
 .delete-icon {
     filter: invert(27%) sepia(83%) saturate(749%) hue-rotate(340deg) brightness(91%) contrast(85%);
@@ -226,4 +231,15 @@ body {
     font-family: 'Segoe UI', Arial, sans-serif;
     opacity: 0.85;
     letter-spacing: 0.3px;
+}
+.edit-button {
+    background: transparent;
+    border: none;
+    font-size: 1.3em;
+    cursor: pointer;
+    color: #7e6842;
+    align-self: flex-start;
+    margin-left: auto;
+    padding-top: 4px;
+    transition: color 0.2s, transform 0.2s;
 }
