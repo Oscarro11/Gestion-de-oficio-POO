@@ -3,12 +3,13 @@ package com.poo.gestion;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 public class HelloController {
-
+    @CrossOrigin
     @PostMapping("/api/sign-up")
     public String signUp(@RequestBody SignUp signUp) {
         SignUp user = signUp;

@@ -8,16 +8,16 @@ import java.io.PrintWriter;
 
 public class SignUp {
 
-    private String correo;
-    private String usuario;
-    private String contraseña;
-    private String confirmacionContraseña;
+    private String email;
+    private String username;
+    private String password;
+    private String confirmPassword;
 
-    public SignUp(String correo, String usuario, String contraseña, String confirmacionContraseña) {
-        this.correo = correo;
-        this.usuario = usuario;
-        this.contraseña = contraseña;
-        this.confirmacionContraseña = confirmacionContraseña;
+    public SignUp(String email, String username, String password, String confirmPassword) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.confirmPassword = confirmPassword;
     }
 
     private boolean isAccountCreated() {
@@ -33,7 +33,7 @@ public class SignUp {
                 }
                 String[] data = line.split(cvsSplitBy);
                 // Process the 'data' array (e.g., print elements, store in a list)
-                if (this.usuario.equals(data[1])) {
+                if (this.username.equals(data[1])) {
                     accountExists = true;
                     break; // Exit the loop if a match is found
                 }
@@ -51,11 +51,11 @@ public class SignUp {
             return "El usuario ya existe";
         }
 
-        if (!this.contraseña.equals(this.confirmacionContraseña)) {
+        if (!this.password.equals(this.confirmPassword)) {
             return "Las contraseñas no coinciden";
         }
 
-        String[] data = { this.correo, this.usuario, this.contraseña };
+        String[] data = { this.email, this.username, this.password };
 
         try (FileWriter fw = new FileWriter(".csv/DBUsuarios.csv", true); PrintWriter pw = new PrintWriter(fw)) {
 

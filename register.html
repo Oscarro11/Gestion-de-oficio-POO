@@ -1,44 +1,88 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Iniciar Sesión</title>
-    <link rel="stylesheet" href="register.css">
-</head>
-<body>
+    <link rel="stylesheet" href="register.css" />
+  </head>
+  <script>
+    function handleSubmit(event) {
+      event.preventDefault();
+      const errorMessageElement = document.getElementById("error-message");
+      const email = document.getElementById("email").value;
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+
+      if (password !== confirmPassword) {
+        errorMessageElement.textContent = "Las contraseñas no coinciden.";
+        return;
+      }
+      const data = {
+        email: email,
+        username: username,
+        password: password,
+        confirmPassword: confirmPassword,
+      };
+
+      fetch("http://localhost:8080/api/sign-up", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => response)
+        .then(async (data) => {
+          const text = await data.text();
+          console.log(errorMessageElement);
+          if (text !== "El usuario ya existe") {
+            window.location.href = "dashboard.html"; // Redirigir a la página del dashboard
+          } else {
+            errorMessageElement.innerHTML = text;
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          errorMessageElement.innerHTML =
+            "Error al registrarse. Por favor, inténtelo de nuevo.";
+        });
+    }
+  </script>
+  <body>
     <div class="login-box">
-        <img src="Logo.png" alt="Logo" class="logo">
-        <h2>Registrarse</h2>
-        <form action="register" method="post">
+      <img src="Logo.png" alt="Logo" class="logo" />
+      <h2>Registrarse</h2>
+      <form onsubmit="handleSubmit(event)" method="post">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" />
 
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email">
+        <label for="username">Usuario</label>
+        <input type="text" id="username" name="username" required />
 
-            <label for="username">Usuario</label>
-            <input type="text" id="username" name="username" required>
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" name="password" required />
 
-            <label for="password">Contraseña</label>
-            <input type="password" id="password" name="password" required>
+        <label for="confirmPassword">Confirmar Contraseña</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          required
+        />
+        <p style="color: red" id="error-message"></p>
 
-            <label for="confirm-password">Confirmar Contraseña</label>
-            <input type="password" id="confirm-password" name="confirm-password" required>
-            
-            <div class="remember-me">
-                <input type="checkbox" id="remember-me" name="remember-me">
-                <label for="remember-me">Recuérdame</label>
-            </div>
-
-            <input type ="submit" value="Registrarse" href="dashboard.html" class="btn">
-            
-
-        </form>
-        <p class="link">
-            ¿Tienes un código? <a href="IngresoCodigo.html">Haz click aquí</a>
-        </p>
-        <p class="link2">
-            ¿Ya tienes una cuenta? <a href="Principal.html">Inicia sesión aquí</a>
-        </p>
+        <input type="submit" value="Registrarse" class="btn" />
+      </form>
+      <p class="link">
+        ¿Tienes un código? <a href="IngresoCodigo.html">Haz click aquí</a>
+      </p>
+      <p class="link2">
+        ¿Ya tienes una cuenta? <a href="Principal.html">Inicia sesión aquí</a>
+      </p>
     </div>
-</body>
+  </body>
 </html>
