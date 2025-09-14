@@ -93,7 +93,7 @@ button:hover {
 }
 
 .link {
-    margin-top: 16px;
+    margin-top: 24px;
     font-size: 1em;
     text-align: center;
     color: #222;
@@ -122,4 +122,27 @@ button:hover {
     h2 {
         font-size: 1.3em;
     }
+}
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    justify-content: center;
+}
+.link2 {
+    margin-top: 4px;
+    font-size: 1em;
+    text-align: center;
+    color: #222;
+}
+.link2 a {
+    color: #388e3c;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+.link2 a:hover {
+    text-decoration: underline;
+    color: #1b5e20;
 }
