@@ -3,10 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crea una nueva tarea</title>
+    <title>Nueva Tarea</title>
     <link rel="stylesheet" href="Nueva Tarea.css">
 </head>
 <body>
 <!-- Completar Para crear una nueva tarea -->
+    <div class="task-box">
+        <h2>Crear Nueva Tarea</h2>
+        <form action="crear_tarea" method="post">
+            <label for="titulo">¿Qué tarea estás agregando?</label>
+            <input type="text" id="titulo" name="titulo" required>
+
+            <label for="descripcion">Descripción (Opcional)</label>
+            <textarea id="descripcion" name="descripcion" required></textarea>
+
+            <label for="fecha_vencimiento">Fecha de Vencimiento</label>
+            <input type="date" id="fecha_vencimiento" name="fecha_vencimiento">
+
+            <label for="prioridad">Prioridad</label>
+            <select id="prioridad" name="prioridad">
+                <option value="baja">Baja</option>
+                <option value="media">Media</option>
+                <option value="alta">Alta</option>
+            </select>
+
+            <button type="submit">Crear Tarea</button>
+        </form>
+    </div>
 </body>
 </html>
