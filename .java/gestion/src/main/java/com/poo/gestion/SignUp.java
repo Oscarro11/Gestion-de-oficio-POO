@@ -1,3 +1,4 @@
+package com.poo.gestion;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -20,7 +21,7 @@ public class SignUp {
     }
 
     private boolean isAccountCreated() {
-        String csvFilePath = "./DBUsuarios.csv"; // Replace with your CSV file path
+        String csvFilePath = ".csv/DBUsuarios.csv"; // Replace with your CSV file path
         String line;
         String cvsSplitBy = ","; // Delimiter for CSV
         boolean accountExists = false;
@@ -32,7 +33,6 @@ public class SignUp {
                 }
                 String[] data = line.split(cvsSplitBy);
                 // Process the 'data' array (e.g., print elements, store in a list)
-                String usernameData = data[1];
                 if (this.usuario.equals(data[1])) {
                     accountExists = true;
                     break; // Exit the loop if a match is found
@@ -45,15 +45,19 @@ public class SignUp {
         return accountExists;
     }
 
-// funcion para crear, funcion que existe
+    // funcion para crear, funcion que existe
     public String crearCuenta() {
         if (isAccountCreated()) {
             return "El usuario ya existe";
         }
 
-        String[] data = {this.correo, this.usuario, this.contraseña};
+        if (!this.contraseña.equals(this.confirmacionContraseña)) {
+            return "Las contraseñas no coinciden";
+        }
 
-        try (FileWriter fw = new FileWriter("./DBUsuarios.csv", true); PrintWriter pw = new PrintWriter(fw)) {
+        String[] data = { this.correo, this.usuario, this.contraseña };
+
+        try (FileWriter fw = new FileWriter(".csv/DBUsuarios.csv", true); PrintWriter pw = new PrintWriter(fw)) {
 
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < data.length; i++) {
