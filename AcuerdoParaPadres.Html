@@ -13,7 +13,14 @@
         }
         
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background-image:
+                radial-gradient(circle 18px at 30px 35px, rgba(233, 198, 159, 0.28) 90%, transparent 100%),
+                radial-gradient(circle 11px at 90px 70px, rgba(233, 198, 159, 0.20) 90%, transparent 100%),
+                radial-gradient(circle 24px at 60px 110px, rgba(216, 176, 124, 0.18) 90%, transparent 100%),
+                radial-gradient(circle 15px at 120px 40px, rgba(233, 198, 159, 0.17) 90%, transparent 100%),
+                radial-gradient(circle 10px at 150px 90px, rgba(216, 176, 124, 0.15) 90%, transparent 100%),
+                radial-gradient(circle 22px at 200px 60px, rgba(233, 198, 159, 0.18) 90%, transparent 100%);
+            background-size: 220px 140px;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -32,8 +39,9 @@
         }
         
         .logo {
-            width: 100px;
+            width: 220px;
             margin-bottom: 25px;
+            height: auto;
         }
         
         h1 {
@@ -50,7 +58,7 @@
             margin-bottom: 30px;
             text-align: left;
             line-height: 1.6;
-            border-left: 4px solid #3498db;
+            border-left: 4px solid #3442db;
         }
         
         .agreement-text p {
@@ -121,7 +129,7 @@
 </head>
 <body>
     <div class="agreement-container">
-        <img src="D:\Personal\Images\Organ.png" alt="Logo" class="logo">
+        <img src="Logo.png" alt="Logo" class="logo">
         <h1>Acuerdo para padres</h1>
         
         <div class="agreement-text">
@@ -147,6 +155,7 @@
         
         document.querySelector('.btn-disagree').addEventListener('click', function() {
             alert('Para utilizar la aplicación, es necesario aceptar el acuerdo.');
+            window.location.href = 'landing.html'; // Redirige a la página de inicio o landing page
         });
     </script>
 </body>

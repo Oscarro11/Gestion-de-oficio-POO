@@ -1,5 +1,5 @@
 body {
-    background: linear-gradient(120deg, #FFF8EE 60%, #e9c69f 100%);
+    background: #FFF8EE;
     margin: 0;
     font-family: 'Segoe UI', Arial, sans-serif;
     position: relative;
@@ -13,14 +13,6 @@ body {
     width: 100vw;
     height: 100vh;
     pointer-events: none;
-    background-image:
-        radial-gradient(circle 22px at 60px 80px, rgba(233,198,159,0.25) 90%, transparent 100%),
-        radial-gradient(circle 11px at 160px 140px, rgba(233,198,159,0.19) 90%, transparent 100%),
-        radial-gradient(circle 30px at 260px 220px, rgba(216,176,124,0.18) 90%, transparent 100%),
-        radial-gradient(circle 19px at 80vw 25vh, rgba(233,198,159,0.17) 90%, transparent 100%),
-        radial-gradient(circle 14px at 70vw 75vh, rgba(216,176,124,0.16) 90%, transparent 100%),
-        radial-gradient(circle 28px at 90vw 60vh, rgba(233,198,159,0.22) 90%, transparent 100%);
-    background-size: 340px 280px;
     background-repeat: repeat;
     animation: fadebg 8s linear infinite alternate;
 }
@@ -34,7 +26,7 @@ body {
     top: 0;
     width: 100%;
     box-sizing: border-box;
-    background: rgba(255,248,238,0.96);
+    background: rgba(255,248,238,0.95);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -96,8 +88,7 @@ body {
 .header {
     z-index: 1;
     position: relative;
-    background: white;
-    margin-bottom: 0;
+    background: radial-gradient(circle at 50% 50%, #2a4674, #1b2a3a);
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -111,7 +102,7 @@ body {
 }
 .header-flex {
     display: flex;
-    align-items: center;
+    align-items: top;
     justify-content: space-between;
     width: 100%;
     max-width: 1200px;
@@ -129,16 +120,16 @@ body {
     justify-content: flex-end;
     align-items: center;
     min-width: 240px;
-    max-width: 480px;
+    max-width: 550px;
+    height: auto;
 }
 .imagen {
-    max-width: 550px;
     width: 100%;
     height: auto;
 
 }
 
-/* Responsive header en móviles: apilar verticalmente */
+/* Responsive header en telefonos: apilar verticalmente */
 @media (max-width: 900px) {
     .header {
         min-height: auto;
@@ -166,29 +157,28 @@ h1 {
     font-size: 4em;
     margin-top: 0px;
     margin-bottom:32px;
-    color: #161616; 
+    color: #ffc544; 
     font-weight: 700;
     letter-spacing: 1px;
-
 }
 .subtitle {
     font-size: 1.18em;
-    color: #7e6842;
+    color: #ffffff;
     margin-bottom: 24px;
     margin-top: 24px;
 }
 .subtitle-highlight {
-    font-weight: 700;
-    color: #4caf50;
+    font-weight: 1000;
+    color: #ffc544;
 }
 .cta-buttons {
     display: flex;
-    gap: 22px;
+    gap: 22px;  
     justify-content: left;
-    margin-top: 32px;
+    margin-top: 64px;
 }
 .btn {
-    background: #4caf50;
+    background: radial-gradient(circle at 50% 0%, #4caf50, #3a8e3a);
     color: #fff;
     font-size: 1.16em;
     padding: 14px 42px;
@@ -202,22 +192,34 @@ h1 {
     cursor: pointer;
     letter-spacing: 0.5px;
     position: relative;
+    margin-bottom: 12px;
 }
 .btn:hover {
-    background: #ffffff;
+    background: radial-gradient(circle at 50% 0%, #348c37, #2a7a2b);
     transform: scale(1.06);
-    border: 1px solid #4caf50;
-    color: #4caf50;
+    color: #ffffff;
     box-shadow: 0 4px 16px rgba(40,80,40,0.18);
 }
-.btn.secondary {
-    background: #ffffff;
-    color: #4caf50;
-    border: 1px solid #4caf50;
+.btn.secondary {    
+    color: #ffc544;
+    border: 1px solid #ffc544;
+    background: transparent
 }
 .btn.secondary:hover {
-    background: #4caf50;
-    color: #ffffff;
+    background: radial-gradient(circle at 50% 0%, #ffc544, #ffb300);
+    color: #2a4674;
+}
+.container {
+    margin: 0 auto;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    background: #fff4e3;
+}
+.container2 {
+    margin: 0 auto;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    background: #ffc544;
 }
 .section {
     z-index: 1;
@@ -234,7 +236,7 @@ h1 {
     animation: sectionFade .8s forwards;
 }
 .section-title {
-    background: linear-gradient(90deg, #4caf50, #ad9d29 90%);
+    background: #4caf50;
     background-clip: text;
     color: transparent;
     font-size: 1.3em;
@@ -260,9 +262,9 @@ h1 {
     color: #444;
     margin-bottom: 13px;
     padding-left: 4px;
-    background: #fff8ee;
+    background: #f8f9fa;
     border-radius: 13px;
-    box-shadow: 0 2px 10px rgba(233,198,159,0.09);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.09);
     padding: 22px 18px;
     min-width: 180px;
     max-width: 220px;
@@ -276,10 +278,6 @@ h1 {
     transform: scale(1.04);
     box-shadow: 0 6px 22px rgba(233,198,159,0.16);
 }
-.feature-icon {
-    font-size: 2.1em;
-    filter: drop-shadow(0 2px 4px #e9c69f88);
-}
 .how-section .steps {
     display: flex;
     gap: 32px;
@@ -288,30 +286,42 @@ h1 {
     flex-wrap: wrap;
 }
 .step {
-    background: linear-gradient(120deg, #FFF8EE 70%, #e9c69f 100%);
+    background: #f8f9fa;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(233,198,159,0.11);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
     padding: 22px 18px;
     min-width: 180px;
     max-width: 220px;
     flex: 1 1 180px;
     transition: transform .2s;
+    margin-top: 12px;
+}
+.step1 {
+    background: radial-gradient(circle at 50% 0%, #ff9039, #ff6f20);
+    color: white;
+}
+.step2 {
+    background: radial-gradient(circle at 50% 0%, #4caf50, #3a8e3a);
+    color: white;
+}
+.step3 {
+    background: radial-gradient(circle at 50% 0%, #2a4674, #1b2a3a);
+    color: white;
 }
 .step:hover {
     transform: scale(1.04);
-    box-shadow: 0 6px 16px rgba(216,176,124,0.18);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
 }
 .step-number {
     font-size: 2em;
     font-weight: 700;
-    color: #ad9d29;
+    color: #ffffff;
     margin-bottom: 10px;
-    text-shadow: 0 2px 6px #e9c69f99;
 }
 .step h3 {
-    color: #4caf50;
+    color: #ffffff;
     margin: 0 0 8px 0;
-    font-size: 1.15em;
+    font-size: 1.4em;
     font-weight: 600;
 }
 .contact-section .contact-form {
@@ -333,6 +343,7 @@ h1 {
     outline: none;
     transition: border-color .2s, box-shadow .2s;
     box-shadow: 0 2px 6px rgba(216,176,124,0.07);
+    margin-bottom: 12px;
 }
 .contact-form input:focus,
 .contact-form textarea:focus {
