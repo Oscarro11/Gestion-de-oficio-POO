@@ -162,7 +162,6 @@ body {
     margin-top: 8px;
 }
 .prize-item {
-    display: flex;
     align-items: flex-start;
     background: #FAF0DE;
     border: 1.7px solid #e9c69f;
