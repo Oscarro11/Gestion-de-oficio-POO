@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nueva Recompensa</title>
-    <link rel="stylesheet" href="Nueva Recompnesa.css">
+    <link rel="stylesheet" href="Nueva Recompensa.css">
 </head>
 <body>
-<!-- Completar Para crear una nueva recompensa -->
     <nav class="navbar">
         <div class="nav-logo">
             <img src="Logo.png" alt="Logo" class="logo">
@@ -28,29 +27,18 @@
             <label for="titulo">¿Qué recompensa estás agregando?</label>
             <input type="text" id="titulo" name="titulo" required>
 
-            <label for="usuario">¿Para quién es la recompensa?</label>
-            <select id="usuario" name="usuario">
-                <option value="baja">Usuario 1</option>
-                <option value="media">Juan</option>
-                <option value="alta">Familiar 2</option>
-            </select>
-
             <label for="descripcion">Descripción (Opcional)</label>
             <textarea id="descripcion" name="descripcion" class="textarea" required></textarea>
 
             <label for="fecha_vencimiento">Fecha de Vencimiento</label>
             <input type="date" id="fecha_vencimiento" name="fecha_vencimiento" class="date-input" required>
-            
-            <label for="prioridad">Nivel de recompensa</label>
-            <select id="prioridad" name="prioridad">
-                <option value="baja">Baja</option>
-                <option value="media">Media</option>
-                <option value="alta">Alta</option>
-            </select>
 
-            <button type="submit" class="btn">Crear Tarea</button>
+            <label for="puntos">Puntos necesarios para canjear la recompensa</label>
+            <input for="puntos" type="number" id="puntos" name="puntos" min="1" max="100" class="number-input" placeholder="Puntos necesarios para canjear la recompensa" required>
+
+            <button type="submit" class="btn">Crear Recompensa</button>
         </form>
-    </div>
+    </div>  
 </main>
 </body>
 </html>
