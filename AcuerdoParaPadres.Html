@@ -13,6 +13,7 @@
         }
         
         body {
+            background: #FFF8EE;
             background-image:
                 radial-gradient(circle 18px at 30px 35px, rgba(233, 198, 159, 0.28) 90%, transparent 100%),
                 radial-gradient(circle 11px at 90px 70px, rgba(233, 198, 159, 0.20) 90%, transparent 100%),
@@ -150,7 +151,7 @@
     <script>
         document.querySelector('.btn-agree').addEventListener('click', function() {
             alert('¡Gracias por aceptar el acuerdo! Serás redirigido.');
-            window.location.href = ''; // aqui se coloca la continuación de esta página
+            window.location.href = 'dashboard.html'; // aqui se coloca la continuación de esta página
         });
         
         document.querySelector('.btn-disagree').addEventListener('click', function() {
