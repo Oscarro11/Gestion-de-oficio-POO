@@ -1,0 +1,193 @@
+body {
+    background:#FFF8EE;
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+.navbar {
+    z-index: 10;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    height: auto;
+    overflow-x: auto;
+}
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: auto;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1; /* <- sube el z-index */
+    left: 0;
+    top: 100%;
+    border-radius: 0 0 12px 12px;
+    padding: 8px 0;
+}
+.dropdown-content li a {
+    color: #7e6842;
+    padding: 12px 20px;
+    text-decoration: none;
+    display: block;
+    font-weight: 600;
+    font-size: 1em;
+    transition: background 0.15s;
+}   
+.dropdown-content li a:hover {
+    background-color: #ffe2b0;
+}
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+/* Nuevo: soporta click y tab en el botón */
+.dropdown:focus-within .dropdown-content,
+.dropdown .dropbtn:focus + .dropdown-content {
+    display: block;
+}
+.dropbtn {
+    background: none;
+    border: none;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    color: #7e6842;
+    font-weight: 600;
+    padding: 8px 2px;
+    font-size: 1.07em;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-bottom 0.2s;
+    position: relative;
+}
+.logo {
+    width: 168px;
+    height: 88px;
+    object-fit: contain;
+}
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 28px;
+    margin: 0;
+    padding: 0;
+}
+.nav-links li {
+    display: inline-block;
+    position: relative;
+}
+.nav-links a {
+    text-decoration: none;
+    color: #7e6842;
+    font-weight: 600;
+    padding: 8px 2px;
+    font-size: 1.07em;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-bottom 0.2s;
+    position: relative;
+}
+.nav-links a.active,
+.nav-links a:hover {
+    color: #8d7456;
+    border-bottom: 2px solid #8d7456;
+}
+.nav-links a:after {
+    content:"";
+    display:block;
+    position:absolute;
+    left:0; right:0; bottom:-2px;
+    height:2px; border-radius:1px;
+    background:#e9c69f;
+    opacity:0;
+    transition:opacity .2s;
+}
+.nav-links a:hover:after {
+    opacity:1;
+}
+.dashboard-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 90vh;
+}
+.dashboard-title {
+    color: #232323;
+    font-size: 3em;
+    font-weight: 800;
+    text-align: center;
+    margin-top: 48px;
+    margin-bottom: 10px;
+}
+.dashboard-subtitle {
+    color: #232323;
+    font-size: 1.3em;
+    font-weight: 400;
+    margin-bottom: 32px;
+    text-align: center;
+}
+.dashboard-options {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    margin-top: 24px;
+}
+.dashboard-card {
+    width: 260px;
+    background: radial-gradient(circle, #FF9039 0%, #FF6F20 100%);
+    border-radius: 24px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 16px 24px 16px;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.dashboard-card h2 {
+    font-size: 2em;
+    font-weight: 700;
+    color: #333;
+    margin: 12px 0 8px 0;
+}
+.dashboard-card p {
+    font-size: 1em;
+    color: #333;
+    margin: 0 0 24px 0;
+    text-align: center;
+}
+.card-icon {
+    width: 120px;
+    height: auto;
+    margin-bottom: 18px;
+}
+.dashboard-card.grupos {
+    background: radial-gradient(circle, #FFD139 0%, #FFB300 100%);
+}
+.dashboard-card:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+}
+.dashboard-card a {
+    text-decoration: none;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    color: inherit;
+
+}
