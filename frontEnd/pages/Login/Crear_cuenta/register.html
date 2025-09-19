@@ -10,13 +10,14 @@
     <div class="login-box">
         <img src="../../../assets/images/Logo.png" alt="Logo" class="logo">
         <h2>Registrarse</h2>
-        <form action="register" method="post">
+        <!--form action="register" method="post"-->
+        <form id="registrarse">
 
             <label for="email">Email</label>
             <input type="email" id="email" name="email">
 
-            <label for="username">Usuario</label>
-            <input type="text" id="username" name="username" required>
+            <label for="name">Usuario</label>
+            <input type="text" id="name" name="name" required>
 
             <label for="password">Contraseña</label>
             <input type="password" id="password" name="password" required>
@@ -29,7 +30,8 @@
                 <label for="remember-me">Recuérdame</label>
             </div>
 
-            <button type="submit" formaction="AcuerdoParaPadres.html" class="btn">Registrarse</button>
+            <button type="submit" class="btn">Registrarse</button>
+            <!--button type="submit" formaction="AcuerdoParaPadres.html" class="btn">Registrarse</button-->
             
 
         </form>
@@ -40,5 +42,28 @@
             ¿Ya tienes una cuenta? <a href="../Login_cuenta/Principal.html">Inicia sesión aquí</a>
         </p>
     </div>
+
+    <script>
+        const form1 = document.getElementById('registrarse');
+        
+        form1.addEventListener('submit', event => {
+            event.preventDefault();
+
+            const formData = new FormData(form1);
+            formData.delete("email");
+            formData.delete("confirm-password");
+
+            const data = Object.fromEntries(formData);
+            
+            fetch('http://localhost:8080/api/createUser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+        })
+
+    </script>
 </body>
 </html>
