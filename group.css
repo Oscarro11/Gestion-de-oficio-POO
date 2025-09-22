@@ -243,3 +243,6 @@ body {
     padding-top: 4px;
     transition: color 0.2s, transform 0.2s;
 }
+a {
+    text-decoration: none;
+}
