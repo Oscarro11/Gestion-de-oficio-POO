@@ -3,25 +3,25 @@
 # =========================
 
 # Gradle build folders
-/backend/build/
-/backend/out/
+backEnd/build/
+backEnd/out/
 
 # Gradle wrapper (keep the JAR, ignore scripts)
-/backend/gradlew
-/backend/gradlew.bat
-!backend/gradle/wrapper/gradle-wrapper.jar
+backEnd/gradlew
+backEnd/gradlew.bat
+!backEnd/gradle/wrapper/gradle-wrapper.jar
 
 # Gradle caches (local, system-specific)
-/.gradle/
-/build/
+/backEnd/.gradle/    
+/backEnd/build/
 
 # IntelliJ / Eclipse / VS Code
-/backend/.idea/
-/backend/*.iml
-/backend/.vscode/
+/backEnd/.idea/
+/backEnd/*.iml
+/backEnd/.vscode/
 
 # Logs
-/backend/*.log
+/backEnd/*.log
 
 # Temporary / OS files
 *.tmp
@@ -35,13 +35,13 @@ Thumbs.db
 # =========================
 
 # Node modules (if using npm/yarn)
-/frontend/node_modules/
-/frontend/dist/
-/frontend/build/
+/frontEnd/node_modules/
+/frontEnd/dist/
+/frontEnd/build/
 
 # Temporary / OS files
-/frontend/.DS_Store
-/frontend/Thumbs.db
+/frontEnd/.DS_Store
+/frontEnd/Thumbs.db
 
 # =========================
 # Docs

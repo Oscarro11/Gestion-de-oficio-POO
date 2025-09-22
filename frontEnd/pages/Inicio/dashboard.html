@@ -20,7 +20,7 @@
         </ul>
     </nav>
     <div class="dashboard-main">
-        <h1 class="dashboard-title">Bienvenido</h1>
+        <h1 class="dashboard-title" id="nombre_usuario">Bienvenido</h1>
         <p class="dashboard-subtitle">¿Como te gustaría organizar tu día?</p>
         <div class="dashboard-options">
             <div class="dashboard-card personal">
@@ -37,5 +37,19 @@
             </div>
         </div>
     </div>
+
+    <script>
+        fetch("http://localhost:8080/api/Main/getActiveUserName", {
+            method: "GET",
+            credentials: "include"
+        })
+        .then(response => {
+            return response.text();
+        })
+        .then(data => {
+            const msg = "Bienvenido, " + data;
+            document.getElementById("nombre_usuario").innerHTML = msg;
+        })
+    </script>
 </body>
 </html>

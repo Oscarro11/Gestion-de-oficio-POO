@@ -17,7 +17,7 @@
             <input type="email" id="email" name="email">
 
             <label for="name">Usuario</label>
-            <input type="text" id="name" name="name" required>
+            <input type="text" id="username" name="username" required>
 
             <label for="password">Contraseña</label>
             <input type="password" id="password" name="password" required>
@@ -50,18 +50,35 @@
             event.preventDefault();
 
             const formData = new FormData(form1);
-            formData.delete("email");
-            formData.delete("confirm-password");
+            if (formData.get('password') != formData.get('confirm-password')) {
+                alert("The confirmed password doesn't match the original, try again");
+            }
 
-            const data = Object.fromEntries(formData);
+            else {
+                formData.delete('confirm-password');
+                const data = Object.fromEntries(formData);
+                console.log(data);
             
-            fetch('http://localhost:8080/api/createUser', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
+                fetch('http://localhost:8080/api/login/createUserAccount', {
+                    method: 'POST',
+                    credentials: "include",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    if (data) {
+                        window.location.replace('AcuerdoParaPadres.html');
+                    } else {
+                        alert("Usuario ya existe en el sistema, intentelo de nuevo");
+                    }
+                })
+                .catch(error => console.error(error));
+            }
         })
 
     </script>

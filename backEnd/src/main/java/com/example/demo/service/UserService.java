@@ -13,15 +13,12 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User saveUser(String name, String password){
-        User user = new User();
-        user.setName(name);
-        user.setPassword(password);
-        return userRepository.save(user);
-    }
-
     public List<User> getAllUsers(){
         return userRepository.findAll();
+    }
+
+    public User getUserById(Long id){
+        return userRepository.getReferenceById(id);
     }
 
 }
