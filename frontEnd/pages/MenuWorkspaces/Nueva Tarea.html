@@ -26,7 +26,7 @@
         </section>
     <div class="task-box">
         <!-- Pendiente de completar -->
-        <form action="crear_tarea" method="post">
+        <form id="new-task">
             <label for="titulo">¿Qué tarea estás agregando?</label>
             <input type="text" id="titulo" name="titulo" required>
 
@@ -52,6 +52,37 @@
             <button type="submit" class="btn">Crear Tarea</button>
         </form>
     </div>
+    <script>
+        const form1 = document.getElementById('new-task');
+        
+        form1.addEventListener('submit', event => {
+            event.preventDefault();
+
+            const formData = new FormData(form1);
+            
+            const data = Object.fromEntries(formData);
+
+            fetch('http://localhost:8080/api/login/findUserAccount', {
+                method: 'POST',
+                credentials: "include",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                if (data) {
+                    window.location.replace('../../Inicio/dashboard.html');
+                } else {
+                    alert("No existe una cuenta con las credenciales ingresadas, intentelo de nuevo");
+                }
+            })
+        })
+    </script>
 </main>
 </body>
 </html>
