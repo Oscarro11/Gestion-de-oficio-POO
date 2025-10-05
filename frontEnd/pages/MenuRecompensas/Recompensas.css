@@ -109,7 +109,7 @@ body {
     padding-bottom: 24px;
     border-bottom: 2px solid #e9c69f;
 }
-.Agregar, .Editar, .Eliminar {
+.Agregar, .Editar, .Eliminar, .Volver {
     background: transparent;
     color: rgb(74, 74, 74);
     border: none;
@@ -120,17 +120,20 @@ body {
     font-family: 'Segoe UI', Arial, sans-serif;
     transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
 }
-.agregarbotton, .editarbotton, .eliminarbotton {
+.agregarbotton, .editarbotton, .eliminarbotton, .volverbotton {
     border-bottom: 2px solid #e9c69f;
 }
-.agregarbotton:hover, .editarbotton:hover, .eliminarbotton:hover {
+.agregarbotton:hover, .editarbotton:hover, .eliminarbotton:hover, .volverbotton:hover {
     border-bottom: 2px solid #8d7456;
     transform: translateY(-2px);
 }
 .Eliminar {
     color: #7a2421;
 }
-.add-icon, .edit-icon, .delete-icon {
+.Volver {
+    color: #555555;
+}
+.add-icon, .edit-icon, .delete-icon, .back-icon {
     width: 24px;
     height: 24px;
     vertical-align: middle; 
