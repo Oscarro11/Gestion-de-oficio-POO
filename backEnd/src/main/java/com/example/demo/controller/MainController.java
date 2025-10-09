@@ -3,10 +3,15 @@ package com.example.demo.controller;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @RestController
@@ -19,25 +24,32 @@ public class MainController {
     }
 
     @GetMapping("/getActiveUserName")
-    public String getActiveUserName(HttpSession activeSession){
-        UserDTO dto = getActiveUser(activeSession);
-        return dto.getUsername();
+    public ResponseEntity<String> getActiveUserName(HttpSession activeSession){
+        UserDTO dto = getActiveUser(activeSession).getBody();
+        return ResponseEntity.ok(dto.getUsername());
     }
 
     @GetMapping("/getActiveUser")
-    public UserDTO getActiveUser(HttpSession activeSession){
+    public ResponseEntity<UserDTO> getActiveUser(HttpSession activeSession){
 
-        User user =  userService.getUserById((Long) activeSession.getAttribute("activeUserId"));
+        User user =  userService.getUserById((long) activeSession.getAttribute("activeUserId"));
         UserDTO dto = new UserDTO();
         dto.setUsername(user.getUsername());
         dto.setEmail(user.getEmail());
         dto.setPassword(user.getPassword());
-        return dto;
+        return ResponseEntity.ok(dto);
     }   
 
     @GetMapping("/getUsers")
-    public List<User> listUsers() {
-        return userService.getAllUsers();
+    public ResponseEntity<List<User>> listUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
     }
+
+    //This method should be removed once development is finished, as the active user cam only be set through login
+    @PostMapping("/setActiveUser")
+    public void postMethodName(HttpSession activeSession) {
+        activeSession.setAttribute("activeUserId", (long) 2);
+    }
+    
     
 }
