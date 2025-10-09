@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import com.example.demo.model.User;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.service.LoginService;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
 
@@ -16,31 +18,31 @@ public class LoginController {
     }
 
     @PostMapping("/unvalidatedCreateUserAccount")
-    public User createUnvalidatedUser(@RequestBody UserDTO userDTO){
-        return loginService.saveUserAccount(userDTO.getUsername(), userDTO.getPassword(), userDTO.getEmail());
+    public ResponseEntity<User> createUnvalidatedUser(@RequestBody UserDTO userDTO){
+        return ResponseEntity.ok(loginService.saveUserAccount(userDTO.getUsername(), userDTO.getPassword(), userDTO.getEmail()));
     }
 
     @PostMapping("/createUserAccount")
-    public boolean createValidatedUser(@RequestBody UserDTO userDTO, HttpSession activeSession){
+    public ResponseEntity<Boolean> createValidatedUser(@RequestBody UserDTO userDTO, HttpSession activeSession){
         User createdUser = loginService.createUserAccount(userDTO.getUsername(), userDTO.getPassword(), userDTO.getEmail());
         if (createdUser != null){
             storeUserId(activeSession, createdUser.getId());
-            return true;
+            return ResponseEntity.ok(true);
         }
         else{
-            return false;
+            return ResponseEntity.ok(false);
         }
     }
 
     @PostMapping("/findUserAccount")
-    public boolean findUser(@RequestBody UserDTO userDTO, HttpSession activeSession){
+    public ResponseEntity<Boolean> findUser(@RequestBody UserDTO userDTO, HttpSession activeSession){
         User foundUser = loginService.findUserAccount(userDTO.getUsername(), userDTO.getPassword());
         if (foundUser != null){
             storeUserId(activeSession, foundUser.getId());
-            return true;
+            return ResponseEntity.ok(true);
         }
         else{
-            return false;
+            return ResponseEntity.ok(false);
         }
         
     }
