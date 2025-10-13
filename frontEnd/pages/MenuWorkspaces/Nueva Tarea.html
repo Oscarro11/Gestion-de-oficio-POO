@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>Nueva Tarea</title>
     <link rel="stylesheet" href="Nueva Tarea.css">
 </head>
@@ -10,7 +10,7 @@
 <!-- Completar Para crear una nueva tarea -->
     <nav class="navbar">
         <div class="nav-logo">
-            <img src="Logo.png" alt="Logo" class="logo">
+            <img src="../../assets/images/Logo.png" alt="Logo" class="logo">
         </div>
         <ul class="nav-links">
             <li><a href="../Inicio/dashboard.html" class="dropbtn">Inicio</a></li>
@@ -18,7 +18,7 @@
             <li><a href="profile.html">Perfil</a></li>
             <li><a href="settings.html">Configuración</a></li>
             <li><a href="../Bienvenida/landing.html">Cerrar Sesión</a></li>
-        </ul>
+        </ul>   
     </nav>
     <main class="main">
         <section class="section-title">
@@ -26,7 +26,7 @@
         </section>
     <div class="task-box">
         <!-- Pendiente de completar -->
-        <form action="crear_tarea" method="post">
+        <form id="new-task">
             <label for="titulo">¿Qué tarea estás agregando?</label>
             <input type="text" id="titulo" name="titulo" required>
 
@@ -52,6 +52,37 @@
             <button type="submit" class="btn" formaction="Pagina de Tareas.html">Crear Tarea</button>
         </form>
     </div>
+    <script>
+        const form1 = document.getElementById('new-task');
+        
+        form1.addEventListener('submit', event => {
+            event.preventDefault();
+
+            const formData = new FormData(form1);
+            
+            const data = Object.fromEntries(formData);
+
+            fetch('http://localhost:8080/api/login/findUserAccount', {
+                method: 'POST',
+                credentials: "include",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                if (data) {
+                    window.location.replace('../../Inicio/dashboard.html');
+                } else {
+                    alert("No existe una cuenta con las credenciales ingresadas, intentelo de nuevo");
+                }
+            })
+        })
+    </script>
 </main>
 </body>
 </html>
