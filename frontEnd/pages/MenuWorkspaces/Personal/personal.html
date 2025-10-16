@@ -38,57 +38,79 @@
         </div>
     </section>
         <section class="section-tasks">
-            <div class="tasks-container">
-                <div class="task-card pink">
-                    <div class="task-circle"></div>
-                    <div class="task-info">
-                        <span class="task-title">Reunión con el equipo</span>
-                        <span class="task-time">09:00 - 09:45 AM</span>
-                        <span class="task-desc">Analizar avances y establecer objetivos semanales.</span>
-                    </div>
-                </div>
+            <div class="tasks-container" id="tasks-container">
+                <!--
                 <div class="task-card blue">
-                    <div class="task-circle"></div>
-                    <div class="task-info">
-                        <span class="task-title">Clase de Yoga</span>
-                        <span class="task-time">10:00 - 11:00 AM</span>
-                        <span class="task-desc">Relajación y estiramientos para empezar el día con energía.</span>
-                    </div>
-                </div>
-                <div class="task-card yellow">
-                    <div class="task-circle"></div>
-                    <div class="task-info">
-                        <span class="task-title">Almuerzo con cliente</span>
-                        <span class="task-time">01:00 - 02:00 PM</span>
-                        <span class="task-desc">Discutir nuevas oportunidades de negocio y networking.</span>
-                    </div>
-                </div>
-                <div class="task-card blue">
-                    <div class="task-circle"></div>
-                    <div class="task-info">
-                        <span class="task-title">Revisión de documentos</span>
-                        <span class="task-time">03:00 - 04:00 PM</span>
-                        <span class="task-desc">Revisar y aprobar los informes legales enviados por el equipo.</span>
-                    </div>
-                </div>
                 <div class="task-card pink">
-                    <div class="task-circle"></div>
-                    <div class="task-info">
-                        <span class="task-title">Llamada familiar</span>
-                        <span class="task-time">05:15 - 05:45 PM</span>
-                        <span class="task-desc">Ponerse al día con la familia y compartir novedades.</span>
-                    </div>
-                </div>
-                <div class="task-card yellow">
-                    <div class="task-circle"></div>
-                    <div class="task-info">
-                        <span class="task-title">Tiempo de lectura</span>
-                        <span class="task-time">08:00 - 08:30 PM</span>
-                        <span class="task-desc">Leer un capítulo del libro "Hábitos Atómicos".</span>
-                    </div>
-                </div>
+                <div class="task-card yellow">-->
             </div>
         </section>
+
+        <script>
+            window.onload = function(){
+                fetch("http://localhost:8080/api/tasks/getUserTasks", {
+                    method: "GET",
+                    credentials: "include"
+                })
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    if (Array.isArray(data)) {
+                        data.sort((a, b) => a.taskname.localeCompare(b.taskname))
+                        const task_container = document.getElementById("tasks-container");
+                                                
+                        data.forEach(item => {
+                            const div_task_info = document.createElement('div');
+                            div_task_info.classList = "task-info";
+
+                            const div_task_circle = document.createElement('div');
+                            div_task_circle.classList = "task-circle";
+
+                            const div_task_card = document.createElement('div');
+                            
+                            let max = 3;
+                            let color = Math.floor(Math.random() * max);
+                            switch (color) {
+                                case 0:
+                                    div_task_card.classList = "task-card pink";
+                                    break;
+
+                                case 1:
+                                    div_task_card.classList = "task-card blue";
+                                    break;
+
+                                case 2:
+                                    div_task_card.classList = "task-card yellow";
+                                    break;
+                            
+                                default:
+                                    break;
+                            }
+                            
+
+                            const span_task_title = document.createElement('span');
+                            span_task_title.textContent = `${item.taskname}`;
+                            span_task_title.classList = "task-title";
+                            div_task_info.appendChild(span_task_title);
+
+                            const span_task_desc = document.createElement('span');
+                            span_task_desc.textContent = `${item.description}`;
+                            span_task_desc.classList = "task-desc";
+                            div_task_info.appendChild(span_task_desc);
+
+                            div_task_card.appendChild(div_task_circle);
+                            div_task_card.appendChild(div_task_info);
+                            task_container.appendChild(div_task_card);
+                        });
+                        console.log(task_container);
+                    }
+                    else{
+                        console.log("Tasks received are not an Array")
+                    }
+                })
+            }
+        </script>
     </main>
 </body>
 </html>

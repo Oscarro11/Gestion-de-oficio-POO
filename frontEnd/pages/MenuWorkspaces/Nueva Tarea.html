@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nueva Tarea</title>
     <link rel="stylesheet" href="Nueva Tarea.css">
 </head>
@@ -18,7 +18,7 @@
             <li><a href="profile.html">Perfil</a></li>
             <li><a href="settings.html">Configuración</a></li>
             <li><a href="../Bienvenida/landing.html">Cerrar Sesión</a></li>
-        </ul>   
+        </ul>
     </nav>
     <main class="main">
         <section class="section-title">
@@ -27,13 +27,18 @@
     <div class="task-box">
         <!-- Pendiente de completar -->
         <form id="new-task">
-            <label for="titulo">¿Qué tarea estás agregando?</label>
-            <input type="text" id="titulo" name="titulo" required>
+            <label for="titulo">Nombre de la nueva tarea</label>
+            <input type="text" id="titulo" name="taskname" required>
 
-            <label for="descripcion">Descripción (Opcional)</label>
-            <textarea id="descripcion" name="descripcion" class="textarea" required></textarea>
+            <label for="descripcion">Descripcion</label>
+            <textarea id="descripcion" name="description" class="textarea" required></textarea>
 
-            <label for="fecha_vencimiento">Fecha de Vencimiento</label>
+            <label for="duracion">¿Cuantos minutos se necesita para completar la tarea?</label>
+            <input type="number" value="5" onchange="update_5(this.id)"  id="duracion" name="duration" class="time-input" min="5" step="5" required>
+
+            <label for="video-referencia">Link para video de referencia</label>
+            <input type="text" id="video-referencia" name="reference_video" class="textarea" required>
+            <!-- <label for="fecha_vencimiento">Fecha de Vencimiento</label>
             <input type="date" id="fecha_vencimiento" name="fecha_vencimiento" class="date-input" required>
             
             <label for="hora">Hora Inicio</label>
@@ -48,21 +53,40 @@
                 <option value="media">Media</option>
                 <option value="alta">Alta</option>
             </select>
-
-            <button type="submit" class="btn" formaction="Pagina de Tareas.html">Crear Tarea</button>
+        -->
+            <button type="submit" class="btn">Crear Tarea</button>
         </form>
     </div>
+
     <script>
+        function update_5(id){
+            const input = document.getElementById(id);
+            if (input.value <= 0){
+                input.value = 5
+            }
+            else if (input.value % 5 == 0) {
+                input.value = parseInt((Math.floor(input.value / 5)) * 5)
+            } else {
+                input.value = parseInt(((Math.floor(input.value / 5)) + 1) * 5)
+            }
+        }
+
         const form1 = document.getElementById('new-task');
-        
         form1.addEventListener('submit', event => {
             event.preventDefault();
 
             const formData = new FormData(form1);
-            
+
+            var horas = Math.floor(formData.get("duration") / 60);
+            var minutos = formData.get("duration") % 60;
+            var formato_horas = String(horas).padStart(2, '0');
+            var formato_minutos = String(minutos).padStart(2, '0');
+
+            formData.set("duration", `${formato_horas}:${formato_minutos}`);
+
             const data = Object.fromEntries(formData);
 
-            fetch('http://localhost:8080/api/login/findUserAccount', {
+            fetch('http://localhost:8080/api/tasks/createTask', {
                 method: 'POST',
                 credentials: "include",
                 headers: {
@@ -74,11 +98,10 @@
                 return response.json();
             })
             .then(data => {
-                console.log(data);
                 if (data) {
-                    window.location.replace('../../Inicio/dashboard.html');
+                    window.location.href = "Personal/personal.html"
                 } else {
-                    alert("No existe una cuenta con las credenciales ingresadas, intentelo de nuevo");
+                    alert("Usted ya ha creado una tarea con este nombre, cambielo e intentelo de nuevo.");
                 }
             })
         })
