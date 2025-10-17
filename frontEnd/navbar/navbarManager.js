@@ -1,14 +1,159 @@
 class NavbarManager extends HTMLElement {
   constructor() {
     super();
-    this.attachShadow({ mode: 'open' }); // Enable Shadow DOM isolation
+    this.attachShadow({ mode: 'open' });
   }
 
   connectedCallback() {
     this.shadowRoot.innerHTML = `
-      <link rel="stylesheet" href="../navbar/navbar.css">
+      <style>
+        * {
+          box-sizing: border-box;
+        }
+        body {
+          margin: 0;
+          font-family: 'Segoe UI', Arial, sans-serif;
+          position: relative;
+          min-height: 100vh;
+          overflow-x: hidden;
+        }
+        .nav {
+          position: sticky;
+          top: 0;
+          width: 100%;
+          box-sizing: border-box;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 32px;
+          background-color: rgba(250, 240, 222, 0.95);
+          height: auto;
+          overflow-x: auto;
+          border-bottom: 1px solid #e9c69f;
+          z-index: 100;
+        }
+        .nav-header {
+          display: inline;
+        }
+        .logo {
+          width: 168px;
+          height: 88px;
+          object-fit: contain;
+          vertical-align: middle;
+        }
+        .nav-title {
+          display: inline-block;
+          font-size: 22px;
+          color: #7e6842;
+          padding: 10px 10px 10px 10px;
+          font-weight: bold;
+        }
+        .nav-btn {
+          display: none;
+        }
+        #nav-check {
+          display: none;
+        }
+        .nav-links {
+          list-style: none;
+          display: flex;
+          gap: 28px;
+          margin: 0;
+          padding: 0;
+          align-items: center;
+        }
+        .nav-links a {
+          text-decoration: none;
+          color: #7e6842;
+          font-weight: 600;
+          padding: 8px 2px;
+          font-size: 1.07em;
+          border-bottom: 2px solid transparent;
+          transition: color 0.2s, border-bottom 0.2s;
+          position: relative;
+        }
+        .nav-links a.active,
+        .nav-links a:hover {
+            color: #8d7456;
+            border-bottom: 2px solid #8d7456;
+        }
+        @media (max-width: 600px) {
+          .nav {
+            min-height: 50px;
+            padding: 0;
+            position: relative;
+            padding-bottom: 12px;
+            padding-top: 12px;
+            margin-bottom: 12px;
+          }
+          .logo {
+            height: 38px;
+            margin-left: 10px;
+          }
+          .nav-btn {
+            display: block;
+            position: relative;
+            right: 8px;
+            top: 0;
+            height: auto;
+            z-index: 1100;
+            margin-right: 10px;
+          }
+          .nav-btn label span {
+            display: block;
+            width: 24px;
+            height: 3px;
+            background: #7e6842;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            border-radius: 2px;
+            transition: all 0.3s;
+          }
+          .nav-links {
+            flex-direction: column;
+            align-items: stretch;  
+            justify-content: flex-start;
+            position: fixed;
+            left: 0;
+            right: 0;            
+            top: 63px;
+            width: 100vw;
+            background: #f8f0df; 
+            height: 0;
+            overflow-y: hidden;
+            transition: height 0.3s cubic-bezier(.4,0,.2,1);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            z-index: 2000;
+            padding: 0;
+            gap: 0;
+            border-bottom: 0;
+          }
+          .nav-links a {
+            width: 100%;
+            font-size: 1.08em;
+            padding: 16px 24px;
+            border-radius: 0;
+            border-bottom: 1px solid #e9c69f;
+            background: none;
+            color: #7e6842;     
+            text-align: left;    
+            background-color: rgba(250, 240, 222, 0.95);
+          }
+          #nav-check:not(:checked) ~ .nav-links {
+            height: 0;
+            padding: 0;
+            border: none;
+          }
+          #nav-check:checked ~ .nav-links {
+            height: calc(100vh - 50px);
+            padding: 12px 0;
+            overflow-y: auto;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+          }
+        }
+      </style>
       <div class="nav">
-        <img src="../assets/images/Logo.png" alt="Logo" class="logo">
+        <img src="../../assets/images/Logo.png" alt="Logo" class="logo">
         <input type="checkbox" id="nav-check">
         <div class="nav-header"></div>
         <div class="nav-btn">

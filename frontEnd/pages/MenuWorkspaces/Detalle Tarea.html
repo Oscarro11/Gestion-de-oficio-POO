@@ -1,12 +1,57 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalles de la tarea</title>
-    <link rel="stylesheet" href="Detalle Tarea.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Detalles de la tarea</title>
+  <link rel="stylesheet" href="Detalle Tarea.css" />
+  <script src="navbarManager.js" defer></script>
 </head>
 <body>
-<!-- Completar para mostrar detalles de tarea -->
+    <special-navbar></special-navbar>
+
+  <main class="main">
+    <section class="section-title">
+      <h2>Detalles de la tarea</h2>
+    </section>
+<div class="task-box">
+    <article class="task-card" id="taskCard">
+      <div class="task-row">
+        <label>Nombre</label>
+        <div class="value" id="taskName">Nombre de tarea</div>
+      </div>
+
+      <div class="task-row">
+        <label>Fecha</label>
+        <div class="value" id="taskDate">Fecha</div>
+      </div>
+
+      <div class="task-row">
+        <label>Descripción</label>
+        <div class="value description" id="taskDescription">
+          Descripcion de la tarea aqui
+        </div>
+      </div>
+
+      <div class="time-row">
+        <div>
+          <label>Hora inicio</label>
+          <div class="value" id="taskStart">--:--</div>
+        </div>
+        <div>
+          <label>Hora final</label>
+          <div class="value" id="taskEnd">--:--</div>
+        </div>
+      </div>
+
+      <div class="task-row priority-row">
+        <label>Prioridad</label>
+        <!-- usa una de estas clases: low, medium, high -->
+        <span class="priority low" id="taskPriority">Baja</span>
+        <a href="Pagina de Tareas.html" class="regresar">Regresar</a>
+      </div>
+    </article>
+    </div>
+  </main>
 </body>
 </html>
