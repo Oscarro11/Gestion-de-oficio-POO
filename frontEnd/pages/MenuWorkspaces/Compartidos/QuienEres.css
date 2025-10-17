@@ -53,6 +53,12 @@ body {
     background-color: whitesmoke;
 }
 
+img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
 .icono {
     width: 80px;
     height: 80px;
@@ -65,13 +71,13 @@ body {
     font-size: 22px;
 }
 .amarillo {
-    background-color: #F4C430;
+    background-image: linear-gradient( 135deg, #FDEB71 10%, #F8D800 100%);
 }
 .azul {
-    background-color: #1E90FF;
+    background-image: linear-gradient( 135deg, #A0D8EF 10%, #1E90FF 100%);
 }
 .rojo {
-    background-color: #FF4500;
+    background-image: linear-gradient( 135deg, #FEB692 10%, #EA5455 100%);
 }
 
 .extra {

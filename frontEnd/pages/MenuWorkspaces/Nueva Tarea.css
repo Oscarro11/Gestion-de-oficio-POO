@@ -115,7 +115,8 @@ h2 {
     text-align: center;
 }
 .task-box {
-    padding: 24px;
+    padding-top: 24px;
+    padding-bottom: 24px;
     width: 100%;
     box-sizing: border-box;
 }
@@ -176,4 +177,22 @@ button:hover {
     cursor: pointer;
     transition: background 0.3s ease;
     margin-top: 24px;
+}
+@media (max-width: 670px) {
+    .main {
+        margin: 0px;
+        padding: 16px 32px 16px 32px;
+        justify-content: center;
+        gap: 4px;
+    }
+    .dashboard-title {
+        font-size: 1.8em;
+        padding: 16px;
+    }
+    .dashboard-buttons {
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: center;
+        padding-bottom: 32px;
+    }
 }

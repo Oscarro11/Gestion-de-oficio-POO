@@ -1,5 +1,5 @@
 body {
-    background:#FFF8EE;
+    background: #FAF0DE;
     margin: 0;
     font-family: 'Segoe UI', Arial, sans-serif;
     min-height: 100vh;
@@ -82,4 +82,27 @@ body {
     flex-direction: column;
     color: inherit;
 
+}
+@media (max-width: 670px) {
+    .dashboard-main {
+        margin: 0px;
+        padding-left: 32px;
+        padding-right: 32px;
+        justify-content: center;
+        gap: 4px;
+    }
+    .dashboard-options {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .dashboard-subtitle {
+        font-size: 1.1em;
+        margin: 8px;
+    }
+    .dashboard-title {
+        font-size: 2.4em;
+        margin-top: 24px;
+        margin-bottom: 8px;
+    }
 }
