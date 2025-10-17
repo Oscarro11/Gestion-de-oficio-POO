@@ -197,3 +197,6 @@ body {
         padding-bottom: 32px;
     }
 }
+a {
+    text-decoration: none;
+}

@@ -31,13 +31,56 @@
             
             <label for="hora_fin">Hora Fin</label>
             <input type="time" id="hora_fin" name="hora_fin" class="time-input" required>
-            
+
+            <label for="video_yt">Video de Ayuda (Opcional)</label>
+            <input type="url" id="video_yt" name="video_yt" class="url-input" placeholder="Enlace de video de ayuda (Opcional)">
+            <script> // Solo se pueden subir videos de youtube
+                const videoInput = document.getElementById('video_yt');
+                videoInput.addEventListener('input', function() {
+                    const url = new URL(videoInput.value);
+                    if (url.hostname !== 'www.youtube.com' && url.hostname !== 'youtu.be') {
+                        alert('Por favor, ingresa un enlace de YouTube válido.');
+                        videoInput.value = '';
+                    }
+                    // Si el video es valido, aparece un inframe
+                    else {
+                        const videoId = url.searchParams.get('v') || url.pathname.split('/').pop();
+                        const iframe = document.createElement('iframe');
+                        iframe.width = "560";
+                        iframe.height = "315";
+                        iframe.src = `https://www.youtube.com/embed/${videoId}`;
+                        iframe.title = "YouTube video player";
+                        iframe.frameBorder = "0";
+                        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+                        iframe.allowFullscreen = true;
+                        // Cuadrar al centro el inframe
+                        iframe.style.display = "block";
+                        iframe.style.marginTop = "10px";
+                        iframe.style.marginBottom = "10px";
+                        iframe.style.marginLeft = "auto";
+                        iframe.style.marginRight = "auto";
+                        iframe.style.maxWidth = "100%";
+
+                        // Remover cualquier iframe previo
+                        const existingIframe = document.querySelector('.video-preview');
+                        if (existingIframe) {
+                            existingIframe.remove();
+                        }
+
+                        // Agregar el nuevo iframe
+                        iframe.classList.add('video-preview');
+                        videoInput.parentNode.insertBefore(iframe, videoInput.nextSibling);
+                    }
+                });
+            </script>
+
             <label for="prioridad">Prioridad</label>
             <select id="prioridad" name="prioridad">
                 <option value="baja">Baja</option>
                 <option value="media">Media</option>
                 <option value="alta">Alta</option>
             </select>
+
 
             <button type="submit" class="btn">Crear Tarea</button>
         </form>
