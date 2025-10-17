@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.time.LocalTime;
-import java.util.ArrayList;
 
 
 @Service
@@ -30,20 +29,11 @@ public class TaskService {
     }
 
     public List<Task> getTasksByUserID(Long user_id){
-        /*List<Task> all_tasks = taskRepository.findAll();
-        List<Task> users_tasks = new ArrayList<Task>();
-
-        for (Task task : all_tasks) {
-            if (task.getUserId() == user_id) {
-                users_tasks.add(task);
-            }
-        }*/
-
         return taskRepository.findByCreator_Id(user_id);
     }
 
-    /*public Task createTask(String taskname, String description, LocalTime duration, String reference_video, Long user_id){
-        List<Task> tareas = taskRepository.findByUserId(user_id);
+    public boolean createUserTask(String taskname, String description, LocalTime duration, String reference_video, Long user_id){
+        List<Task> tareas = taskRepository.findByCreator_Id(user_id);
         boolean used_name = false;
 
         for (Task task : tareas) {
@@ -54,12 +44,13 @@ public class TaskService {
         }
 
         if (used_name) {
-            return null;
+            return false;
         }
         else{
-            Task createdTask = saveUserTask(taskname, description, duration, reference_video, user_id);
+            saveUserTask(taskname, description, duration, reference_video, user_id);
+            return true;
         }
-    }*/
+    }
 
     public Task saveUserTask(String taskname, String description, LocalTime duration, String reference_video, Long creator_id){
         Task task = new Task();
@@ -70,5 +61,9 @@ public class TaskService {
         task.setCreator(userRepository.getReferenceById(creator_id));
 
         return taskRepository.save(task);
+    }
+
+    public void deleteUserTask(long id){
+        taskRepository.deleteById(id);
     }
 }

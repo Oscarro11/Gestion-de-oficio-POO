@@ -10,12 +10,16 @@ import jakarta.servlet.http.HttpSession;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-//import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.ArrayList;
+import org.springframework.web.bind.annotation.GetMapping;
+//import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PutMapping;
+
+
 
 @RestController
 @RequestMapping("api/tasks")
@@ -28,12 +32,12 @@ public class TaskController {
 
     @PostMapping("/unvalidatedCreateTask")
     public ResponseEntity<Task> createUnvalidatedTask(@RequestBody TaskRequestDTO taskRequestDTO) {
-        return ResponseEntity.ok(taskService.saveUserTask(taskRequestDTO.getTaskname(), taskRequestDTO.getDescription(), taskRequestDTO.getDuration(), taskRequestDTO.getReference_video(), new Long(1)));
+        return ResponseEntity.ok(taskService.saveUserTask(taskRequestDTO.getTaskname(), taskRequestDTO.getDescription(), taskRequestDTO.getDuration(), taskRequestDTO.getReference_video(), (long) 1));
     }    
 
     @PostMapping("/createTask")
-    public ResponseEntity<Task> createTask(@RequestBody TaskRequestDTO taskRequestDTO, HttpSession activeSession) {
-        return ResponseEntity.ok(taskService.saveUserTask(taskRequestDTO.getTaskname(), taskRequestDTO.getDescription(), taskRequestDTO.getDuration(), taskRequestDTO.getReference_video(), (long) activeSession.getAttribute("activeUserId")));
+    public ResponseEntity<Boolean> createTask(@RequestBody TaskRequestDTO taskRequestDTO, HttpSession activeSession) {
+        return ResponseEntity.ok(taskService.createUserTask(taskRequestDTO.getTaskname(), taskRequestDTO.getDescription(), taskRequestDTO.getDuration(), taskRequestDTO.getReference_video(), (long) activeSession.getAttribute("activeUserId")));
     }
     
     
@@ -49,10 +53,66 @@ public class TaskController {
             dto.setDescription(task.getDescription());
             dto.setDuration(task.getDuration());
             dto.setReference_video(task.getVideoReference());
+            dto.setId(task.getId());
             user_DTO_tasks.add(dto);
         }
+        setDeleteModeFalse(activeSession);
 
         return ResponseEntity.ok(user_DTO_tasks);
     }
+
+    @PutMapping("/setDeleteMode")
+    public ResponseEntity<Boolean> setDeleteMode(HttpSession activeSession) {
+        if ((boolean) activeSession.getAttribute("deleteMode")){
+            setDeleteModeFalse(activeSession);
+        }     
+        else{
+            setDeleteModeTrue(activeSession);
+        }
+        
+        return ResponseEntity.ok((boolean) activeSession.getAttribute("deleteMode"));
+    }
+
+    @PutMapping("/setDeleteModeToTrue")
+    public void setDeleteModeTrue(HttpSession activeSession) {
+        activeSession.setAttribute("deleteMode", true);
+    }
+
+    @PutMapping("/setDeleteModeToFalse")
+    public void setDeleteModeFalse(HttpSession activeSession) {
+        activeSession.setAttribute("deleteMode", false);
+    }
+
+    @PostMapping("/inspectTask")
+    public ResponseEntity<TaskResponseDTO> postMethodName(@RequestBody Long id, HttpSession activeSession) {
+        if ((boolean) activeSession.getAttribute("deleteMode")) {
+            return deleteTaskById(id);
+        }
+        else{
+            return inspectTaskById(id);
+        }
+    }
+    
+
+    private ResponseEntity<TaskResponseDTO> inspectTaskById(long id){
+        Task task = taskService.getTaskByID(id);
+        TaskResponseDTO dto = new TaskResponseDTO();
+
+        dto.setCreator_id(task.getCreator_Id());
+        dto.setTaskname(task.getTaskname());
+        dto.setDescription(task.getDescription());
+        dto.setDuration(task.getDuration());
+        dto.setReference_video(task.getVideoReference());
+
+        return ResponseEntity.ok(dto);
+        
+    }
+    
+    private ResponseEntity<TaskResponseDTO> deleteTaskById(long id) {
+        taskService.deleteUserTask(id);
+        return null;
+    }
+    
+    
     
 }

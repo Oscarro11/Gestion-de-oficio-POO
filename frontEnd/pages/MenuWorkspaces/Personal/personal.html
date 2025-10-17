@@ -31,9 +31,9 @@
                 <img src="../../../assets/images/edit-icon.png" alt="Editar Icono" class="edit-icon">
                 <input type="button" class="Editar" value="Editar">
             </div>
-            <div class="eliminarbotton">
-                <img src="../../../assets/images/delete-icon.png" alt="Eliminar Icono" class="delete-icon">
-                <input type="button" class="Eliminar" value="Eliminar">
+            <div class="eliminarbotton" id="delete-icon-div">
+                <img src="../../../assets/images/delete-icon-inactive.png" alt="Eliminar Icono" class="delete-icon" id="delete-icon">
+                <input type="button" class="Eliminar" value="Eliminar" id="delete-button">
             </div>
         </div>
     </section>
@@ -47,13 +47,13 @@
         </section>
 
         <script>
-            window.onload = function(){
+            window.onload = function loadUserTasks(){
                 fetch("http://localhost:8080/api/tasks/getUserTasks", {
                     method: "GET",
                     credentials: "include"
                 })
-                .then(response => {
-                    return response.json();
+                .then(async response => {
+                    return await response.json();
                 })
                 .then(data => {
                     if (Array.isArray(data)) {
@@ -87,7 +87,7 @@
                                 default:
                                     break;
                             }
-                            
+                
 
                             const span_task_title = document.createElement('span');
                             span_task_title.textContent = `${item.taskname}`;
@@ -102,14 +102,68 @@
                             div_task_card.appendChild(div_task_circle);
                             div_task_card.appendChild(div_task_info);
                             task_container.appendChild(div_task_card);
+
+                            div_task_card.addEventListener('click', event => {
+                                fetch("http://localhost:8080/api/tasks/inspectTask", {
+                                    method: "POST",
+                                    credentials: "include",
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify(item.id)
+                                })
+                                .then(async response => {
+                                    const test_text = await response.text();
+                                    console.log(test_text);
+                                    if (test_text == "") {
+                                        return null;
+                                    }
+                                    else{
+                                        return JSON.parse(test_text);  
+                                    }           
+                                })
+                                .then(data => {
+                                    if (data === null) {
+                                        alert("El elemento se ha borrado correctamente");
+                                        window.location.reload();
+                                    }
+                                    else{
+                                        alert("La inspeccion funciona");
+                                    }
+                                })
+                            })
+
                         });
-                        console.log(task_container);
                     }
                     else{
                         console.log("Tasks received are not an Array")
                     }
                 })
             }
+
+            const delete_image = document.getElementById("delete-icon");
+            const delete_button = document.getElementById("delete-button");
+
+            delete_button.addEventListener("click", event => {
+                fetch("http://localhost:8080/api/tasks/setDeleteMode", {
+                    method: "PUT",
+                    credentials: "include"
+                })
+                .then(async response => {
+                    return await response.json();
+                })
+                .then(data => {
+                    if (data){
+                        alert("Ha entrado en el modo de eliminacion de tareas. Si desea regresar al modo de edicion, presione el boton nuevamente")
+                        delete_image.setAttribute("src", "../../../assets/images/delete-icon-active.png");
+                    }  
+                    else{
+                        alert("Ha regresado al modo de edicion. Si desea regresar al modo de eliminacion, presione el boton nuevamente")
+                        delete_image.setAttribute("src", "../../../assets/images/delete-icon-inactive.png");
+                    }
+                })
+            });
+
         </script>
     </main>
 </body>

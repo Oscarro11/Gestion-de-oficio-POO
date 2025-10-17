@@ -5,6 +5,10 @@ import java.time.LocalTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TaskResponseDTO {
+
+    @JsonProperty("id")
+    private long id;
+
     @JsonProperty("taskname")
     private String taskname;
 
@@ -63,5 +67,12 @@ public class TaskResponseDTO {
     }
     public void setCreator_id(Long creator_id) {
         this.creator_id = creator_id;
+    }
+
+    public long getId() {
+        return id;
+    }
+    public void setId(long id) {
+        this.id = id;
     }
 }

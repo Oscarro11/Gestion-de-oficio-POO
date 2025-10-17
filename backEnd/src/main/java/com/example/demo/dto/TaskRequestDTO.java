@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TaskRequestDTO {
     @JsonProperty("taskname")
-    private String taskname;
+    private String taskname;  
 
     @JsonProperty("description")
     private String description;
