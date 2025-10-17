@@ -195,9 +195,19 @@
                 <img src="../../../assets/images/add-icon.png" alt="Agregar Icono" class="add-icon">
                 <input type="button" class="Agregar" value="Agregar">
             </a>
+            <!--
             <div class="editarbotton">
                 <img src="../../../assets/images/edit-icon.png" alt="Editar Icono" class="edit-icon">
                 <input type="button" class="Editar" value="Editar">
+            </div>
+            -->
+            <div class="editarbotton">
+                <img src="../../../assets/images/edit-icon.png" alt="Editar Icono" class="edit-icon">
+                <input type="button" class="Editar" value="Ordenar por nombre" onclick="loadUserTasks('taskname')">
+            </div>
+            <div class="editarbotton">
+                <img src="../../../assets/images/edit-icon.png" alt="Editar Icono" class="edit-icon">
+                <input type="button" class="Editar" value="Ordenar por duracion" onclick="loadUserTasks('duration')">
             </div>
             <div class="eliminarbotton" id="delete-icon-div">
                 <img src="../../../assets/images/delete-icon-inactive.png" alt="Eliminar Icono" class="delete-icon" id="delete-icon">
@@ -207,19 +217,18 @@
     </section>
         <section class="section-tasks">
             <div class="tasks-container" id="tasks-container">
-                <!--
-                <div class="task-card blue">
-                <div class="task-card pink">
-                <div class="task-card yellow">-->
             </div>
         </section>
 
         <script>
+
+            window.onload = loadUserTasks("taskname");
+
             function durationIsInRange(duration, startTime, endTime){
                 return duration >= startTime && duration <= endTime;
             }
 
-            window.onload = function loadUserTasks(){
+            function loadUserTasks(sort_type){
                 fetch("http://localhost:8080/api/tasks/getUserTasks", {
                     method: "GET",
                     credentials: "include"
@@ -229,8 +238,23 @@
                 })
                 .then(data => {
                     if (Array.isArray(data)) {
-                        data.sort((a, b) => a.taskname.localeCompare(b.taskname))
+                        switch (sort_type) {
+                            case "taskname":
+                                data.sort((a, b) => a.taskname.localeCompare(b.taskname));
+                                break;
+
+                            case "duration":
+                                data.sort((a, b) => a.duration.localeCompare(b.duration));
+                                break;
+                        
+                            default:
+                                break;
+                        }
                         const task_container = document.getElementById("tasks-container");
+                        
+                        while (task_container.firstChild) {
+                            task_container.removeChild(task_container.firstChild);
+                        }
                                                 
                         data.forEach(item => {
                             const div_task_info = document.createElement('div');
@@ -287,7 +311,7 @@
                                         task_container.removeChild(div_task_card);
                                     }
                                     else{
-                                        alert("La inspeccion funciona");
+                                        window.location.href = "../Detalle Tarea.html";
                                     }
                                 })
                             })
