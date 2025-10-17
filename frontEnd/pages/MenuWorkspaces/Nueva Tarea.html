@@ -71,39 +71,51 @@
             }
         }
 
+        function check_Youtube_URL(URL){
+            const pattern = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/;
+            return pattern.test(URL.trim())
+        }
+
         const form1 = document.getElementById('new-task');
         form1.addEventListener('submit', event => {
             event.preventDefault();
 
             const formData = new FormData(form1);
 
-            var horas = Math.floor(formData.get("duration") / 60);
-            var minutos = formData.get("duration") % 60;
-            var formato_horas = String(horas).padStart(2, '0');
-            var formato_minutos = String(minutos).padStart(2, '0');
+            if (check_Youtube_URL(formData.get("reference_video"))) {
+                var horas = Math.floor(formData.get("duration") / 60);
+                var minutos = formData.get("duration") % 60;
+                var formato_horas = String(horas).padStart(2, '0');
+                var formato_minutos = String(minutos).padStart(2, '0');
 
-            formData.set("duration", `${formato_horas}:${formato_minutos}`);
+                formData.set("duration", `${formato_horas}:${formato_minutos}`);
 
-            const data = Object.fromEntries(formData);
+                const data = Object.fromEntries(formData);
 
-            fetch('http://localhost:8080/api/tasks/createTask', {
-                method: 'POST',
-                credentials: "include",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(async response => {
-                return await response.json();
-            })
-            .then(data => {
-                if (data) {
-                    window.location.href = "Personal/personal.html"
-                } else {
-                    alert("Usted ya ha creado una tarea con este nombre, cambielo e intentelo de nuevo.");
-                }
-            })
+                fetch('http://localhost:8080/api/tasks/createTask', {
+                    method: 'POST',
+                    credentials: "include",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(async response => {
+                    return await response.json();
+                })
+                .then(data => {
+                    if (data) {
+                        window.location.href = "Personal/personal.html"
+                    } else {
+                        alert("Usted ya ha creado una tarea con este nombre, cambielo e intentelo de nuevo.");
+                    }
+                })
+            }
+            else{
+                alert("El texto que ha ingresado como video de Youtube es invalido, intentelo de nuevo");
+            }
+
+            
         })
     </script>
 </main>
