@@ -5,72 +5,6 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
 }
-.navbar {
-    z-index: 10;
-    position: sticky;
-    top: 0;
-    width: 100%;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 32px;
-    background-color: rgba(255, 243, 227, 0.95);
-    height: auto;
-    overflow-x: auto;
-    border-bottom: 1px solid #e9c69f;
-}
-.nav-logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    height: auto;
-}
-.logo {
-    width: 168px;
-    height: 88px;
-    object-fit: contain;
-}
-.nav-links {
-    list-style: none;
-    display: flex;
-    gap: 28px;
-    margin: 0;
-    padding: 0;
-}
-.nav-links li {
-    display: inline-block;
-    position: relative;
-}
-.nav-links a {
-    text-decoration: none;
-    color: #7e6842;
-    font-weight: 600;
-    padding: 8px 2px;
-    font-size: 1.07em;
-    border-bottom: 2px solid transparent;
-    transition: color 0.2s, border-bottom 0.2s;
-    position: relative;
-}
-.nav-links a.active,
-.nav-links a:hover {
-    color: #8d7456;
-    border-bottom: 2px solid #8d7456;
-}
-.nav-links a:after {
-    content:"";
-    display:block;
-    position:absolute;
-    left:0; right:0; bottom:-2px;
-    height:2px; border-radius:1px;
-    background:#e9c69f;
-    opacity:0;
-    transition:opacity .2s;
-}
-.nav-links a:hover:after {
-    opacity:1;
-}
-
 
 /* Contenedor principal */
 main {
@@ -102,7 +36,6 @@ main {
     border-bottom: 2px solid #e9c69f;
 }
 .task-box {
-    padding: 24px;
     width: 100%;
     box-sizing: border-box;
     align-self: center;
@@ -113,7 +46,6 @@ main {
   background: var(--card);
   border-radius: 12px;
   box-shadow: var(--shadow);
-  padding: 22px;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -123,7 +55,7 @@ main {
 .task-row{
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .time-row{
@@ -140,20 +72,20 @@ label{
 }
 
 .value{
-  background: transparent;
-  padding: 10px 12px;
+  background: white;
+  padding: 8px 14px;
   border-radius: 8px;
   border: 1px solid #e8e2d6;
   min-height: 40px;
   display: flex;
   align-items: center;
   font-size: 1rem;
-  color: var(--text);
+  color: grey;
+  margin: 12px 0 12px 0;
 }
 
 .description{
   min-height: 64px;
-  white-space: pre-wrap;
 }
 
 .priority-row{
@@ -164,11 +96,14 @@ label{
 
 .priority{
   display: inline-block;
-  padding: 6px 10px;
+  padding: 12px 24px;
   border-radius: 999px;
   font-weight: 700;
   font-size: 0.9rem;
   color: white;
+  width: auto;
+  text-align: center;
+  margin: 12px 0;
 }
 
 /* Colores por nivel de prioridad */
@@ -183,26 +118,59 @@ label{
 }
 .regresar {
     margin-top: 10px;
-    display: inline-block;
-    padding: 12px 20px;
+    display: inline-block;;
     border-radius: 10px;
-    border: 2px solid #5A9E6F;
-    background-color: #E6F4E6;
-    color: #333;
+    padding: 12px 0px;
+    background: radial-gradient(circle at 50% 0%, #4caf50, #3a8e3a);
+    color: #ffffff;
     font-weight: bold;
     cursor: pointer;
-    text-decoration: none;
     width: 100%;
+    text-decoration: none;
     text-align: center;
+}
+
+iframe {
+    border: none;
+    width: 100%;
+    height: 400px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
 }
 
 .regresar:hover {
     background-color: #d3f0d3;
 }
+.time-row .value {
+    justify-content: center;
+}
+article {
+    max-width: 100%;
+}
 
-
-@media (max-width: 480px){
+@media (max-width: 900px){
   .time-row{
     flex-direction: column;
+  }
+  .task-box {
+    padding: 0px 16px 0px 16px;
+  }
+  .main {
+    padding: 16px;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .regresar {
+    padding: 16px 0px;
+    font-size: 0.9rem;
+  }
+  .time-row {
+    align-items: stretch;
+  }
+  .time-row .value {
+    justify-content: center;
+  }
+  iframe {
+    height: 250px;
   }
 }

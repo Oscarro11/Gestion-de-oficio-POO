@@ -5,20 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Detalles de la tarea</title>
   <link rel="stylesheet" href="Detalle Tarea.css" />
+  <script src="../../navbar/navbarManager.js" defer></script>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-logo">
-            <img src="../../assets/images/Logo.png" alt="Logo" class="logo">
-        </div>
-        <ul class="nav-links">
-            <li><a href="dashboard.html" class="dropbtn">Inicio</a></li>
-            <li><a href="profile.html">Perfil</a></li>
-            <li><a href="settings.html">Configuración</a></li>
-            <li><a href="landing.html">Cerrar Sesión</a></li>
-        </ul>
-    </nav>
-
+    <special-navbar></special-navbar>
   <main class="main">
     <section class="section-title">
       <h2>Detalles de la tarea</h2>
@@ -38,10 +28,15 @@
       <div class="task-row">
         <label>Descripción</label>
         <div class="value description" id="taskDescription">
-          Descripcion de la tarea aqui
+          Descripción de la tarea aquí
         </div>
       </div>
-
+      <div class="yt-video">
+        <label>Video de ayuda</label>
+        <div class="value description" id="taskVideo">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/pvNv5aMYmDY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+      </div>
       <div class="time-row">
         <div>
           <label>Hora inicio</label>
@@ -52,7 +47,6 @@
           <div class="value" id="taskEnd">--:--</div>
         </div>
       </div>
-
       <div class="task-row priority-row">
         <label>Prioridad</label>
         <!-- usa una de estas clases: low, medium, high -->
