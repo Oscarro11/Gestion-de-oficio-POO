@@ -37,8 +37,11 @@
           <iframe id="task-video" width="560" height="315" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </div>
       </div>
-      
-      <button onclick="window.location.href='Personal/personal.html'">Regresar</button>
+
+      <button name = "back-button" onclick="window.location.href='Personal/personal.html'" class="regresar">Regresar</button>
+      <button id = "edit-button" name = "edit-button" onclick="enableModifications()">Habilitar modificaciones</button>
+      <button id = "save-changes-button" name = "save-changes-button" disabled = "true">Guardar modificaciones</button>
+
       <!--<div class="time-row">
         <div>
           <label>Hora inicio</label>
@@ -58,6 +61,31 @@
     </article>
     </div>
     <script>
+      function enableModifications() {
+        const save_changes_button = document.getElementById("save-changes-button");
+        const edit_button = document.getElementById("edit-button")
+
+        const taskname_text = document.getElementById("taskname");
+        const task_duration = document.getElementById("task-duration");
+        const task_description = document.getElementById("task-description");
+
+        if (save_changes_button.disabled == true) {
+          save_changes_button.disabled = false;
+          taskname_text.disabled = false;
+          task_duration.disabled = false;
+          task_description.disabled = false;
+          
+          edit_button.textContent = "Deshabilitar y borrar modificaciones";
+        }
+        else{
+          save_changes_button.disabled = true;
+          taskname_text.disabled = true;
+          task_duration.disabled = true;
+          task_description.disabled = true;
+
+          edit_button.textContent = "Habilitar modificaciones";
+        }
+      }
   
       function getYouTubeVideoId(url) {
         const match = url.match(/(?:v=|\/)([0-9A-Za-z_-]{11})(?:[?&]|$)/);
@@ -89,8 +117,6 @@
           duration_text.textContent = `${data.duration}`;
 
           reference_video.setAttribute("src", covertYoutubeVideoToEmbed(data.reference_video));
-
-          console.log(video_URL);
         })
       }
     </script>

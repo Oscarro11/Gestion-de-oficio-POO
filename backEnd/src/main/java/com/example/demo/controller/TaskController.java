@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import org.springframework.web.bind.annotation.GetMapping;
 //import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -85,13 +87,21 @@ public class TaskController {
 
     @PostMapping("/inspectTask")
     public ResponseEntity<TaskResponseDTO> postMethodName(@RequestBody Long id, HttpSession activeSession) {
+        activeSession.setAttribute("currentTaskId", (long) 0);
         if ((boolean) activeSession.getAttribute("deleteMode")) {
             return deleteTaskById(id);
         }
         else{
+            activeSession.setAttribute("currentTaskId", (long) id);
             return inspectTaskById(id);
         }
     }
+
+    @GetMapping("/getCurrentTask")
+    public ResponseEntity<TaskResponseDTO> getMethodName(HttpSession activeSession) {
+        return inspectTaskById((long) activeSession.getAttribute("currentTaskId"));
+    }
+    
     
 
     private ResponseEntity<TaskResponseDTO> inspectTaskById(long id){
