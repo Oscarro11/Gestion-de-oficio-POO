@@ -3,41 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Tareas</title>
+    <title>Actividades grupales de hoy</title>
     <link rel="stylesheet" href="Pagina de Tareas.css">
+    <script src="../../navbar/navbarManager.js" defer></script>
 </head>
 <body>
-  <header>
-    <a href="Compartidos/QuienEres.html">👤</a>
-    <a href="../MenuRecompensas/Recompensas.html">🚀</a>
-  </header>
-  <h1>Lista de tareas<br>para hoy</h1>
+    <special-navbar></special-navbar>
+    <main class="dashboard-main">
+        <section class="section-title">
+            <h1 class="dashboard-title">Actividades grupales de hoy</h1>
+        <div class= "dashboard-buttons">
+            <a class="agregarbotton" href="Nueva Tarea.html">
+                <img src="../../assets/images/add-icon.png" alt="Agregar Icono" class="add-icon">
+                <input type="button" class="Agregar" value="Agregar">
+            </a>
+            <div class="editarbotton">
+                <img src="../../assets/images/edit-icon.png" alt="Editar Icono" class="edit-icon">
+                <input type="button" class="Editar" value="Editar">
+            </div>
+            <div class="eliminarbotton">
+                <img src="../../assets/images/delete-icon.png" alt="Eliminar Icono" class="delete-icon">
+                <input type="button" class="Eliminar" value="Eliminar">
+            </div>
+            <a href ="../../pages/MenuRecompensas/Recompensas.html">
+            <div class="recompensas">
+                <img src="../../assets/images/rewards-icon.png" alt="Recompensas Icono" class="rewards-icon">
+                <input type="button" class="Recompensas" value="Recompensas">
+            </div></a>
 
-  <div class="task-list">
-    <div class="task">
-      <div class="task-content">
-        <a href="Detalle Tarea.html" style="text-decoration:none; color:black;"> 
-        <div class="circle"></div>
-        <div>
-          <div class="task-name">Nombre de la Tarea</div>
-          <div class="points">10 puntos</div>
-          </a>
         </div>
-      </div>
-    </div>
-<!-- Espacio para otras tareas -->
-    <div class="task"> 
-    </div>
-    <div class="task"></div>
-    <div class="task"></div>
-  </div>
-
-  <!-- Puntos Actuales-->
-  <div class="footer">
-    Puntos actuales: <strong>0</strong>
-  </div>
-
-  <a href="Nueva Tarea.html" class="add-task">+ Añadir nueva tarea</a>
-
+    </section>
+        <section class="section-tasks">
+            <div class="tasks-container">
+              <a href ="Detalle tarea.html">
+                <div class="task-card pink">
+                    <div class="task-circle"></div>
+                    <div class="task-info">
+                        <span class="task-title">Tarea 1</span>
+                        <span class="task-time">09:00 - 09:45 AM</span>
+                        <span class="task-desc">Descripción de la tarea 1.</span>
+                    </div>
+                </div>
+              </a>
+              <a href ="Detalle tarea.html">
+                <div class="task-card blue">
+                    <div class="task-circle"></div>
+                    <div class="task-info">
+                        <span class="task-title">Tarea 2</span>
+                        <span class="task-time">10:00 - 11:00 AM</span>
+                        <span class="task-desc">Descripción de la tarea 2.</span>
+                    </div>
+                </div></a>
+              <a href ="Detalle tarea.html">
+                <div class="task-card yellow">
+                    <div class="task-circle"></div>
+                    <div class="task-info">
+                        <span class="task-title">Tarea 3</span>
+                        <span class="task-time">01:00 - 02:00 PM</span>
+                        <span class="task-desc">Descripción de la tarea 3.</span>
+                    </div>
+                </div></a>
+              <a href ="Detalle tarea.html">
+                <div class="task-card blue">
+                    <div class="task-circle"></div>
+                    <div class="task-info">
+                        <span class="task-title">Tarea 4</span>
+                        <span class="task-time">03:00 - 04:00 PM</span>
+                        <span class="task-desc">Descripción de la tarea 4.</span>
+                    </div>
+                </div></a>
+            </div>
+        </section>
+    </main>
 </body>
 </html>

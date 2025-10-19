@@ -10,7 +10,7 @@
     <div class="login-box">
         <img src="../../../assets/images/Logo.png" alt="Logo" class="logo">
         <h2>Iniciar Sesión</h2>
-        <form action="login" method="post">
+        <form id="login-cuenta">
             <label for="username">Usuario</label>
             <input type="text" id="username" name="username" required>
 
@@ -22,7 +22,7 @@
                 <label for="remember-me">Recuérdame</label>
             </div>
 
-            <button type="submit" formaction="../../Inicio/dashboard.html" class="btn">Ingresar</button>
+            <button type="submit" class="btn">Ingresar</button>
 
         </form>
         <p class="link">
@@ -32,5 +32,37 @@
             ¿No tienes una cuenta? <a href="../Crear_cuenta/register.html">Regístrate aquí</a> 
         </p>
     </div>
+
+    <script>
+        const form1 = document.getElementById('login-cuenta');
+        
+        form1.addEventListener('submit', event => {
+            event.preventDefault();
+
+            const formData = new FormData(form1);
+            
+            const data = Object.fromEntries(formData);
+
+            fetch('http://localhost:8080/api/login/findUserAccount', {
+                method: 'POST',
+                credentials: "include",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                if (data) {
+                    window.location.replace('../../Inicio/dashboard.html');
+                } else {
+                    alert("No existe una cuenta con las credenciales ingresadas, intentelo de nuevo");
+                }
+            })
+        })
+    </script>
 </body>
 </html>
