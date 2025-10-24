@@ -25,7 +25,7 @@
             <input type="number" value="5" onchange="update_5(this.id)"  id="duracion" name="duration" class="time-input" min="5" step="5" required>
 
             <label for="video-referencia">Link para video de referencia</label>
-            <input type="text" id="video-referencia" name="reference_video" class="textarea" required>
+            <input type="text" id="video-referencia" name="referenceVideo" class="textarea" required>
             <!-- <label for="fecha_vencimiento">Fecha de Vencimiento</label>
             <input type="date" id="fecha_vencimiento" name="fecha_vencimiento" class="date-input" required>
             
@@ -113,7 +113,7 @@
 
             const formData = new FormData(form1);
 
-            if (check_Youtube_URL(formData.get("reference_video"))) {
+            if (check_Youtube_URL(formData.get("referenceVideo"))) {
                 var horas = Math.floor(formData.get("duration") / 60);
                 var minutos = formData.get("duration") % 60;
                 var formato_horas = String(horas).padStart(2, '0');

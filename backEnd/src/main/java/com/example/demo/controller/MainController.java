@@ -48,7 +48,7 @@ public class MainController {
     //This method should be removed once development is finished, as the active user cam only be set through login
     @PostMapping("/setActiveUser")
     public void postMethodName(HttpSession activeSession) {
-        activeSession.setAttribute("activeUserId", (long) 2);
+        activeSession.setAttribute("activeUserId", (long) 1);
     }
     
     

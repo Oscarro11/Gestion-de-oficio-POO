@@ -29,36 +29,36 @@ public class TaskService {
     }
 
     public List<Task> getTasksByUserID(Long user_id){
-        return taskRepository.findByCreator_Id(user_id);
+        return taskRepository.findByTaskCreator_Id(user_id);
     }
 
-    public boolean createUserTask(String taskname, String description, LocalTime duration, String reference_video, Long user_id){
-        List<Task> tareas = taskRepository.findByCreator_Id(user_id);
-        boolean used_name = false;
+    public boolean createUserTask(String taskname, String description, LocalTime duration, String referenceVideo, Long user_id){
+        List<Task> tareas = taskRepository.findByTaskCreator_Id(user_id);
+        boolean usedName = false;
 
         for (Task task : tareas) {
             if (task.getTaskname().equals(taskname)) {
-                used_name = true;
+                usedName = true;
                 break;
             }
         }
 
-        if (used_name) {
+        if (usedName) {
             return false;
         }
         else{
-            saveUserTask(taskname, description, duration, reference_video, user_id);
+            saveUserTask(taskname, description, duration, referenceVideo, user_id);
             return true;
         }
     }
 
-    public Task saveUserTask(String taskname, String description, LocalTime duration, String reference_video, Long creator_id){
+    public Task saveUserTask(String taskname, String description, LocalTime duration, String referenceVideo, Long creator_id){
         Task task = new Task();
         task.setTaskname(taskname);
         task.setDescription(description);
         task.setDuration(duration);
-        task.setVideoReference(reference_video);
-        task.setCreator(userRepository.getReferenceById(creator_id));
+        task.setVideoReference(referenceVideo);
+        task.setTaskCreator(userRepository.getReferenceById(creator_id));
 
         return taskRepository.save(task);
     }

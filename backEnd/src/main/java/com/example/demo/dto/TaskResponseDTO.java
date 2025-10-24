@@ -18,19 +18,19 @@ public class TaskResponseDTO {
     @JsonProperty("duration")
     private LocalTime duration;
 
-    @JsonProperty("reference_video")
-    private String reference_video;
+    @JsonProperty("referenceVideo")
+    private String referenceVideo;
 
-    @JsonProperty("creator_id")
-    private Long creator_id;
+    @JsonProperty("taskCreator_id")
+    private Long taskCreator_id;
 
     public TaskResponseDTO() {}
 
-    public TaskResponseDTO(String taskname, String description, LocalTime duration, String reference_video, Long creator_id){
+    public TaskResponseDTO(String taskname, String description, LocalTime duration, String referenceVideo, Long creator_id){
         this.taskname = taskname;
         this.description = description; 
         this.duration = duration;
-        this.reference_video = reference_video;
+        this.referenceVideo = referenceVideo;
     }
 
 
@@ -55,18 +55,18 @@ public class TaskResponseDTO {
         this.duration = duration;
     }
 
-    public String getReference_video() {
-        return reference_video;
+    public String getReferenceVideo() {
+        return referenceVideo;
     }
-    public void setReference_video(String reference_video) {
-        this.reference_video = reference_video;
+    public void setReferenceVideo(String referenceVideo) {
+        this.referenceVideo = referenceVideo;
     }
 
-    public Long getCreator_id() {
-        return creator_id;
+    public Long getTaskCreator_id() {
+        return taskCreator_id;
     }
-    public void setCreator_id(Long creator_id) {
-        this.creator_id = creator_id;
+    public void setTaskCreator_id(Long taskCreator_id) {
+        this.taskCreator_id = taskCreator_id;
     }
 
     public long getId() {

@@ -21,22 +21,22 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "Taskname", nullable = false)
+    @Column(name = "taskname", nullable = false)
     private String taskname;
 
-    @Column(name = "Description")
+    @Column(name = "description")
     private String description;
 
-    @Column(name = "Duration", nullable = false)
+    @Column(name = "duration", nullable = false)
     @JsonFormat(pattern = "HH:mm")
     private LocalTime duration;
 
-    @Column(name = "Video_reference")
-    private String video_reference;
+    @Column(name = "videoReference")
+    private String videoReference;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "creator", nullable = false)
-    private User creator;
+    @JoinColumn(name = "taskCreator", nullable = false)
+    private User taskCreator;
 
     public Long getId(){return id;}
     public void setId(Long id){this.id = id;}
@@ -50,11 +50,17 @@ public class Task {
     public LocalTime getDuration(){return duration;}
     public void setDuration(LocalTime duration){this.duration = duration;}
 
-    public String getVideoReference(){return video_reference;}
-    public void setVideoReference(String video_reference){this.video_reference = video_reference;}
+    public String getVideoReference(){return videoReference;}
+    public void setVideoReference(String videoReference){this.videoReference = videoReference;} 
 
     //public User getCreator() {return creator;}
-    public void setCreator(User creator) {this.creator = creator;}
+    public void setTaskCreator(User taskCreator) {
+        this.taskCreator = taskCreator;
+    }
+    public User getTaskCreator() {
+        return taskCreator;
+    }
 
-    public Long getCreator_Id(){return creator.getId();}
+    public Long getTaskCreatorId(){return taskCreator.getId();};
+
 }

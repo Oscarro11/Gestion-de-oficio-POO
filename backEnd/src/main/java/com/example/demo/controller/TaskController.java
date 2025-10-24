@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
-
-
 @RestController
 @RequestMapping("api/tasks")
 public class TaskController {
@@ -34,12 +32,12 @@ public class TaskController {
 
     @PostMapping("/unvalidatedCreateTask")
     public ResponseEntity<Task> createUnvalidatedTask(@RequestBody TaskRequestDTO taskRequestDTO) {
-        return ResponseEntity.ok(taskService.saveUserTask(taskRequestDTO.getTaskname(), taskRequestDTO.getDescription(), taskRequestDTO.getDuration(), taskRequestDTO.getReference_video(), (long) 1));
+        return ResponseEntity.ok(taskService.saveUserTask(taskRequestDTO.getTaskname(), taskRequestDTO.getDescription(), taskRequestDTO.getDuration(), taskRequestDTO.getReferenceVideo(), (long) 1));
     }    
 
     @PostMapping("/createTask")
     public ResponseEntity<Boolean> createTask(@RequestBody TaskRequestDTO taskRequestDTO, HttpSession activeSession) {
-        return ResponseEntity.ok(taskService.createUserTask(taskRequestDTO.getTaskname(), taskRequestDTO.getDescription(), taskRequestDTO.getDuration(), taskRequestDTO.getReference_video(), (long) activeSession.getAttribute("activeUserId")));
+        return ResponseEntity.ok(taskService.createUserTask(taskRequestDTO.getTaskname(), taskRequestDTO.getDescription(), taskRequestDTO.getDuration(), taskRequestDTO.getReferenceVideo(), (long) activeSession.getAttribute("activeUserId")));
     }
     
     
@@ -51,10 +49,10 @@ public class TaskController {
         for (Task task : user_tasks) {
             TaskResponseDTO dto = new TaskResponseDTO();
             dto.setTaskname(task.getTaskname());
-            dto.setCreator_id(task.getCreator_Id());
+            dto.setTaskCreator_id(task.getTaskCreatorId());
             dto.setDescription(task.getDescription());
             dto.setDuration(task.getDuration());
-            dto.setReference_video(task.getVideoReference());
+            dto.setReferenceVideo(task.getVideoReference());
             dto.setId(task.getId());
             user_DTO_tasks.add(dto);
         }
@@ -102,17 +100,16 @@ public class TaskController {
         return inspectTaskById((long) activeSession.getAttribute("currentTaskId"));
     }
     
-    
 
     private ResponseEntity<TaskResponseDTO> inspectTaskById(long id){
         Task task = taskService.getTaskByID(id);
         TaskResponseDTO dto = new TaskResponseDTO();
 
-        dto.setCreator_id(task.getCreator_Id());
+        dto.setTaskCreator_id(task.getTaskCreatorId());
         dto.setTaskname(task.getTaskname());
         dto.setDescription(task.getDescription());
         dto.setDuration(task.getDuration());
-        dto.setReference_video(task.getVideoReference());
+        dto.setReferenceVideo(task.getVideoReference());
 
         return ResponseEntity.ok(dto);
         

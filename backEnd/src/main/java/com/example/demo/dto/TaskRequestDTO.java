@@ -14,19 +14,19 @@ public class TaskRequestDTO {
     @JsonProperty("duration")
     private LocalTime duration;
 
-    @JsonProperty("reference_video")
-    private String reference_video;
+    @JsonProperty("referenceVideo")
+    private String referenceVideo;
 
-    @JsonProperty("creator_id")
-    private Long creator_id;
+    @JsonProperty("taskCreator_id")
+    private Long taskCreator_id;
 
     public TaskRequestDTO() {}
 
-    public TaskRequestDTO(String taskname, String description, LocalTime duration, String reference_video){
+    public TaskRequestDTO(String taskname, String description, LocalTime duration, String referenceVideo){
         this.taskname = taskname;
         this.description = description; 
         this.duration = duration;
-        this.reference_video = reference_video;
+        this.referenceVideo = referenceVideo;
     }
 
 
@@ -51,10 +51,10 @@ public class TaskRequestDTO {
         this.duration = duration;
     }
 
-    public String getReference_video() {
-        return reference_video;
+    public String getReferenceVideo() {
+        return referenceVideo;
     }
-    public void setReference_video(String reference_video) {
-        this.reference_video = reference_video;
+    public void setReferenceVideo(String referenceVideo) {
+        this.referenceVideo = referenceVideo;
     }
 }

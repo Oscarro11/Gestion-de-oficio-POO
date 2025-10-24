@@ -28,11 +28,11 @@ public class User {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "taskCreator", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Task> tasks = new ArrayList<Task>();
 
-    @OneToMany(mappedBy = "collaborator", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AssignedTask> assigned_tasks = new ArrayList<AssignedTask>();
+    @OneToMany(mappedBy = "rewardCreator", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reward> rewards = new ArrayList<Reward>();
 
     public Long getId(){return id;}
     public void setId(Long id){this.id = id;}
