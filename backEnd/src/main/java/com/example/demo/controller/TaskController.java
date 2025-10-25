@@ -4,7 +4,7 @@ import com.example.demo.model.Task;
 import com.example.demo.dto.TaskRequestDTO;
 import com.example.demo.dto.TaskResponseDTO;
 import com.example.demo.service.TaskService;
-import com.example.demo.service.UserService;
+//import com.example.demo.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 //import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 
 @RestController
@@ -26,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class TaskController {
     private final TaskService taskService;
     
-    public TaskController(TaskService taskService, UserService userService){
+    public TaskController(TaskService taskService){
         this.taskService = taskService;
     }
 
@@ -49,44 +51,44 @@ public class TaskController {
         for (Task task : user_tasks) {
             TaskResponseDTO dto = new TaskResponseDTO();
             dto.setTaskname(task.getTaskname());
-            dto.setTaskCreator_id(task.getTaskCreatorId());
+            dto.setTaskCreator_id(task.getTaskCreator_Id());
             dto.setDescription(task.getDescription());
             dto.setDuration(task.getDuration());
             dto.setReferenceVideo(task.getVideoReference());
             dto.setId(task.getId());
             user_DTO_tasks.add(dto);
         }
-        setDeleteModeFalse(activeSession);
 
         return ResponseEntity.ok(user_DTO_tasks);
     }
 
-    @PutMapping("/setDeleteMode")
-    public ResponseEntity<Boolean> setDeleteMode(HttpSession activeSession) {
-        if ((boolean) activeSession.getAttribute("deleteMode")){
-            setDeleteModeFalse(activeSession);
+
+    @PutMapping("/setDeleteTasksMode")
+    public ResponseEntity<Boolean> setDeleteTaskMode(HttpSession activeSession) {
+        if ((boolean) activeSession.getAttribute("deleteTasksMode")){
+            setDeleteTasksModeFalse(activeSession);
         }     
         else{
-            setDeleteModeTrue(activeSession);
+            setDeleteTasksModeTrue(activeSession);
         }
         
-        return ResponseEntity.ok((boolean) activeSession.getAttribute("deleteMode"));
+        return ResponseEntity.ok((boolean) activeSession.getAttribute("deleteTasksMode"));
     }
 
-    @PutMapping("/setDeleteModeToTrue")
-    public void setDeleteModeTrue(HttpSession activeSession) {
-        activeSession.setAttribute("deleteMode", true);
+    @PutMapping("/setDeleteTasksModeToTrue")
+    public void setDeleteTasksModeTrue(HttpSession activeSession) {
+        activeSession.setAttribute("deleteTasksMode", true);
     }
 
-    @PutMapping("/setDeleteModeToFalse")
-    public void setDeleteModeFalse(HttpSession activeSession) {
-        activeSession.setAttribute("deleteMode", false);
+    @PutMapping("/setDeleteTasksModeToFalse")
+    public void setDeleteTasksModeFalse(HttpSession activeSession) {
+        activeSession.setAttribute("deleteTasksMode", false);
     }
 
     @PostMapping("/inspectTask")
-    public ResponseEntity<TaskResponseDTO> postMethodName(@RequestBody Long id, HttpSession activeSession) {
+    public ResponseEntity<TaskResponseDTO> inspectTask(@RequestBody Long id, HttpSession activeSession) {
         activeSession.setAttribute("currentTaskId", (long) 0);
-        if ((boolean) activeSession.getAttribute("deleteMode")) {
+        if ((boolean) activeSession.getAttribute("deleteTasksMode")) {
             return deleteTaskById(id);
         }
         else{
@@ -96,7 +98,7 @@ public class TaskController {
     }
 
     @GetMapping("/getCurrentTask")
-    public ResponseEntity<TaskResponseDTO> getMethodName(HttpSession activeSession) {
+    public ResponseEntity<TaskResponseDTO> getCurrentTask(HttpSession activeSession) {
         return inspectTaskById((long) activeSession.getAttribute("currentTaskId"));
     }
     
@@ -105,7 +107,7 @@ public class TaskController {
         Task task = taskService.getTaskByID(id);
         TaskResponseDTO dto = new TaskResponseDTO();
 
-        dto.setTaskCreator_id(task.getTaskCreatorId());
+        dto.setTaskCreator_id(task.getTaskCreator_Id());
         dto.setTaskname(task.getTaskname());
         dto.setDescription(task.getDescription());
         dto.setDuration(task.getDuration());
