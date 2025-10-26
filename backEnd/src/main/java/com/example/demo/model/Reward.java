@@ -17,14 +17,14 @@ public class Reward {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rewardCreator", nullable = false)
-    private User rewardCreator;
+    @ManyToOne
+    @JoinColumn(name = "creator_id", nullable = false)
+    private User creator;
 
     @Column(name = "rewardName", nullable = false)
     private String rewardName;
 
-    @Column(name = "rewardDescription", nullable = false)
+    @Column(name = "rewardDescription")
     private String description;
       
     @Column(name = "rewardImage", nullable = false)
@@ -38,11 +38,11 @@ public class Reward {
         return id;
     }
     
-    public void setRewardCreator(User rewardCreator) {
-        this.rewardCreator = rewardCreator;
+    public void setRewardCreator(User creator) {
+        this.creator = creator;
     }
     public User getRewardCreator() {
-        return rewardCreator;
+        return creator;
     }
 
     public void setImage(String image) {
@@ -66,5 +66,5 @@ public class Reward {
         this.description = description;
     }
 
-    public Long getRewardCreator_Id(){return rewardCreator.getId();}
+    public Long getRewardCreator_Id(){return creator.getId();}
 }

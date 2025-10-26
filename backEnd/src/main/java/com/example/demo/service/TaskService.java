@@ -29,11 +29,11 @@ public class TaskService {
     }
 
     public List<Task> getTasksByUserID(Long user_id){
-        return taskRepository.findByTaskCreator_Id(user_id);
+        return taskRepository.findByCreator_Id(user_id);
     }
 
     public boolean createUserTask(String taskname, String description, LocalTime duration, String referenceVideo, Long user_id){
-        List<Task> tareas = taskRepository.findByTaskCreator_Id(user_id);
+        List<Task> tareas = taskRepository.findByCreator_Id(user_id);
         boolean usedName = false;
 
         for (Task task : tareas) {
@@ -58,7 +58,7 @@ public class TaskService {
         task.setDescription(description);
         task.setDuration(duration);
         task.setVideoReference(referenceVideo);
-        task.setTaskCreator(userRepository.getReferenceById(creator_id));
+        task.setCreator(userRepository.getReferenceById(creator_id));
 
         return taskRepository.save(task);
     }

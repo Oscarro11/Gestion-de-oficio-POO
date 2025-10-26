@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PathVariable;
 
 
-
+  
 @RestController
 @RequestMapping("api/tasks")
 public class TaskController {
@@ -51,7 +51,7 @@ public class TaskController {
         for (Task task : user_tasks) {
             TaskResponseDTO dto = new TaskResponseDTO();
             dto.setTaskname(task.getTaskname());
-            dto.setTaskCreator_id(task.getTaskCreator_Id());
+            dto.setTaskCreator_id(task.getCreator_Id());
             dto.setDescription(task.getDescription());
             dto.setDuration(task.getDuration());
             dto.setReferenceVideo(task.getVideoReference());
@@ -107,7 +107,7 @@ public class TaskController {
         Task task = taskService.getTaskByID(id);
         TaskResponseDTO dto = new TaskResponseDTO();
 
-        dto.setTaskCreator_id(task.getTaskCreator_Id());
+        dto.setTaskCreator_id(task.getCreator_Id());
         dto.setTaskname(task.getTaskname());
         dto.setDescription(task.getDescription());
         dto.setDuration(task.getDuration());

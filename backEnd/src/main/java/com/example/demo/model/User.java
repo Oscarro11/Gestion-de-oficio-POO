@@ -6,8 +6,12 @@ import java.util.ArrayList;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
@@ -28,11 +32,23 @@ public class User {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "taskCreator", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Task> tasks = new ArrayList<Task>();
+    @OneToMany(mappedBy = "creator")
+    private List<Task> tasks;
 
-    @OneToMany(mappedBy = "rewardCreator", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Reward> rewards = new ArrayList<Reward>();
+    @OneToMany(mappedBy = "creator")
+    private List<Reward> rewards;
+
+    @OneToMany(mappedBy = "creator")
+    private List<Worker> workers;
+
+    @OneToOne
+    @JoinColumn(name = "workgroup_id", nullable = false)
+    private WorkGroup workGroup;
+
+
+    public User(){
+        this.workGroup = new WorkGroup();
+    }
 
     public Long getId(){return id;}
     public void setId(Long id){this.id = id;}

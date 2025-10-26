@@ -8,6 +8,6 @@ import java.util.List;
 @Repository
 public interface RewardRepository extends JpaRepository<Reward, Long>{
     
-    List<Reward> findByRewardCreator_Id(Long rewardCreator_Id);
+    List<Reward> findByCreator_Id(Long rewardCreator_Id);
 
 }

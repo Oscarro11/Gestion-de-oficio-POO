@@ -34,9 +34,9 @@ public class Task {
     @Column(name = "videoReference")
     private String videoReference;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "taskCreator", nullable = false)
-    private User taskCreator;
+    @ManyToOne
+    @JoinColumn(name = "creator_id", nullable = false)
+    private User creator;
 
     public Long getId(){return id;}
     public void setId(Long id){this.id = id;}
@@ -54,13 +54,13 @@ public class Task {
     public void setVideoReference(String videoReference){this.videoReference = videoReference;} 
 
     //public User getCreator() {return creator;}
-    public void setTaskCreator(User taskCreator) {
-        this.taskCreator = taskCreator;
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
-    public User getTaskCreator() {
-        return taskCreator;
+    public User getCreator() {
+        return creator;
     }
 
-    public Long getTaskCreator_Id(){return taskCreator.getId();};
+    public Long getCreator_Id(){return creator.getId();};
 
 }

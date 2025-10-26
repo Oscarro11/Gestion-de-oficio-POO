@@ -26,11 +26,11 @@ public class RewardService {
     }
 
     public List<Reward> getRewardsByUserId(Long user_id){
-        return rewardRepository.findByRewardCreator_Id(user_id);
+        return rewardRepository.findByCreator_Id(user_id);
     }
 
     public boolean createUserReward(String rewardname, String rewardDescription, String rewardImage, Long creator_id){
-        List<Reward> rewards = rewardRepository.findByRewardCreator_Id(creator_id);
+        List<Reward> rewards = rewardRepository.findByCreator_Id(creator_id);
         boolean usedName = false;
 
         for (Reward reward: rewards) {
