@@ -2,12 +2,14 @@ package com.example.demo.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
+import jakarta.persistence.CascadeType;
 
 import java.time.LocalTime;
 
@@ -20,7 +22,7 @@ public class AssignedTask {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "task_id", nullable = false)
     private Task reference;
 
@@ -35,7 +37,7 @@ public class AssignedTask {
     @JsonFormat(pattern = "dd-MM-YYYY HH:mm")
     private LocalTime end_time;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "worker_id", nullable = false)
     private Worker worker;
 

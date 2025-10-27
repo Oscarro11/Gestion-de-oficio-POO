@@ -37,14 +37,9 @@ public class User {
     @OneToMany(mappedBy = "creator")
     private List<Worker> workers;
 
-    @OneToOne
-    @JoinColumn(name = "workgroup_id", nullable = false)
-    private WorkGroup workGroup;
+    @OneToMany(mappedBy = "administrator")
+    private List<WorkGroup> workGroup;
 
-
-    public User(){
-        this.workGroup = new WorkGroup();
-    }
 
     public Long getId(){return id;}
     public void setId(Long id){this.id = id;}
