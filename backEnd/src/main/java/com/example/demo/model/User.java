@@ -31,8 +31,8 @@ public class User {
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Task> tasks = new ArrayList<Task>();
 
-    @OneToMany(mappedBy = "collaborator", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AssignedTask> assigned_tasks = new ArrayList<AssignedTask>();
+    //@OneToMany(mappedBy = "collaborator", cascade = CascadeType.ALL, orphanRemoval = true)
+    //private List<AssignedTask> assigned_tasks = new ArrayList<AssignedTask>();
 
     public Long getId(){return id;}
     public void setId(Long id){this.id = id;}
