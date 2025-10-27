@@ -9,7 +9,7 @@ public class RewardRequestDTO {
     @JsonProperty("description")
     private String description;
 
-    @JsonProperty("image-url")
+    @JsonProperty("image_url")
     private String image;
 
     public RewardRequestDTO() {}

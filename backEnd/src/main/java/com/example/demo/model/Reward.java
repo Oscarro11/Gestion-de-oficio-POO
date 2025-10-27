@@ -20,13 +20,13 @@ public class Reward {
     @JoinColumn(name = "creator_id", nullable = false)
     private User creator;
 
-    @Column(name = "rewardName", nullable = false)
+    @Column(name = "name", nullable = false)
     private String rewardName;
 
-    @Column(name = "rewardDescription")
+    @Column(name = "description")
     private String description;
       
-    @Column(name = "rewardImage", nullable = false)
+    @Column(name = "image", nullable = false)
     private String image;
 
 

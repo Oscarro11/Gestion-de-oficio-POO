@@ -45,7 +45,7 @@ public class RewardController {
             RewardResponseDTO dto = new RewardResponseDTO();
             dto.setRewardname(reward.getRewardName());
             dto.setDescription(reward.getDescription());
-            dto.setRewardCreator_id(reward.getRewardCreator_Id());
+            dto.setCreator_id(reward.getCreator_Id());
             dto.setId(reward.getId());
             dto.setImage(reward.getImage());
             user_DTO_rewards.add(dto);
@@ -97,7 +97,7 @@ public class RewardController {
         Reward reward = rewardService.getRewardById(id);
         RewardResponseDTO dto = new RewardResponseDTO();
 
-        dto.setRewardCreator_id(reward.getRewardCreator_Id());
+        dto.setCreator_id(reward.getCreator_Id());
         dto.setId(reward.getId());
         dto.setDescription(reward.getDescription());
         dto.setImage(reward.getImage());

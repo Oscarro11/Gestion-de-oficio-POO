@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.UserDTO;
+import com.example.demo.dto.UserResponseDTO;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 
@@ -25,15 +25,15 @@ public class MainController {
 
     @GetMapping("/getActiveUserName")
     public ResponseEntity<String> getActiveUserName(HttpSession activeSession){
-        UserDTO dto = getActiveUser(activeSession).getBody();
+        UserResponseDTO dto = getActiveUser(activeSession).getBody();
         return ResponseEntity.ok(dto.getUsername());
     }
 
     @GetMapping("/getActiveUser")
-    public ResponseEntity<UserDTO> getActiveUser(HttpSession activeSession){
+    public ResponseEntity<UserResponseDTO> getActiveUser(HttpSession activeSession){
 
         User user =  userService.getUserById((long) activeSession.getAttribute("activeUserId"));
-        UserDTO dto = new UserDTO();
+        UserResponseDTO dto = new UserResponseDTO();
         dto.setUsername(user.getUsername());
         dto.setEmail(user.getEmail());
         dto.setPassword(user.getPassword());

@@ -8,23 +8,23 @@ import jakarta.persistence.Table;
 @Table(name = "WORKGUESTS")
 public class WorkGuest extends Worker{
     
-    @Column(name = "IdentificationCode", nullable = false)
-    private String identification_code;
+    @Column(name = "identificationCode", nullable = false)
+    private String identificationCode;
 
-    @Column(name = "GuestName", nullable = false)
-    private String guestname;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-    public String getIdentification_code() {
-        return identification_code;
+    public String getIdentificationCode() {
+        return identificationCode;
     }
-    public void setIdentification_code(String identification_code) {
-        this.identification_code = identification_code;
+    public void setIdentificationCode(String identificationCode) {
+        this.identificationCode = identificationCode;
     }
 
-    public String getGuestname() {
-        return guestname;
+    public String getName() {
+        return name;
     }
-    public void setGuestname(String guestname) {
-        this.guestname = guestname;
+    public void setName(String name) {
+        this.name = name;
     }
 }

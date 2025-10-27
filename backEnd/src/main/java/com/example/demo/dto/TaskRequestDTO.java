@@ -17,9 +17,6 @@ public class TaskRequestDTO {
     @JsonProperty("referenceVideo")
     private String referenceVideo;
 
-    @JsonProperty("taskCreator_id")
-    private Long taskCreator_id;
-
     public TaskRequestDTO() {}
 
     public TaskRequestDTO(String taskname, String description, LocalTime duration, String referenceVideo){

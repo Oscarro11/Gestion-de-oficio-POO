@@ -20,21 +20,21 @@ import java.util.List;
 public abstract class Worker {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    protected Long id;
 
     @ManyToOne
     @JoinColumn(name = "creator_id", nullable = false)
-    private User creator;
+    protected User creator;
 
     @ManyToOne
     @JoinColumn(name = "workGroup_id", nullable = false)
-    private WorkGroup workGroup;
+    protected WorkGroup workGroup;
 
     @Column(name = "rewardPoints", nullable = false)
-    private int rewardPoints = 0;
+    protected int rewardPoints = 0;
 
     @OneToMany(mappedBy = "worker")
-    private List<AssignedTask> assignedTasks;
+    protected List<AssignedTask> assignedTasks;
 
     public Long getId() {
         return id;
@@ -67,9 +67,17 @@ public abstract class Worker {
     public WorkGroup getWorkGroup() {
         return workGroup;
     }
+    public void setWorkGroup(WorkGroup workGroup) {
+        this.workGroup = workGroup;
+    }
+
+    public int getRewardPoints() {
+        return rewardPoints;
+    }
     public void setRewardPoints(int rewardPoints) {
         this.rewardPoints = rewardPoints;
     }
+    
 
     public Long getCreator_Id(){return creator.getId();}
     public Long getWorkGroup_Id(){return workGroup.getId();}

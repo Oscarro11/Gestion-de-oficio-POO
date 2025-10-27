@@ -12,11 +12,11 @@ public class RewardResponseDTO {
     @JsonProperty("description")
     private String description;
 
-    @JsonProperty("image-url")
+    @JsonProperty("image_url")
     private String image;
 
-    @JsonProperty("rewardCreator_id")
-    private Long rewardCreator_id;
+    @JsonProperty("creator_id")
+    private Long creator_id;
 
     public RewardResponseDTO() {}
 
@@ -54,11 +54,11 @@ public class RewardResponseDTO {
         this.id = id;
     }
 
-    public Long getRewardCreator_id() {
-        return rewardCreator_id;
+    public Long getCreator_id() {
+        return creator_id;
     }
-    public void setRewardCreator_id(Long rewardCreator_id) {
-        this.rewardCreator_id = rewardCreator_id;
+    public void setCreator_id(Long creator_id) {
+        this.creator_id = creator_id;
     }
 }
 

@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.User;
-import com.example.demo.dto.UserDTO;
+import com.example.demo.dto.UserResponseDTO;
 import com.example.demo.service.LoginService;
 
 import org.springframework.http.ResponseEntity;
@@ -18,12 +18,12 @@ public class LoginController {
     }
 
     @PostMapping("/unvalidatedCreateUserAccount")
-    public ResponseEntity<User> createUnvalidatedUser(@RequestBody UserDTO userDTO){
+    public ResponseEntity<User> createUnvalidatedUser(@RequestBody UserResponseDTO userDTO){
         return ResponseEntity.ok(loginService.saveUserAccount(userDTO.getUsername(), userDTO.getPassword(), userDTO.getEmail()));
     }
 
     @PostMapping("/createUserAccount")
-    public ResponseEntity<Boolean> createValidatedUser(@RequestBody UserDTO userDTO, HttpSession activeSession){
+    public ResponseEntity<Boolean> createValidatedUser(@RequestBody UserResponseDTO userDTO, HttpSession activeSession){
         User createdUser = loginService.createUserAccount(userDTO.getUsername(), userDTO.getPassword(), userDTO.getEmail());
         if (createdUser != null){
             storeUserId(activeSession, createdUser.getId());
@@ -35,7 +35,7 @@ public class LoginController {
     }
 
     @PostMapping("/findUserAccount")
-    public ResponseEntity<Boolean> findUser(@RequestBody UserDTO userDTO, HttpSession activeSession){
+    public ResponseEntity<Boolean> findUser(@RequestBody UserResponseDTO userDTO, HttpSession activeSession){
         User foundUser = loginService.findUserAccount(userDTO.getUsername(), userDTO.getPassword());
         if (foundUser != null){
             storeUserId(activeSession, foundUser.getId());
