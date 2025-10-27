@@ -56,4 +56,21 @@ public abstract class Worker {
     public void setReward_points(int reward_points) {
         this.rewardPoints = reward_points;
     }
+
+    public User getCreator() {
+        return creator;
+    }
+    public void setCreator(User creator) {
+        this.creator = creator;
+    }
+
+    public WorkGroup getWorkGroup() {
+        return workGroup;
+    }
+    public void setRewardPoints(int rewardPoints) {
+        this.rewardPoints = rewardPoints;
+    }
+
+    public Long getCreator_Id(){return creator.getId();}
+    public Long getWorkGroup_Id(){return workGroup.getId();}
 }

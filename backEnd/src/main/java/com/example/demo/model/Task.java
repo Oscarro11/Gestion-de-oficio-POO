@@ -52,7 +52,6 @@ public class Task {
     public String getVideoReference(){return videoReference;}
     public void setVideoReference(String videoReference){this.videoReference = videoReference;} 
 
-    //public User getCreator() {return creator;}
     public void setCreator(User creator) {
         this.creator = creator;
     }

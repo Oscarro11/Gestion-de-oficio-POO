@@ -1,30 +1,25 @@
 package com.example.demo.model;
 
 import jakarta.persistence.Entity;
-//import jakarta.persistence.Id;
-//import jakarta.persistence.Inheritance;
-//import jakarta.persistence.InheritanceType;
 import jakarta.persistence.ManyToOne;
-//import jakarta.persistence.OneToMany;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.FetchType;
-//import jakarta.persistence.GeneratedValue;
-//import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "WORKUSERS")
+@Table(name = "WORKUSERS")  
 public class WorkUser extends Worker{
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "WorkUserReference", nullable = false)
-    private User workUser;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User reference;
 
-    public User getWork_user() {
-        return workUser;
+    public User getReference() {
+        return reference;
     }
-    public void setWork_user(User workUser) {
-        this.workUser = workUser;
+    public void setReference(User reference) {
+        this.reference = reference;
     }
+
+    public Long getReference_Id(){return reference.getId();}
 
 }

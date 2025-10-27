@@ -65,4 +65,6 @@ public class AvailableReward {
     public void setSource(WorkGroup source) {
         this.source = source;
     }
+
+    public Long getSource_Id(){return source.getId();}
 }

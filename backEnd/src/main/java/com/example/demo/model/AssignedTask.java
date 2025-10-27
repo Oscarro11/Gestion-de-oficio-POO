@@ -91,4 +91,8 @@ public class AssignedTask {
     public void setWorker(Worker worker) {
         this.worker = worker;
     }
+
+    public Long getReference_Id(){return reference.getId();}
+    public Long getWorker_Id(){return worker.getId();}
+
 }

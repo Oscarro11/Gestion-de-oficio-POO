@@ -27,7 +27,34 @@ public class WorkGroup {
     private List<Worker> workers;
     
     @OneToMany(mappedBy = "source")
-    private List<AvailableReward> list_of_rewards;
+    private List<AvailableReward> rewardsList;
     
 
+    public void setAdministrator(User administrator) {
+        this.administrator = administrator;
+    }
+    public User getAdministrator() {
+        return administrator;
+    }
+
+    public void setRewardsList(List<AvailableReward> rewardsList) {
+        this.rewardsList = rewardsList;
+    }
+    public List<AvailableReward> getRewardsList() {
+        return rewardsList;
+    }
+
+    public void setWorkers(List<Worker> workers) {
+        this.workers = workers;
+    }
+    public List<Worker> getWorkers() {
+        return workers;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public Long getId() {
+        return id;
+    }
 }

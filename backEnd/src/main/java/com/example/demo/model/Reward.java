@@ -37,10 +37,10 @@ public class Reward {
         return id;
     }
     
-    public void setRewardCreator(User creator) {
+    public void setCreator(User creator) {
         this.creator = creator;
     }
-    public User getRewardCreator() {
+    public User getCreator() {
         return creator;
     }
 
@@ -65,5 +65,5 @@ public class Reward {
         this.description = description;
     }
 
-    public Long getRewardCreator_Id(){return creator.getId();}
+    public Long getCreator_Id(){return creator.getId();}
 }
