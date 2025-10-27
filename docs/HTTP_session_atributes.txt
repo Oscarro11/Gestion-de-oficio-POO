@@ -1,1 +1,7 @@
-activeUserId = Id del usuario que se encuentra usando la app (tipo Long)
+activeUserId =          Id del usuario que se encuentra usando la app (tipo Long)
+activeWorkGroupId =     Id del grupo de trabajo que se esta usando actualmente (tipo Long)
+activeTaskId =          Id de la tarea que se esta visualizando actualmente
+activeReward =          Id de la recompensa que se esta visualizando actualmente
+deleteTasksMode =       Indicador de si se quiere eliminar tareas actualmente o si se quiere inspeccionar una tarea (boolean)
+deleteRewardsMode =     Indicador de si se quiere eliminar recompensas actualmente o si se quiere inspeccionar una recompensa (boolean)
+deleteWorkersMode =     Indicador de si se quiere eliminar un trabajador actualmente o si se quiere inspeccionar a un trabajador (boolean)
