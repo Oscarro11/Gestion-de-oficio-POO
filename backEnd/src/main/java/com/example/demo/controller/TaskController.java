@@ -4,7 +4,7 @@ import com.example.demo.model.Task;
 import com.example.demo.dto.TaskRequestDTO;
 import com.example.demo.dto.TaskResponseDTO;
 import com.example.demo.service.TaskService;
-import com.example.demo.service.UserService;
+import com.example.demo.service.CookiesService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -16,36 +16,34 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 import java.util.ArrayList;
 import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
-
-
+  
 @RestController
 @RequestMapping("api/tasks")
 public class TaskController {
     private final TaskService taskService;
+    private final CookiesService cookiesService;
     
-    public TaskController(TaskService taskService, UserService userService){
+    public TaskController(TaskService taskService, CookiesService cookiesService){
         this.taskService = taskService;
+        this.cookiesService = cookiesService;
     }
 
     @PostMapping("/unvalidatedCreateTask")
     public ResponseEntity<Task> createUnvalidatedTask(@RequestBody TaskRequestDTO taskRequestDTO) {
-        return ResponseEntity.ok(taskService.saveUserTask(taskRequestDTO.getTaskname(), taskRequestDTO.getDescription(), taskRequestDTO.getDuration(), taskRequestDTO.getReference_video(), (long) 1));
+        return ResponseEntity.ok(taskService.saveUserTask(taskRequestDTO.getTaskname(), taskRequestDTO.getDescription(), taskRequestDTO.getDuration(), taskRequestDTO.getReferenceVideo(), (long) 1));
     }    
 
     @PostMapping("/createTask")
     public ResponseEntity<Boolean> createTask(@RequestBody TaskRequestDTO taskRequestDTO, HttpSession activeSession) {
-        return ResponseEntity.ok(taskService.createUserTask(taskRequestDTO.getTaskname(), taskRequestDTO.getDescription(), taskRequestDTO.getDuration(), taskRequestDTO.getReference_video(), (long) activeSession.getAttribute("activeUserId")));
+        return ResponseEntity.ok(taskService.createUserTask(taskRequestDTO.getTaskname(), taskRequestDTO.getDescription(), taskRequestDTO.getDuration(), taskRequestDTO.getReferenceVideo(), cookiesService.getActiveUserId(activeSession)));
     }
     
     
     @GetMapping("/getUserTasks")
     public ResponseEntity<List<TaskResponseDTO>> getUserTasks(HttpSession activeSession) {
-        List<Task> user_tasks = taskService.getTasksByUserID((long) activeSession.getAttribute("activeUserId"));
+        List<Task> user_tasks = taskService.getTasksByUserID(cookiesService.getActiveUserId(activeSession));
         List<TaskResponseDTO> user_DTO_tasks = new ArrayList<TaskResponseDTO>();
         
         for (Task task : user_tasks) {
@@ -54,54 +52,30 @@ public class TaskController {
             dto.setCreator_id(task.getCreator_Id());
             dto.setDescription(task.getDescription());
             dto.setDuration(task.getDuration());
-            dto.setReference_video(task.getVideoReference());
+            dto.setReferenceVideo(task.getVideoReference());
             dto.setId(task.getId());
             user_DTO_tasks.add(dto);
         }
-        setDeleteModeFalse(activeSession);
 
         return ResponseEntity.ok(user_DTO_tasks);
     }
 
-    @PutMapping("/setDeleteMode")
-    public ResponseEntity<Boolean> setDeleteMode(HttpSession activeSession) {
-        if ((boolean) activeSession.getAttribute("deleteMode")){
-            setDeleteModeFalse(activeSession);
-        }     
-        else{
-            setDeleteModeTrue(activeSession);
-        }
-        
-        return ResponseEntity.ok((boolean) activeSession.getAttribute("deleteMode"));
-    }
-
-    @PutMapping("/setDeleteModeToTrue")
-    public void setDeleteModeTrue(HttpSession activeSession) {
-        activeSession.setAttribute("deleteMode", true);
-    }
-
-    @PutMapping("/setDeleteModeToFalse")
-    public void setDeleteModeFalse(HttpSession activeSession) {
-        activeSession.setAttribute("deleteMode", false);
-    }
-
     @PostMapping("/inspectTask")
-    public ResponseEntity<TaskResponseDTO> postMethodName(@RequestBody Long id, HttpSession activeSession) {
-        activeSession.setAttribute("currentTaskId", (long) 0);
-        if ((boolean) activeSession.getAttribute("deleteMode")) {
+    public ResponseEntity<TaskResponseDTO> inspectTask(@RequestBody Long id, HttpSession activeSession) {
+        if (cookiesService.getDeleteTasksMode(activeSession)) {
+            cookiesService.setActiveTaskId(activeSession, 0);
             return deleteTaskById(id);
         }
         else{
-            activeSession.setAttribute("currentTaskId", (long) id);
+            cookiesService.setActiveTaskId(activeSession, id);
             return inspectTaskById(id);
         }
     }
 
     @GetMapping("/getCurrentTask")
-    public ResponseEntity<TaskResponseDTO> getMethodName(HttpSession activeSession) {
-        return inspectTaskById((long) activeSession.getAttribute("currentTaskId"));
+    public ResponseEntity<TaskResponseDTO> getCurrentTask(HttpSession activeSession) {
+        return inspectTaskById(cookiesService.getActiveTaskId(activeSession));
     }
-    
     
 
     private ResponseEntity<TaskResponseDTO> inspectTaskById(long id){
@@ -112,7 +86,7 @@ public class TaskController {
         dto.setTaskname(task.getTaskname());
         dto.setDescription(task.getDescription());
         dto.setDuration(task.getDuration());
-        dto.setReference_video(task.getVideoReference());
+        dto.setReferenceVideo(task.getVideoReference());
 
         return ResponseEntity.ok(dto);
         
@@ -122,7 +96,5 @@ public class TaskController {
         taskService.deleteUserTask(id);
         return null;
     }
-    
-    
     
 }

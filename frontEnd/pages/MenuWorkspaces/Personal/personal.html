@@ -222,10 +222,23 @@
 
         <script>
 
+            window.onload = setDeleteTaskModeToFalse();
             window.onload = loadUserTasks("taskname");
 
             function durationIsInRange(duration, startTime, endTime){
                 return duration >= startTime && duration <= endTime;
+            }
+
+            function setDeleteTaskModeToFalse(){
+                fetch("http://localhost:8080/api/cookies/setDeleteTasksModeToFalse", {
+                    method: "PUT",
+                    credentials: "include"
+                })
+                .then(async response => {
+                    if (await response.ok){
+                        console.log("delete mode set to false");
+                    };
+                })
             }
 
             function loadUserTasks(sort_type){
@@ -237,90 +250,101 @@
                     return await response.json();
                 })
                 .then(data => {
-                    if (Array.isArray(data)) {
-                        switch (sort_type) {
-                            case "taskname":
-                                data.sort((a, b) => a.taskname.localeCompare(b.taskname));
-                                break;
-
-                            case "duration":
-                                data.sort((a, b) => a.duration.localeCompare(b.duration));
-                                break;
+                    const task_container = document.getElementById("tasks-container");
                         
-                            default:
-                                break;
-                        }
-                        const task_container = document.getElementById("tasks-container");
-                        
-                        while (task_container.firstChild) {
-                            task_container.removeChild(task_container.firstChild);
-                        }
-                                                
-                        data.forEach(item => {
-                            const div_task_info = document.createElement('div');
-                            div_task_info.classList = "task-info";
+                    while (task_container.firstChild) {
+                        task_container.removeChild(task_container.firstChild);
+                    }
 
-                            const div_task_circle = document.createElement('div');
-                            div_task_circle.classList = "task-circle";
+                    if (!(Array.isArray(data))) {
+                        console.log("The data received from the server is not an array");
+                    }
+                    else {
+                        let data_array = Array.from(data);
+                        console.log(data_array);
+                        if (data_array.length == 0){
+                            const empty_title_message = document.createElement("h2");
+                            empty_title_message.textContent = "No tienes tareas actualmente. ¿Por qué no pruebas a crear una?";
+                            task_container.appendChild(empty_title_message);
+                        } 
+                        else {
+                            switch (sort_type) {
+                                case "taskname":
+                                    data.sort((a, b) => a.taskname.localeCompare(b.taskname));
+                                    break;
 
-                            const div_task_card = document.createElement('div');
+                                case "duration":
+                                    data.sort((a, b) => a.duration.localeCompare(b.duration));
+                                    break;
                             
-                            if (durationIsInRange(item.duration, '00:00:00', '00:15:00')) {
-                                div_task_card.classList = "task-card yellow";
-                            } else if (durationIsInRange(item.duration, '00:15:01', '01:00:00')) {
-                                div_task_card.classList = "task-card pink";
-                            } else {
-                                div_task_card.classList = "task-card blue";
+                                default:
+                                    break;
                             }
+                                                    
+                            data_array.forEach(item => {
+                                const div_task_info = document.createElement('div');
+                                div_task_info.classList = "task-info";
 
-                            const span_task_title = document.createElement('span');
-                            span_task_title.textContent = `${item.taskname}`;
-                            span_task_title.classList = "task-title";
-                            div_task_info.appendChild(span_task_title);
+                                const div_task_circle = document.createElement('div');
+                                div_task_circle.classList = "task-circle";
 
-                            const span_task_desc = document.createElement('span');
-                            span_task_desc.textContent = `${item.description}`;
-                            span_task_desc.classList = "task-desc";
-                            div_task_info.appendChild(span_task_desc);
+                                const div_task_card = document.createElement('div');
+                                
+                                if (durationIsInRange(item.duration, '00:00:00', '00:15:00')) {
+                                    div_task_card.classList = "task-card yellow";
+                                } else if (durationIsInRange(item.duration, '00:15:01', '01:00:00')) {
+                                    div_task_card.classList = "task-card pink";
+                                } else {
+                                    div_task_card.classList = "task-card blue";
+                                }
 
-                            div_task_card.appendChild(div_task_circle);
-                            div_task_card.appendChild(div_task_info);
-                            task_container.appendChild(div_task_card);
+                                const span_task_title = document.createElement('span');
+                                span_task_title.textContent = `${item.taskname}`;
+                                span_task_title.classList = "task-title";
+                                div_task_info.appendChild(span_task_title);
 
-                            div_task_card.addEventListener('click', event => {
-                                fetch("http://localhost:8080/api/tasks/inspectTask", {
-                                    method: "POST",
-                                    credentials: "include",
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify(item.id)
+                                const span_task_desc = document.createElement('span');
+                                span_task_desc.textContent = `${item.description}`;
+                                span_task_desc.classList = "task-desc";
+                                div_task_info.appendChild(span_task_desc);
+
+                                div_task_card.appendChild(div_task_circle);
+                                div_task_card.appendChild(div_task_info);
+                                task_container.appendChild(div_task_card);
+
+                                div_task_card.addEventListener('click', event => {
+                                    fetch("http://localhost:8080/api/tasks/inspectTask", {
+                                        method: "POST",
+                                        credentials: "include",
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify(item.id)
+                                    })
+                                    .then(async response => {
+                                        const test_text = await response.text();
+                                        if (test_text == "") {
+                                            return null;
+                                        }
+                                        else{
+                                            return JSON.parse(test_text);  
+                                        }           
+                                    })
+                                    .then(data => {
+                                        if (data === null) {
+                                            alert(`La tarea de "${item.taskname}" se ha eliminado correctamente`);
+                                            loadUserTasks("taskname");
+                                        }
+                                        else{
+                                            window.location.href = "../Detalle Tarea.html";
+                                        }
+                                    })
                                 })
-                                .then(async response => {
-                                    const test_text = await response.text();
-                                    if (test_text == "") {
-                                        return null;
-                                    }
-                                    else{
-                                        return JSON.parse(test_text);  
-                                    }           
-                                })
-                                .then(data => {
-                                    if (data === null) {
-                                        alert(`La tarea de "${item.taskname}" se ha eliminado correctamente`);
-                                        task_container.removeChild(div_task_card);
-                                    }
-                                    else{
-                                        window.location.href = "../Detalle Tarea.html";
-                                    }
-                                })
-                            })
 
-                        });
+                            });
+                        }
                     }
-                    else{
-                        console.log("Tasks received are not an Array")
-                    }
+                    
                 })
             }
 
@@ -328,7 +352,8 @@
             const delete_button = document.getElementById("delete-button");
 
             delete_button.addEventListener("click", event => {
-                fetch("http://localhost:8080/api/tasks/setDeleteMode", {
+
+                fetch("http://localhost:8080/api/cookies/switchDeleteTasksMode", {
                     method: "PUT",
                     credentials: "include"
                 })

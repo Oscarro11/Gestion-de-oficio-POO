@@ -1,14 +1,13 @@
 package com.example.demo.repository;
 
-import com.example.demo.model.Task;
+import com.example.demo.model.WorkUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
-
 @Repository
-public interface TaskRepository extends JpaRepository<Task, Long>{
-
-    List<Task> findByCreator_Id(Long creator_Id);
+public interface WorkUserRepository extends JpaRepository<WorkUser, Long>{
     
+    List<WorkUser> findByReference_Id(Long reference_Id);
+
 }

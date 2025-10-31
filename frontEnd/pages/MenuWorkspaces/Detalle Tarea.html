@@ -92,7 +92,7 @@
         return match ? match[1] : null;
       }
 
-      function covertYoutubeVideoToEmbed(url){
+      function convertYoutubeVideoToEmbed(url){
         const id = getYouTubeVideoId(url);
         if (!id) return null;
         return `https://www.youtube.com/embed/${id}`;
@@ -116,7 +116,7 @@
           description_text.textContent = `${data.description}`;
           duration_text.textContent = `${data.duration}`;
 
-          reference_video.setAttribute("src", covertYoutubeVideoToEmbed(data.reference_video));
+          reference_video.setAttribute("src", convertYoutubeVideoToEmbed(data.referenceVideo));
         })
       }
     </script>
