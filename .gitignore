@@ -23,6 +23,10 @@ backEnd/gradlew.bat
 # Logs
 /backEnd/*.log
 
+# Local database files (if any)
+/backEnd/*.db
+/backend/data
+
 # Temporary / OS files
 *.tmp
 *.swp
