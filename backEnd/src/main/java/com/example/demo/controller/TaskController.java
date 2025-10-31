@@ -4,7 +4,7 @@ import com.example.demo.model.Task;
 import com.example.demo.dto.TaskRequestDTO;
 import com.example.demo.dto.TaskResponseDTO;
 import com.example.demo.service.TaskService;
-//import com.example.demo.service.UserService;
+import com.example.demo.service.CookiesService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -16,10 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 import java.util.ArrayList;
 import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PathVariable;
 
 
   
@@ -27,9 +23,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequestMapping("api/tasks")
 public class TaskController {
     private final TaskService taskService;
+    private final CookiesService cookiesService;
     
-    public TaskController(TaskService taskService){
+    public TaskController(TaskService taskService, CookiesService cookiesService){
         this.taskService = taskService;
+        this.cookiesService = cookiesService;
     }
 
     @PostMapping("/unvalidatedCreateTask")
@@ -39,13 +37,13 @@ public class TaskController {
 
     @PostMapping("/createTask")
     public ResponseEntity<Boolean> createTask(@RequestBody TaskRequestDTO taskRequestDTO, HttpSession activeSession) {
-        return ResponseEntity.ok(taskService.createUserTask(taskRequestDTO.getTaskname(), taskRequestDTO.getDescription(), taskRequestDTO.getDuration(), taskRequestDTO.getReferenceVideo(), (long) activeSession.getAttribute("activeUserId")));
+        return ResponseEntity.ok(taskService.createUserTask(taskRequestDTO.getTaskname(), taskRequestDTO.getDescription(), taskRequestDTO.getDuration(), taskRequestDTO.getReferenceVideo(), cookiesService.getActiveUserId(activeSession)));
     }
     
     
     @GetMapping("/getUserTasks")
     public ResponseEntity<List<TaskResponseDTO>> getUserTasks(HttpSession activeSession) {
-        List<Task> user_tasks = taskService.getTasksByUserID((long) activeSession.getAttribute("activeUserId"));
+        List<Task> user_tasks = taskService.getTasksByUserID(cookiesService.getActiveUserId(activeSession));
         List<TaskResponseDTO> user_DTO_tasks = new ArrayList<TaskResponseDTO>();
         
         for (Task task : user_tasks) {
@@ -62,44 +60,21 @@ public class TaskController {
         return ResponseEntity.ok(user_DTO_tasks);
     }
 
-
-    @PutMapping("/setDeleteTasksMode")
-    public ResponseEntity<Boolean> setDeleteTaskMode(HttpSession activeSession) {
-        if ((boolean) activeSession.getAttribute("deleteTasksMode")){
-            setDeleteTasksModeFalse(activeSession);
-        }     
-        else{
-            setDeleteTasksModeTrue(activeSession);
-        }
-        
-        return ResponseEntity.ok((boolean) activeSession.getAttribute("deleteTasksMode"));
-    }
-
-    @PutMapping("/setDeleteTasksModeToTrue")
-    public void setDeleteTasksModeTrue(HttpSession activeSession) {
-        activeSession.setAttribute("deleteTasksMode", true);
-    }
-
-    @PutMapping("/setDeleteTasksModeToFalse")
-    public void setDeleteTasksModeFalse(HttpSession activeSession) {
-        activeSession.setAttribute("deleteTasksMode", false);
-    }
-
     @PostMapping("/inspectTask")
     public ResponseEntity<TaskResponseDTO> inspectTask(@RequestBody Long id, HttpSession activeSession) {
-        activeSession.setAttribute("currentTaskId", (long) 0);
-        if ((boolean) activeSession.getAttribute("deleteTasksMode")) {
+        if (cookiesService.getDeleteTasksMode(activeSession)) {
+            cookiesService.setActiveTaskId(activeSession, 0);
             return deleteTaskById(id);
         }
         else{
-            activeSession.setAttribute("currentTaskId", (long) id);
+            cookiesService.setActiveTaskId(activeSession, id);
             return inspectTaskById(id);
         }
     }
 
     @GetMapping("/getCurrentTask")
     public ResponseEntity<TaskResponseDTO> getCurrentTask(HttpSession activeSession) {
-        return inspectTaskById((long) activeSession.getAttribute("currentTaskId"));
+        return inspectTaskById(cookiesService.getActiveTaskId(activeSession));
     }
     
 
@@ -121,7 +96,5 @@ public class TaskController {
         taskService.deleteUserTask(id);
         return null;
     }
-    
-    
     
 }

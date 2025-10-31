@@ -54,7 +54,7 @@ public class RewardService {
         reward.setRewardName(rewardname);
         reward.setDescription(rewardDescription);
         reward.setImage(rewardImage);
-        reward.setRewardCreator(userRepository.getReferenceById(creator_id));
+        reward.setCreator(userRepository.getReferenceById(creator_id));
 
         return rewardRepository.save(reward);
     }

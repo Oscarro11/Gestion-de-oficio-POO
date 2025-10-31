@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.model.User;
 import com.example.demo.dto.UserResponseDTO;
 import com.example.demo.service.LoginService;
+import com.example.demo.service.CookiesService;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +13,11 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/api/login")
 public class LoginController {
     private final LoginService loginService;
+    private final CookiesService cookiesService;
 
-    public LoginController(LoginService loginService){
+    public LoginController(LoginService loginService, CookiesService cookiesService){
         this.loginService = loginService;
+        this.cookiesService = cookiesService;
     }
 
     @PostMapping("/unvalidatedCreateUserAccount")
@@ -26,7 +29,7 @@ public class LoginController {
     public ResponseEntity<Boolean> createValidatedUser(@RequestBody UserResponseDTO userDTO, HttpSession activeSession){
         User createdUser = loginService.createUserAccount(userDTO.getUsername(), userDTO.getPassword(), userDTO.getEmail());
         if (createdUser != null){
-            storeUserId(activeSession, createdUser.getId());
+            cookiesService.setActiveUserId(activeSession, createdUser.getId());
             return ResponseEntity.ok(true);
         }
         else{
@@ -38,16 +41,12 @@ public class LoginController {
     public ResponseEntity<Boolean> findUser(@RequestBody UserResponseDTO userDTO, HttpSession activeSession){
         User foundUser = loginService.findUserAccount(userDTO.getUsername(), userDTO.getPassword());
         if (foundUser != null){
-            storeUserId(activeSession, foundUser.getId());
+            cookiesService.setActiveUserId(activeSession, foundUser.getId());
             return ResponseEntity.ok(true);
         }
         else{
             return ResponseEntity.ok(false);
         }
         
-    }
-
-    private static void storeUserId(HttpSession session, Long id){
-        session.setAttribute("activeUserId", id);
     }
 }

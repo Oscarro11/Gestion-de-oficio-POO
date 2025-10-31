@@ -230,9 +230,14 @@
             }
 
             function setDeleteTaskModeToFalse(){
-                fetch("http://localhost:8080/api/tasks/setDeleteTasksModeToFalse", {
+                fetch("http://localhost:8080/api/cookies/setDeleteTasksModeToFalse", {
                     method: "PUT",
                     credentials: "include"
+                })
+                .then(async response => {
+                    if (await response.ok){
+                        console.log("delete mode set to false");
+                    };
                 })
             }
 
@@ -348,7 +353,7 @@
 
             delete_button.addEventListener("click", event => {
 
-                fetch("http://localhost:8080/api/tasks/setDeleteTasksMode", {
+                fetch("http://localhost:8080/api/cookies/switchDeleteTasksMode", {
                     method: "PUT",
                     credentials: "include"
                 })
