@@ -21,14 +21,14 @@ public class WorkGroup {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User administrator;
     
-    @OneToMany(mappedBy = "workGroup")
+    @OneToMany(mappedBy = "workGroup", cascade = CascadeType.ALL)
     private List<Worker> workers;
     
-    @OneToMany(mappedBy = "source")
+    @OneToMany(mappedBy = "source", cascade = CascadeType.ALL)
     private List<AvailableReward> rewardsList;
     
 

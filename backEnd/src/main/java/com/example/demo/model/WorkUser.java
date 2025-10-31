@@ -1,6 +1,5 @@
 package com.example.demo.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
@@ -11,7 +10,7 @@ import jakarta.persistence.Table;
 @Table(name = "WORKUSERS")  
 public class WorkUser extends Worker{
     
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User reference;
 

@@ -3,11 +3,10 @@ package com.example.demo.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Table;
 
 import java.util.List;
@@ -28,17 +27,17 @@ public class User {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "creator")
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
     private List<Task> tasks;
 
-    @OneToMany(mappedBy = "creator")
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
     private List<Reward> rewards;
 
-    @OneToMany(mappedBy = "creator")
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
     private List<Worker> workers;
 
-    @OneToMany(mappedBy = "administrator")
-    private List<WorkGroup> workGroup;
+    @OneToMany(mappedBy = "administrator", cascade = CascadeType.ALL)
+    private List<WorkGroup> workGroups;
 
 
     public Long getId(){return id;}

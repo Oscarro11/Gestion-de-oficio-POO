@@ -24,18 +24,18 @@ public abstract class Worker {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id", nullable = false)
     protected User creator;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "workGroup_id", nullable = false)
     protected WorkGroup workGroup;
 
     @Column(name = "rewardPoints", nullable = false)
     protected int rewardPoints = 0;
 
-    @OneToMany(mappedBy = "worker")
+    @OneToMany(mappedBy = "worker", cascade = CascadeType.ALL)
     protected List<AssignedTask> assignedTasks;
 
     public Long getId() {
