@@ -3,9 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.model.Reward;
 import com.example.demo.dto.RewardRequestDTO;
 import com.example.demo.dto.RewardResponseDTO;
-import com.example.demo.dto.TaskResponseDTO;
 import com.example.demo.service.RewardService;
-import com.example.demo.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -60,28 +58,6 @@ public class RewardController {
         return inspectRewardById(id);
     }
 
-    @PutMapping("/setDeleteRewardsMode")
-    public ResponseEntity<Boolean> setDeleteTaskMode(HttpSession activeSession) {
-        if ((boolean) activeSession.getAttribute("deleteRewardsMode")){
-            setDeleteRewardsModeFalse(activeSession);
-        }     
-        else{
-            setDeleteRewardsModeTrue(activeSession);
-        }
-        
-        return ResponseEntity.ok((boolean) activeSession.getAttribute("deleteRewardsMode"));
-    }
-
-    @PutMapping("/setDeleteRewardsModeToTrue")
-    public void setDeleteRewardsModeTrue(HttpSession activeSession) {
-        activeSession.setAttribute("deleteRewardsMode", true);
-    }
-
-    @PutMapping("/setDeleteRewardsModeToFalse")
-    public void setDeleteRewardsModeFalse(HttpSession activeSession) {
-        activeSession.setAttribute("deleteRewardsMode", false);
-    }
-
     @PostMapping("/deleteRewards")
     public ResponseEntity<Boolean> inspectTask(@RequestBody List<Long> ids , HttpSession activeSession) {
         for (Long id : ids) {
@@ -90,7 +66,6 @@ public class RewardController {
         
         return ResponseEntity.ok(true);
     }
-    
     
     
     private ResponseEntity<RewardResponseDTO> inspectRewardById(long id){
