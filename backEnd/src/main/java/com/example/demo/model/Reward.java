@@ -27,7 +27,7 @@ public class Reward {
     @Column(name = "description")
     private String description;
       
-    @Column(name = "image", nullable = false)
+    @Column(name = "image")
     private String image;
 
 

@@ -4,42 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paginaintermedia</title>
-    <link rel="stylesheet" href="menuCreacion.css">
+    <link rel="stylesheet" href="seleccionDeMenuPersonal.css">
     <script src="../../shared/components/navbarManager.js" defer></script>
 </head>
 <body>
     <special-navbar></special-navbar>
     <div class="dashboard-main">
         <h1 class="dashboard-title" id="nombre_usuario">Este es su espacio personal</h1>
-        <p class="dashboard-subtitle">¿Qué deseas hacer hoy?</p>
+        <p class="dashboard-subtitle">¿Qué libreria le gustaria consultar?</p>
         <div class="dashboard-options">
             <div class="dashboard-card personal">
                 <a href="../MenuWorkspaces/MenuTareas/menuTareas.html">
                 <img src="../../assets/images/personal.png" alt="Personal" class="card-icon">
                 <h2>Tareas</h2>
-                <p>¡Crea tus actividades !</p></a>
+                <p>Crea, modifica o elimina tus plantillas de tareas</p></a>
             </div>
             <div class="dashboard-card grupos">
                 <a href="../MenuRecompensas/Recompensas.html">
                 <img src="../../assets/images/group.png" alt="Grupos" class="card-icon">
                 <h2>Recompensas</h2>
-                <p>¡Cree las recompensas para sus actividades!</p></a>
+                <p>Crea, modifica o elimina tus plantillas de recompensas</p></a>
             </div>
         </div>
     </div>
 
-    <script>
-        fetch("http://localhost:8080/api/Main/getActiveUserName", {
-            method: "GET",
-            credentials: "include"
-        })
-        .then(response => {
-            return response.text();
-        })
-        .then(data => {
-            const msg = "Bienvenido, " + data;
-            document.getElementById("nombre_usuario").innerHTML = msg;
-        })
-    </script>
 </body>
 </html>

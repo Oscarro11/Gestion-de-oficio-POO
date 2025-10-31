@@ -25,22 +25,66 @@
         </section>
     <div class="task-box">
         <!-- El proceso de crear recompensa, junto con la redireccion, esta pendiente de completarse -->
-        <form action="crear_recompensa" method="post">
+        <form id="new-reward">
             <label for="titulo">¿Qué recompensa estás agregando?</label>
-            <input type="text" id="titulo" name="titulo" required>
+            <input type="text" id="rewardname" name="rewardname" required>
 
-            <label for="descripcion">Descripción (Opcional)</label>
-            <textarea id="descripcion" name="descripcion" class="textarea" required></textarea>
+            <label for="description">Descripción (Opcional)</label>
+            <textarea id="description" name="description" class="textarea" required></textarea>
 
-            <label for="fecha_vencimiento">Fecha de Vencimiento</label>
-            <input type="date" id="fecha_vencimiento" name="fecha_vencimiento" class="date-input" required>
-
-            <label for="puntos">Puntos necesarios para canjear la recompensa</label>
-            <input for="puntos" type="number" id="puntos" name="puntos" min="1" max="100" class="number-input" placeholder="Puntos necesarios para canjear la recompensa" required>
+            <!-- Temporal, se cambiará por seleccion de imagen por medio de API externa-->
+            <label for="imagen">URL de imagen de referencia (Opcional)</label>
+            <input type="text" id="image_url" name="image_url">
 
             <button type="submit" class="btn">Crear Recompensa</button>
         </form>
     </div>  
+
+
+    <script>
+
+        function check_Image_URL(URL){
+            const pattern = /^(https?:\/\/[^\s]+?\.(?:jpg|jpeg|png|gif|bmp|webp|svg|tiff))(?:\?[^\s]*)?$/i;
+            return pattern.test(URL.trim())
+        }
+
+        const form1 = document.getElementById('new-reward')
+        form1.addEventListener('submit', event => {
+            event.preventDefault();
+
+            const formData = new FormData(form1);
+
+            const data = Object.fromEntries(formData);
+
+            if (!check_Image_URL(formData.get("image_url"))) {
+                alert("El texto que ha ingresado para la URL de la imagen es invalido, intentelo de nuevo");
+            }
+            else{
+
+                fetch('http://localhost:8080/api/rewards/createReward', {
+                    method: 'POST',
+                    credentials: "include",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(async response => {
+                    return await response.json();
+                })
+                .then(data => {
+                    if (data) {
+                        alert("¡La plantilla de recompensa se ha creado con exito!")
+                        window.location.href = "../Recompensas.html";
+                    } else {
+                        alert("Usted ya ha creado una plantilla de recompensa con este nombre, cambielo e intentelo de nuevo.");
+                    }
+                })
+            }
+
+        })
+
+    </script>
 </main>
 </body>
 </html>

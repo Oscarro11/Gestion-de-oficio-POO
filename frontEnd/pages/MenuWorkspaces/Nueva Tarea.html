@@ -136,9 +136,10 @@
                 })
                 .then(data => {
                     if (data) {
+                        alert("¡La plantilla de tarea se ha creado con exito!")
                         window.location.href = "Personal/personal.html";
                     } else {
-                        alert("Usted ya ha creado una tarea con este nombre, cambielo e intentelo de nuevo.");
+                        alert("Usted ya ha creado una plantilla de tarea con este nombre, cambielo e intentelo de nuevo.");
                     }
                 })
             }

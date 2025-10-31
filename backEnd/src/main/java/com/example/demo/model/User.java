@@ -28,7 +28,7 @@ public class User {
     private String email;
 
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Task> tasks = new ArrayList<Task>();
+    private List<Task> tasks;
 
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
     private List<Worker> workers;
