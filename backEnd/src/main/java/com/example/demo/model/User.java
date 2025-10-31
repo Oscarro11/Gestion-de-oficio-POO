@@ -27,11 +27,8 @@ public class User {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
-    private List<Task> tasks;
-
-    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
-    private List<Reward> rewards;
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Task> tasks = new ArrayList<Task>();
 
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
     private List<Worker> workers;
