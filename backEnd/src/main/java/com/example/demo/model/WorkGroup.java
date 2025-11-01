@@ -6,6 +6,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Column;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,13 +25,17 @@ public class WorkGroup {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User administrator;
-    
+
+    @Column(name = "name")
+    private String name;
+
     @OneToMany(mappedBy = "workGroup", cascade = CascadeType.ALL)
     private List<Worker> workers;
     
     @OneToMany(mappedBy = "source", cascade = CascadeType.ALL)
     private List<AvailableReward> rewardsList;
     
+
 
     public void setAdministrator(User administrator) {
         this.administrator = administrator;
@@ -39,24 +44,16 @@ public class WorkGroup {
         return administrator;
     }
 
-    public void setRewardsList(List<AvailableReward> rewardsList) {
-        this.rewardsList = rewardsList;
-    }
-    public List<AvailableReward> getRewardsList() {
-        return rewardsList;
-    }
-
-    public void setWorkers(List<Worker> workers) {
-        this.workers = workers;
-    }
-    public List<Worker> getWorkers() {
-        return workers;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
     public Long getId() {
         return id;
     }
+
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getAdministrator_Id() {return administrator.getId();}
 }

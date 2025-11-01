@@ -8,6 +8,9 @@ public class WorkGroupResponseDTO {
     @JsonProperty("id")
     private long id;
 
+    @JsonProperty("workgroup_name")
+    private String workgroup_name;
+    
     @JsonProperty("administrator_id")
     private long administrator_id;
 
@@ -54,5 +57,12 @@ public class WorkGroupResponseDTO {
     }
     public void setWorkers_id_list(List<Long> workers_id_list) {
         this.workers_id_list = workers_id_list;
+    }
+
+    public String getWorkgroup_name() {
+        return workgroup_name;
+    }
+    public void setWorkgroup_name(String workgroup_name) {
+        this.workgroup_name = workgroup_name;
     }
 }
