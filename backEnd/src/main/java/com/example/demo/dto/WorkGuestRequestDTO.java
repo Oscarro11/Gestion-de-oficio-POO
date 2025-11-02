@@ -2,7 +2,7 @@ package com.example.demo.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class WorkGuestRequestDTO extends WorkerResponseDTO{
+public class WorkGuestRequestDTO {
     @JsonProperty("name")
     private String name;
 

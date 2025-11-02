@@ -3,6 +3,9 @@ package com.example.demo.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class UserResponseDTO {
+    @JsonProperty("id")
+    protected long id;
+
     @JsonProperty("username")
     private String username;
 
@@ -15,12 +18,20 @@ public class UserResponseDTO {
 
     public UserResponseDTO() {}
 
-    public UserResponseDTO(String username, String password, String email){
+    public UserResponseDTO(Long id, String username, String password, String email){
         this.username = username;
         this.password = password;
         this.email = email;
+        this.id = id;
     }
 
+
+    public long getId() {
+        return id;
+    }
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;

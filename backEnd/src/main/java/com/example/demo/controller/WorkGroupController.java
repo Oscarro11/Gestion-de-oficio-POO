@@ -64,7 +64,10 @@ public class WorkGroupController {
     
     @PostMapping("/createWorkGroup")
     public ResponseEntity<Boolean> createWorkGroup(@RequestBody WorkGroupRequestDTO workGroupRequestDTO, HttpSession activeSession) {
-        return ResponseEntity.ok(workGroupService.createUserWorkGroup(cookiesService.getActiveUserId(activeSession), workGroupRequestDTO.getWorkGroupName()));
+        WorkGroup workGroup = workGroupService.saveUserWorkGroup(cookiesService.getActiveUserId(activeSession), workGroupRequestDTO.getWorkGroupName());
+        cookiesService.setActiveWorkGroupId(activeSession, workGroup.getId());
+
+        return ResponseEntity.ok(workGroup != null);
     }
 
 }

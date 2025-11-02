@@ -32,10 +32,10 @@ public class WorkUserService {
     public WorkUser saveWorkUser(Long creator_id, Long workgroup_id, Long worker_id){
         WorkUser newWorkUser = new WorkUser();
         
-        newWorkUser.setCreator(userRepository.getReferenceById(worker_id));
+        newWorkUser.setCreator(userRepository.getReferenceById(creator_id));
         newWorkUser.setWorkGroup(workGroupRepository.getReferenceById(workgroup_id));
         newWorkUser.setRewardPoints(0);
-        newWorkUser.setReference(userRepository.getReferenceById(creator_id));
+        newWorkUser.setReference(userRepository.getReferenceById(worker_id));
 
         return workUserRepository.save(newWorkUser);
     }

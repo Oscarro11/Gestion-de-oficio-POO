@@ -49,6 +49,7 @@ public class MainController {
 
         for (User u : user){
             UserResponseDTO dto = new UserResponseDTO();
+            dto.setId(u.getId());
             dto.setUsername(u.getUsername());
             dto.setEmail(u.getEmail());
             dto.setPassword(u.getPassword());
