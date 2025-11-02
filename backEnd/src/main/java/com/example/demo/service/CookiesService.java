@@ -15,7 +15,7 @@ public class CookiesService {
     }
 
     public void setActiveWorkGroupId(HttpSession activeSession, long id){
-        activeSession.setAttribute("activeWorkGroupId", activeSession);
+        activeSession.setAttribute("activeWorkGroupId", id);
     }
 
     public long getActiveWorkGroupId(HttpSession activeSession){

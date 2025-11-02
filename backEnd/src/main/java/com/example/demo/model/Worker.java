@@ -41,23 +41,6 @@ public abstract class Worker {
     public Long getId() {
         return id;
     }
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public List<AssignedTask> getAssignedTasks() {
-        return assignedTasks;
-    }
-    public void setAssignedTasks(List<AssignedTask> assignedTasks) {
-        this.assignedTasks = assignedTasks;
-    }
-
-    public int getReward_points() {
-        return rewardPoints;
-    }
-    public void setReward_points(int reward_points) {
-        this.rewardPoints = reward_points;
-    }
 
     public User getCreator() {
         return creator;

@@ -1,7 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.model.User;
-import com.example.demo.model.Worker;
 import com.example.demo.model.WorkGroup;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.WorkGroupRepository;

@@ -2,33 +2,21 @@ package com.example.demo.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty    ;
 
-public class WorkUserRequestDTO extends WorkerResponseDTO{
-    @JsonProperty("identification_code")
-    private String identification_code;
-
-    @JsonProperty("name")
-    private String name;
+public class WorkUserRequestDTO{
+    @JsonProperty("reference_id")
+    private Long reference_id;
 
 
     public WorkUserRequestDTO() {}
 
-    public WorkUserRequestDTO(String identification_code, String name){
-        this.identification_code = identification_code;
-        this.name = name;
+    public WorkUserRequestDTO(Long reference_id){
+        this.reference_id = reference_id;
     }
 
-
-    public String getIdentification_code() {
-        return identification_code;
+    public Long getReference_id() {
+        return reference_id;
     }
-    public void setIdentification_code(String identification_code) {
-        this.identification_code = identification_code;
-    }
-
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
+    public void setReference_id(Long reference_id) {
+        this.reference_id = reference_id;
     }
 }

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public abstract class WorkerResponseDTO {
+public class WorkerResponseDTO {
     @JsonProperty("id")
     protected long id;
 
@@ -17,9 +17,6 @@ public abstract class WorkerResponseDTO {
     @JsonProperty("reward_points_quantity")
     protected int reward_points_quantity;
 
-    @JsonProperty("assignedTasks_id_list")
-    protected List<Long> assignedTasks_id_list;
-
 
     public WorkerResponseDTO() {}
 
@@ -28,16 +25,8 @@ public abstract class WorkerResponseDTO {
         this.creator_id = creator_id;
         this.workGroup_id = workGroup_id;
         this.reward_points_quantity = reward_points_quantity;
-        this.assignedTasks_id_list = assignedTasks_id_list;
     }
 
-
-    public List<Long> getAssignedTasks_id_list() {
-        return assignedTasks_id_list;
-    }
-    public void setAssignedTasks_id_list(List<Long> assignedTasks_id_list) {
-        this.assignedTasks_id_list = assignedTasks_id_list;
-    }
 
     public long getCreator_id() {
         return creator_id;

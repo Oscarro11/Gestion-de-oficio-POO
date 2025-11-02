@@ -59,8 +59,5 @@ public class WorkGroupController {
     public ResponseEntity<Boolean> createWorkGroup(@RequestBody WorkGroupRequestDTO workGroupRequestDTO, HttpSession activeSession) {
         return ResponseEntity.ok(workGroupService.createUserWorkGroup(cookiesService.getActiveUserId(activeSession), workGroupRequestDTO.getWorkGroupName()));
     }
-    
-    
-    
 
 }
