@@ -31,12 +31,22 @@ public class TaskController {
     }
 
     @PostMapping("/unvalidatedCreateTask")
-    public ResponseEntity<Task> createUnvalidatedTask(@RequestBody TaskRequestDTO taskRequestDTO) {
-        return ResponseEntity.ok(taskService.saveUserTask(taskRequestDTO.getTaskname(), taskRequestDTO.getDescription(), taskRequestDTO.getDuration(), taskRequestDTO.getReferenceVideo(), (long) 1));
+    public ResponseEntity<TaskResponseDTO> createUnvalidatedTask(@RequestBody TaskRequestDTO taskRequestDTO) {
+        Task task = taskService.saveUserTask(taskRequestDTO.getTaskname(), taskRequestDTO.getDescription(), taskRequestDTO.getDuration(), taskRequestDTO.getReferenceVideo(), (long) 1);
+        
+        TaskResponseDTO dto = new TaskResponseDTO();
+        dto.setCreator_id(task.getCreator_Id());
+        dto.setDescription(task.getDescription());
+        dto.setDuration(task.getDuration());
+        dto.setId(task.getId());
+        dto.setReferenceVideo(task.getVideoReference());
+        dto.setTaskname(task.getTaskname());
+
+        return ResponseEntity.ok(dto);
     }    
 
     @PostMapping("/createTask")
-    public ResponseEntity<Boolean> createTask(@RequestBody TaskRequestDTO taskRequestDTO, HttpSession activeSession) {
+    public ResponseEntity<Boolean> createTask(@RequestBody TaskRequestDTO taskRequestDTO, HttpSession activeSession) {      
         return ResponseEntity.ok(taskService.createUserTask(taskRequestDTO.getTaskname(), taskRequestDTO.getDescription(), taskRequestDTO.getDuration(), taskRequestDTO.getReferenceVideo(), cookiesService.getActiveUserId(activeSession)));
     }
     

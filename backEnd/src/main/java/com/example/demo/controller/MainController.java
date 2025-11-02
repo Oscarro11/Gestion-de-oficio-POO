@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -42,8 +43,19 @@ public class MainController {
     }   
 
     @GetMapping("/getUsers")
-    public ResponseEntity<List<User>> listUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
+    public ResponseEntity<List<UserResponseDTO>> listUsers() {
+        List<User> user = userService.getAllUsers();
+        List<UserResponseDTO> newDtos = new ArrayList<UserResponseDTO>();
+
+        for (User u : user){
+            UserResponseDTO dto = new UserResponseDTO();
+            dto.setUsername(u.getUsername());
+            dto.setEmail(u.getEmail());
+            dto.setPassword(u.getPassword());
+            newDtos.add(dto);
+        }
+
+        return ResponseEntity.ok(newDtos);
     }
     
     

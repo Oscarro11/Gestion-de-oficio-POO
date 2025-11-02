@@ -21,8 +21,14 @@ public class LoginController {
     }
 
     @PostMapping("/unvalidatedCreateUserAccount")
-    public ResponseEntity<User> createUnvalidatedUser(@RequestBody UserResponseDTO userDTO){
-        return ResponseEntity.ok(loginService.saveUserAccount(userDTO.getUsername(), userDTO.getPassword(), userDTO.getEmail()));
+    public ResponseEntity<UserResponseDTO> createUnvalidatedUser(@RequestBody UserResponseDTO userDTO){
+        User user = loginService.saveUserAccount(userDTO.getUsername(), userDTO.getPassword(), userDTO.getEmail());
+        UserResponseDTO dto = new UserResponseDTO();
+        dto.setPassword(dto.getPassword());
+        dto.setUsername(user.getUsername());
+        dto.setEmail(user.getEmail());
+
+        return ResponseEntity.ok(dto);
     }
 
     @PostMapping("/createUserAccount")

@@ -29,17 +29,17 @@
     </div>
 
     <script>
-        fetch("http://localhost:8080/api/Main/getActiveUserName", {
+        window.onload = fetch("http://localhost:8080/api/Main/getActiveUserName", {
             method: "GET",
             credentials: "include"
         })
-        .then(response => {
-            return response.text();
+        .then(async response => {
+            return await response.text();
         })
         .then(data => {
             const msg = "Bienvenido, " + data;
             document.getElementById("nombre_usuario").innerHTML = msg;
-        })
+        });
     </script>
 </body>
 </html>

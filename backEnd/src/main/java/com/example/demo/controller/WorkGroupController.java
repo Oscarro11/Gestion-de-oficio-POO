@@ -50,8 +50,15 @@ public class WorkGroupController {
     }
 
     @PostMapping("/unvalidatedCreateWorkGroup")
-    public ResponseEntity<WorkGroup> createUnvalidatedWorkGroup(@RequestBody WorkGroupRequestDTO workGroupRequestDTO) {
-        return ResponseEntity.ok(workGroupService.saveUserWorkGroup((long) 1, workGroupRequestDTO.getWorkGroupName()));
+    public ResponseEntity<WorkGroupResponseDTO> createUnvalidatedWorkGroup(@RequestBody WorkGroupRequestDTO workGroupRequestDTO) {
+        WorkGroup workGroup = workGroupService.saveUserWorkGroup((long) 1, workGroupRequestDTO.getWorkGroupName());
+        
+        WorkGroupResponseDTO dto = new WorkGroupResponseDTO();
+        dto.setWorkgroup_name(workGroup.getName());
+        dto.setAdministrator_id(workGroup.getAdministrator_Id());
+        dto.setId(workGroup.getId());
+
+        return ResponseEntity.ok(dto);
     }
     
     

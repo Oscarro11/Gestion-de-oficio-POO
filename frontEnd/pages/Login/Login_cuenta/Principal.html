@@ -51,11 +51,10 @@
                 },
                 body: JSON.stringify(data)
             })
-            .then(response => {
-                return response.json();
+            .then(async response => {
+                return await response.json();
             })
             .then(data => {
-                console.log(data);
                 if (data) {
                     window.location.replace('../../Inicio/dashboard.html');
                 } else {

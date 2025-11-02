@@ -25,8 +25,17 @@ public class RewardController {
     }
 
     @PostMapping("/unvalidatedCreateReward")
-    public ResponseEntity<Reward> createUnvalidatedReward(@RequestBody RewardRequestDTO rewardRequestDTO) {
-        return ResponseEntity.ok(rewardService.saveUserReward(rewardRequestDTO.getRewardname(), rewardRequestDTO.getDescription(), rewardRequestDTO.getImage(), (long) 1));
+    public ResponseEntity<RewardResponseDTO> createUnvalidatedReward(@RequestBody RewardRequestDTO rewardRequestDTO) {
+        Reward reward = rewardService.saveUserReward(rewardRequestDTO.getRewardname(), rewardRequestDTO.getDescription(), rewardRequestDTO.getImage(), (long) 1);
+        
+        RewardResponseDTO dto = new RewardResponseDTO();
+        dto.setCreator_id(reward.getCreator_Id());
+        dto.setDescription(reward.getDescription());
+        dto.setId(reward.getId());
+        dto.setImage(reward.getImage());
+        dto.setRewardname(reward.getRewardName());
+
+        return ResponseEntity.ok(dto);
     }
 
     @PostMapping("/createReward")
