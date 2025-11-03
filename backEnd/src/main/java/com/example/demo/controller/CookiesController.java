@@ -65,6 +65,19 @@ public class CookiesController {
     public long getActiveRewardId(HttpSession activeSession) {
         return cookiesService.getActiveRewardId(activeSession);
     }
+    
+
+    @PostMapping("/setActiveWorkerId")
+    public void setActiveWorkerId(@RequestBody Long id, HttpSession activeSession) {
+        cookiesService.setActiveWorkerId(activeSession, id);
+    }
+
+    @GetMapping("/getActiveWorkerId")
+    public long getActiveWorkerId(HttpSession activeSession) {
+        return cookiesService.getActiveWorkerId(activeSession);
+    }
+    
+    
     //--------------------------------------------
 
     @PutMapping("/setDeleteTasksModeToFalse")

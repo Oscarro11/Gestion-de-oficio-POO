@@ -38,6 +38,14 @@ public class CookiesService {
         return (long) activeSession.getAttribute("activeRewardId");
     }
 
+    public void setActiveWorkerId(HttpSession activeSession, long id){
+        activeSession.setAttribute("activeWorkerId", id);
+    }
+
+    public long getActiveWorkerId(HttpSession activeSession){
+        return (long) activeSession.getAttribute("activeWorkerId");
+    }
+
 
     public boolean switchDeleteTasksMode(HttpSession activeSession){
         if ((boolean) activeSession.getAttribute("deleteTasksMode")) {

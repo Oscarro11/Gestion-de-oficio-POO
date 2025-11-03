@@ -12,7 +12,6 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -59,7 +58,7 @@ public class AssignedTaskController {
 
     @GetMapping("/getActiveWorkerAssignedTasks")
     public ResponseEntity<List<AssignedTaskResponseDTO>> getActiveWorkerAssignedTasks(HttpSession activeSession) {
-        List<AssignedTask> assignedTasks = assignedTaskService.getAssignedTasksByWorkerId(cookiesService.getActiveUserId(activeSession)); 
+        List<AssignedTask> assignedTasks = assignedTaskService.getAssignedTasksByWorkerId(cookiesService.getActiveWorkerId(activeSession)); 
         return ResponseEntity.ok(convertToDTOs(assignedTasks));
     }
 

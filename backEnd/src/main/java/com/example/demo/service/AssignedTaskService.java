@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 import com.example.demo.model.AssignedTask;
 import com.example.demo.repository.AssignedTaskRepository;
-import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.TaskRepository;
 import com.example.demo.repository.WorkerRepository;
 
@@ -10,19 +9,16 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
 import java.util.List;
-import java.util.ArrayList;
 
 @Service
 public class AssignedTaskService {
     private final AssignedTaskRepository assignedTaskRepository;
     private final TaskRepository taskRepository;
-    private final UserRepository userRepository;
     private final WorkerRepository workerRepository;
 
-    public AssignedTaskService(AssignedTaskRepository assignedTaskRepository, TaskRepository taskRepository, UserRepository userRepository, WorkerRepository workerRepository){
+    public AssignedTaskService(AssignedTaskRepository assignedTaskRepository, TaskRepository taskRepository, WorkerRepository workerRepository){
         this.assignedTaskRepository = assignedTaskRepository;
         this.taskRepository = taskRepository;
-        this.userRepository = userRepository;
         this.workerRepository = workerRepository;
     }
 
