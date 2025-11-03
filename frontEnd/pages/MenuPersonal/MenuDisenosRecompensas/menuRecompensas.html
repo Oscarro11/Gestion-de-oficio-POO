@@ -161,7 +161,7 @@
             }
         </style>
         <div class="nav">
-            <img src="../../assets/images/Logo.png" alt="Logo" class="logo">
+            <img src="../../../assets/images/Logo.png" alt="Logo" class="logo">
             <input type="checkbox" id="nav-check">
             <div class="nav-header"></div>
             <div class="nav-btn">
@@ -191,8 +191,8 @@
         <section class="section-title">
             <h1 class="dashboard-title">Plantillas de recompensa</h1>
         <div class= "dashboard-buttons">
-            <a class="agregarbotton" href="RecompensasDiseno/Nueva Recompensa.html">
-                <img src="../../assets/images/add-icon.png" alt="Agregar Icono" class="add-icon">
+            <a class="agregarbotton" href="Nueva Recompensa.html">
+                <img src="../../../assets/images/add-icon.png" alt="Agregar Icono" class="add-icon">
                 <input type="button" class="Agregar" value="Agregar">
             </a>
             <!--
@@ -201,36 +201,29 @@
                 <input type="button" class="Editar" value="Editar">
             </div>
             -->
-            <div class="editarbotton">
-                <img src="../../assets/images/edit-icon.png" alt="Editar Icono" class="edit-icon">
-                <input type="button" class="Editar" value="Ordenar por nombre" onclick="loadUserTasks('taskname')">
-            </div>
-            <div class="editarbotton">
-                <img src="../../assets/images/edit-icon.png" alt="Editar Icono" class="edit-icon">
-                <input type="button" class="Editar" value="Ordenar por duracion" onclick="loadUserTasks('duration')">
             </div>
             <div class="eliminarbotton" id="delete-icon-div">
-                <img src="../../assets/images/delete-icon-inactive.png" alt="Eliminar Icono" class="delete-icon" id="delete-icon">
+                <img src="../../../assets/images/delete-icon-inactive.png" alt="Eliminar Icono" class="delete-icon" id="delete-icon">
                 <input type="button" class="Eliminar" value="Eliminar" id="delete-button">
             </div>
         </div>
     </section>
-        <section class="section-tasks">
-            <div class="tasks-container" id="tasks-container">
+        <section class="section-rewards">
+            <div class="prizes-container" id="prizes-container">
             </div>
         </section>
 
-        <!--<script>
+        <script>
 
-            window.onload = setDeleteTaskModeToFalse();
-            window.onload = loadUserTasks("taskname");
+            window.onload = setDeleteRewardsModeToFalse();
+            window.onload = loadUserRewards();
 
             function durationIsInRange(duration, startTime, endTime){
                 return duration >= startTime && duration <= endTime;
             }
 
-            function setDeleteTaskModeToFalse(){
-                fetch("http://localhost:8080/api/cookies/setDeleteTasksModeToFalse", {
+            function setDeleteRewardsModeToFalse(){
+                fetch("http://localhost:8080/api/cookies/setDeleteRewardsModeToFalse", {
                     method: "PUT",
                     credentials: "include"
                 })
@@ -241,8 +234,8 @@
                 })
             }
 
-            function loadUserTasks(sort_type){
-                fetch("http://localhost:8080/api/tasks/getUserTasks", {
+            function loadUserRewards(){
+                fetch("http://localhost:8080/api/rewards/getUserRewards", {
                     method: "GET",
                     credentials: "include"
                 })
@@ -250,10 +243,10 @@
                     return await response.json();
                 })
                 .then(data => {
-                    const task_container = document.getElementById("tasks-container");
+                    const rewards_container = document.getElementById("prizes-container");
                         
-                    while (task_container.firstChild) {
-                        task_container.removeChild(task_container.firstChild);
+                    while (rewards_container.firstChild) {
+                        rewards_container.removeChild(rewards_container.firstChild);
                     }
 
                     if (!(Array.isArray(data))) {
@@ -264,55 +257,42 @@
                         console.log(data_array);
                         if (data_array.length == 0){
                             const empty_title_message = document.createElement("h2");
-                            empty_title_message.textContent = "No tienes tareas actualmente. ¿Por qué no pruebas a crear una?";
-                            task_container.appendChild(empty_title_message);
+                            empty_title_message.textContent = "No tienes recompensas actualmente. ¿Por qué no pruebas a crear una?";
+                            rewards_container.appendChild(empty_title_message);
                         } 
                         else {
-                            switch (sort_type) {
-                                case "taskname":
-                                    data.sort((a, b) => a.taskname.localeCompare(b.taskname));
-                                    break;
-
-                                case "duration":
-                                    data.sort((a, b) => a.duration.localeCompare(b.duration));
-                                    break;
-                            
-                                default:
-                                    break;
-                            }
                                                     
                             data_array.forEach(item => {
-                                const div_task_info = document.createElement('div');
-                                div_task_info.classList = "task-info";
+                                //continuar desde aqui, tienes que revisar las formas de ordenar y los atributos que
+                                //cada recompensa tiene
+                                const div_reward_info = document.createElement('div');
+                                div_reward_info.classList = "prize-item";
 
-                                const div_task_circle = document.createElement('div');
-                                div_task_circle.classList = "task-circle";
+                                const div_reward_card = document.createElement('div');
+                                div_reward_card.classList = "prizes-container";
 
-                                const div_task_card = document.createElement('div');
-                                
-                                if (durationIsInRange(item.duration, '00:00:00', '00:15:00')) {
-                                    div_task_card.classList = "task-card yellow";
-                                } else if (durationIsInRange(item.duration, '00:15:01', '01:00:00')) {
-                                    div_task_card.classList = "task-card pink";
-                                } else {
-                                    div_task_card.classList = "task-card blue";
-                                }
+                                const span_reward_title = document.createElement('span');
+                                span_reward_title.textContent = `${item.rewardname}`;
+                                span_reward_title.classList = "prize-title";
+                                div_reward_info.appendChild(span_reward_title);
 
-                                const span_task_title = document.createElement('span');
-                                span_task_title.textContent = `${item.taskname}`;
-                                span_task_title.classList = "task-title";
-                                div_task_info.appendChild(span_task_title);
+                                const span_reward_desc = document.createElement('span');
+                                span_reward_desc.textContent = `${item.description}`;
+                                span_reward_desc.classList = "prize-info";
+                                div_reward_info.appendChild(span_reward_desc);
 
-                                const span_task_desc = document.createElement('span');
-                                span_task_desc.textContent = `${item.description}`;
-                                span_task_desc.classList = "task-desc";
-                                div_task_info.appendChild(span_task_desc);
+                                const span_reward_image = document.createElement('span');
+                                const reward_image = document.createElement('img');
+                                reward_image.src = `${item.image_url}`;
+                                reward_image.height = 100;
+                                reward_image.width = 100;
+                                span_reward_image.appendChild(reward_image)
+                                div_reward_info.appendChild(span_reward_image);
 
-                                div_task_card.appendChild(div_task_circle);
-                                div_task_card.appendChild(div_task_info);
-                                task_container.appendChild(div_task_card);
+                                div_reward_card.appendChild(div_reward_info);
+                                rewards_container.appendChild(div_reward_card);
 
-                                div_task_card.addEventListener('click', event => {
+                                /*div_task_card.addEventListener('click', event => {
                                     fetch("http://localhost:8080/api/tasks/inspectTask", {
                                         method: "POST",
                                         credentials: "include",
@@ -339,7 +319,7 @@
                                             window.location.href = "../Detalle Tarea.html";
                                         }
                                     })
-                                })
+                                })*/
 
                             });
                         }
@@ -348,6 +328,7 @@
                 })
             }
 
+            /*
             const delete_image = document.getElementById("delete-icon");
             const delete_button = document.getElementById("delete-button");
 
@@ -370,9 +351,9 @@
                         delete_image.setAttribute("src", "../../../assets/images/delete-icon-inactive.png");
                     }
                 })
-            });
+            });*/
 
-        </script>-->
+        </script>
     </main>
 </body>
 </html>
