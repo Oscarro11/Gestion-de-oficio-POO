@@ -5,6 +5,9 @@ import java.time.LocalTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AssignedTaskRequestDTO {
+    @JsonProperty("name")
+    private String name;
+
     @JsonProperty("reference_id")
     private Long reference_Task_id;
 
@@ -12,7 +15,7 @@ public class AssignedTaskRequestDTO {
     private LocalTime startline;
 
     @JsonProperty("endline")
-    private LocalTime endline;
+    private LocalTime endline; 
 
     @JsonProperty("worker_id")
     private Long worker_id;
@@ -22,12 +25,13 @@ public class AssignedTaskRequestDTO {
 
     public AssignedTaskRequestDTO() {}
 
-    public AssignedTaskRequestDTO(long reference_Task_id, LocalTime startline, LocalTime endline, Long collaborator_id, int reward_points){
+    public AssignedTaskRequestDTO(String name, long reference_Task_id, LocalTime startline, LocalTime endline, Long collaborator_id, int reward_points){
         this.reference_Task_id = reference_Task_id;
         this.startline = startline;
         this.endline = endline;
         this.worker_id = collaborator_id;
         this.reward_points = reward_points;
+        this.name = name;
     }
 
     public Long getWorker_id() {
@@ -37,12 +41,12 @@ public class AssignedTaskRequestDTO {
         this.worker_id = collaborator_id;
     }
 
-    public LocalTime getEndline() {
-        return endline;
-    }
-    public void setEndline(LocalTime endline) {
-        this.endline = endline;
-    }
+   public LocalTime getEndline() {
+       return endline;
+   }
+   public void setEndline(LocalTime endline) {
+       this.endline = endline;
+   }
 
     public Long getReference_Task_id() {
         return reference_Task_id;
@@ -63,6 +67,13 @@ public class AssignedTaskRequestDTO {
     }
     public void setStartline(LocalTime startline) {
         this.startline = startline;
+    }
+
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

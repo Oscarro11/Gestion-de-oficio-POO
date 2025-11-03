@@ -25,6 +25,9 @@ public class AssignedTask {
     @JoinColumn(name = "task_id", nullable = false)
     private Task reference;
 
+    @Column(name = "Name")
+    private String name;
+
     @Column(name = "Points", nullable = false)
     private int reward_points = 0;
 
@@ -60,9 +63,6 @@ public class AssignedTask {
     public Long getId() {
         return id;
     }
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Task getReference() {
         return reference;
@@ -91,6 +91,13 @@ public class AssignedTask {
     }
     public void setWorker(Worker worker) {
         this.worker = worker;
+    }
+
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Long getReference_Id(){return reference.getId();}

@@ -8,11 +8,11 @@ public class AssignedTaskResponseDTO {
     @JsonProperty("id")
     private Long id;
 
+    @JsonProperty("name")
+    private String name;
+
     @JsonProperty("reference_id")
     private Long reference_id;
-
-    @JsonProperty("administrator_id")
-    private Long administrator_id;
 
     @JsonProperty("startline")
     private LocalTime startline;
@@ -31,27 +31,15 @@ public class AssignedTaskResponseDTO {
 
     public AssignedTaskResponseDTO() {}
 
-    public AssignedTaskResponseDTO(long reference_id, LocalTime startline, LocalTime endline, Long worker_id, int reward_points){
+    public AssignedTaskResponseDTO(long reference_id, String name, LocalTime startline, LocalTime endline, Long worker_id, int reward_points){
         this.reference_id = reference_id;
         this.startline = startline;
         this.endline = endline;
         this.worker_id = worker_id;
         this.reward_points = reward_points;
+        this.name = name;
     }
 
-    public Long getAdministrator_id() {
-        return administrator_id;
-    }
-    public void setAdministrator_id(Long administrator_id) {
-        this.administrator_id = administrator_id;
-    }
-
-    public Long getWorker_id() {
-        return worker_id;
-    }
-    public void setWorker_id(Long worker_id) {
-        this.worker_id = worker_id;
-    }
 
     public LocalTime getEndline() {
         return endline;
@@ -65,6 +53,13 @@ public class AssignedTaskResponseDTO {
     }
     public void setReference_id(Long reference_id) {
         this.reference_id = reference_id;
+    }
+
+    public Long getWorker_id() {
+        return worker_id;
+    }
+    public void setWorker_id(Long worker_id) {
+        this.worker_id = worker_id;
     }
 
     public int getReward_points() {
@@ -95,4 +90,10 @@ public class AssignedTaskResponseDTO {
         this.status = status;
     }
 
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
 }
