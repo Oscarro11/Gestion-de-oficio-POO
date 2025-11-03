@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nueva Tarea</title>
     <link rel="stylesheet" href="Nueva Tarea.css">
-    <script src="../../shared/components/navbarManager.js" defer></script>
+    <script src="../../../shared/components/navbarManager.js" defer></script>
 </head>
 <body>
     <special-navbar></special-navbar>
@@ -79,7 +79,7 @@
                 .then(data => {
                     if (data) {
                         alert("¡La plantilla de tarea se ha creado con exito!")
-                        window.location.href = "MenuTareas/menuTareas.html";
+                        window.location.href = "menuTareas.html";
                     } else {
                         alert("Usted ya ha creado una plantilla de tarea con este nombre, cambielo e intentelo de nuevo.");
                     }
