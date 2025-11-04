@@ -313,30 +313,35 @@
                                 task_container.appendChild(div_task_card);
 
                                 div_task_card.addEventListener('click', event => {
-                                    fetch("http://localhost:8080/api/tasks/inspectTask", {
-                                        method: "POST",
+                                    fetch("http://localhost:8080/api/cookies/getDeleteTasksMode", {
+                                        method: "GET",
                                         credentials: "include",
-                                        headers: {
-                                            'Content-Type': 'application/json'
-                                        },
-                                        body: JSON.stringify(item.id)
                                     })
                                     .then(async response => {
-                                        const test_text = await response.text();
-                                        if (test_text == "") {
-                                            return null;
-                                        }
-                                        else{
-                                            return JSON.parse(test_text);  
-                                        }           
+                                        return await response.text();         
                                     })
                                     .then(data => {
-                                        if (data === null) {
-                                            alert(`La tarea de "${item.taskname}" se ha eliminado correctamente`);
-                                            loadUserTasks("taskname");
+                                        if (data == "true") {
+                                            addTaskToDeleteList(div_task_card, item.id);
                                         }
                                         else{
-                                            window.location.href = "../Detalle Tarea.html";
+                                            fetch("http://localhost:8080/api/cookies/setActiveTaskId", {
+                                                method: "POST",
+                                                credentials: "include",
+                                                headers: {
+                                                    'Content-Type': 'application/json'
+                                                },
+                                                body: JSON.stringify(item.id)
+                                            })
+                                            .then(async response => {
+                                                if (await response.ok) {
+                                                    console.log(`The task with name "${item.taskname}" and id "${item.id}" has been set as the active Task`);
+                                                    window.location.href = "Detalle Tarea.html";
+                                                }
+                                                else {
+                                                    console.log("Failed to set active task ID in cookies.");
+                                                }
+                                            })
                                         }
                                     })
                                 })
@@ -350,6 +355,17 @@
 
             const delete_image = document.getElementById("delete-icon");
             const delete_button = document.getElementById("delete-button");
+            let tasksToDelete = [];
+
+            function addTaskToDeleteList(card, new_id) {
+                if (tasksToDelete.includes(new_id)) {
+                    tasksToDelete = tasksToDelete.filter(id => id !== new_id);
+                    card.classList.remove('selected');
+                } else {
+                    tasksToDelete.push(new_id);
+                    card.classList.add('selected');
+                }
+            }
 
             delete_button.addEventListener("click", event => {
 
@@ -362,12 +378,30 @@
                 })
                 .then(data => {
                     if (data){
-                        alert("Ha entrado en el modo de eliminacion de tareas. Si desea regresar al modo de edicion, presione el boton nuevamente")
+                        alert("Seleccione todas las tareas que desea eliminar, y vuelva a presionar este boton para confirmar su eliminación")
                         delete_image.setAttribute("src", "../../../assets/images/delete-icon-active.png");
                     }  
                     else{
-                        alert("Ha regresado al modo de edicion. Si desea regresar al modo de eliminacion, presione el boton nuevamente")
+                        fetch("http://localhost:8080/api/tasks/deleteTasks", {
+                            method: "POST",
+                            credentials: "include",
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(tasksToDelete)
+                        })
+                        .then(async response => {
+                            if (await response.ok){
+                                alert("Tareas eliminadas correctamente.");
+                                loadUserTasks("taskname");
+                            }
+                            else{
+                                alert("Ha ocurrido un error al eliminar las tareas seleccionadas.");
+                            }
+                        })
                         delete_image.setAttribute("src", "../../../assets/images/delete-icon-inactive.png");
+                    
+                        tasksToDelete = [];
                     }
                 })
             });

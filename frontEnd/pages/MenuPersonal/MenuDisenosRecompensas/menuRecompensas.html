@@ -314,7 +314,7 @@
                                             })
                                             .then(async response => {
                                                 if (await response.ok) {
-                                                    console.log(`The task with name "${item.rewardname}" and id "${item.id}" has been set as the active Reward`);
+                                                    console.log(`The reward with name "${item.rewardname}" and id "${item.id}" has been set as the active Reward`);
                                                     window.location.href = "Detalle Recompensa.html";
                                                 }
                                                 else {
@@ -340,12 +340,9 @@
                 if (rewardsToDelete.includes(new_id)) {
                     rewardsToDelete = rewardsToDelete.filter(id => id !== new_id);
                     card.classList.remove('selected');
-                    console.log(rewardsToDelete);
-
                 } else {
                     rewardsToDelete.push(new_id);
                     card.classList.add('selected');
-                    console.log(rewardsToDelete);
                 }
             }
 
@@ -361,8 +358,6 @@
                     if (data){
                         alert("Seleccione todas las recompensas que desea eliminar, y vuelva a presionar este boton para confirmar la eliminacion.")
                         delete_image.setAttribute("src", "../../../assets/images/delete-icon-active.png");
-
-
                     }  
                     else{
                         fetch("http://localhost:8080/api/rewards/deleteRewards", {

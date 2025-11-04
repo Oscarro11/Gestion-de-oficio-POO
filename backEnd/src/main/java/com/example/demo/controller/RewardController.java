@@ -72,7 +72,7 @@ public class RewardController {
     }
 
     @PostMapping("/deleteRewards")
-    public ResponseEntity<Boolean> inspectTask(@RequestBody List<Long> ids , HttpSession activeSession) {
+    public ResponseEntity<Boolean> deleteRewards(@RequestBody List<Long> ids) {
         for (Long id : ids) {
             rewardService.deleteUserReward(id);
         }

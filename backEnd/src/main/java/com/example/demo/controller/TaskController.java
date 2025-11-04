@@ -70,17 +70,15 @@ public class TaskController {
         return ResponseEntity.ok(user_DTO_tasks);
     }
 
-    @PostMapping("/inspectTask")
-    public ResponseEntity<TaskResponseDTO> inspectTask(@RequestBody Long id, HttpSession activeSession) {
-        if (cookiesService.getDeleteTasksMode(activeSession)) {
-            cookiesService.setActiveTaskId(activeSession, 0);
-            return deleteTaskById(id);
+    @PostMapping("/deleteTasks")
+    public ResponseEntity<Boolean> deleteTasks(@RequestBody List<Long> ids) {
+        for (Long id : ids) {
+            taskService.deleteUserTask(id);
         }
-        else{
-            cookiesService.setActiveTaskId(activeSession, id);
-            return inspectTaskById(id);
-        }
+        
+        return ResponseEntity.ok(true);
     }
+    
 
     @GetMapping("/getCurrentTask")
     public ResponseEntity<TaskResponseDTO> getCurrentTask(HttpSession activeSession) {
@@ -100,11 +98,6 @@ public class TaskController {
 
         return ResponseEntity.ok(dto);
         
-    }
-    
-    private ResponseEntity<TaskResponseDTO> deleteTaskById(long id) {
-        taskService.deleteUserTask(id);
-        return null;
     }
     
 }
