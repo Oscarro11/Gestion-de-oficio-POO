@@ -263,8 +263,6 @@
                         else {
                                                     
                             data_array.forEach(item => {
-                                //continuar desde aqui, tienes que revisar las formas de ordenar y los atributos que
-                                //cada recompensa tiene
                                 const div_reward_info = document.createElement('div');
                                 div_reward_info.classList = "prize-item";
 
@@ -293,28 +291,39 @@
                                 rewards_container.appendChild(div_reward_card);
 
                                 div_reward_card.addEventListener('click', event => {
-                                    fetch("http://localhost:8080/api/cookies/setActiveRewardId", {
-                                        method: "POST",
-                                        credentials: "include",
-                                        headers:{
-                                            'Content-Type': 'application/json'
-                                        },
-                                        body: JSON.stringify(item.id)
+
+                                    fetch("http://localhost:8080/api/cookies/getDeleteRewardsMode", {
+                                        method: "GET",
+                                        credentials: "include"
                                     })
                                     .then(async response => {
-                                        if (await response.ok) {
-                                            console.log(`The task with name "${item.rewardname}" and id "${item.id}" has been set as the active Reward`);
-                                            window.location.href = "Detalle Recompensa.html";
-                                        }
-                                        else {
-                                            console.log("There was a problem with the request to set the active Reward.");
-                                        }
+                                        return await response.text();
                                     })
+                                    .then(data => {
+                                        if (data == "true"){
+                                            handleRewardClick(div_reward_card, item.id);
+                                        }
+                                        else{
+                                            fetch("http://localhost:8080/api/cookies/setActiveRewardId", {
+                                                method: "POST",
+                                                credentials: "include",
+                                                headers:{
+                                                    'Content-Type': 'application/json'
+                                                },
+                                                body: JSON.stringify(item.id)
+                                            })
+                                            .then(async response => {
+                                                if (await response.ok) {
+                                                    console.log(`The task with name "${item.rewardname}" and id "${item.id}" has been set as the active Reward`);
+                                                    window.location.href = "Detalle Recompensa.html";
+                                                }
+                                                else {
+                                                    console.log("There was a problem with the request to set the active Reward.");
+                                                }
+                                            })
+                                        }
+                                    });
                                 })
-
-                                
-                                
-
                             });
                         }
                     }
@@ -322,13 +331,26 @@
                 })
             }
 
-            /*
             const delete_image = document.getElementById("delete-icon");
             const delete_button = document.getElementById("delete-button");
+            let rewardsToDelete = [];
+
+            function handleRewardClick(card, new_id) {
+                // Toggle selection
+                if (rewardsToDelete.includes(new_id)) {
+                    rewardsToDelete = rewardsToDelete.filter(id => id !== new_id);
+                    card.classList.remove('selected');
+                    console.log(rewardsToDelete);
+
+                } else {
+                    rewardsToDelete.push(new_id);
+                    card.classList.add('selected');
+                    console.log(rewardsToDelete);
+                }
+            }
 
             delete_button.addEventListener("click", event => {
-
-                fetch("http://localhost:8080/api/cookies/switchDeleteTasksMode", {
+                fetch("http://localhost:8080/api/cookies/switchDeleteRewardsMode", {
                     method: "PUT",
                     credentials: "include"
                 })
@@ -337,15 +359,35 @@
                 })
                 .then(data => {
                     if (data){
-                        alert("Ha entrado en el modo de eliminacion de tareas. Si desea regresar al modo de edicion, presione el boton nuevamente")
+                        alert("Seleccione todas las recompensas que desea eliminar, y vuelva a presionar este boton para confirmar la eliminacion.")
                         delete_image.setAttribute("src", "../../../assets/images/delete-icon-active.png");
+
+
                     }  
                     else{
-                        alert("Ha regresado al modo de edicion. Si desea regresar al modo de eliminacion, presione el boton nuevamente")
+                        fetch("http://localhost:8080/api/rewards/deleteRewards", {
+                            method: "POST",
+                            credentials: "include",
+                            headers:{
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(rewardsToDelete)
+                        })
+                        .then(async response => {
+                            if (await response.ok) {
+                                alert("Recompensas eliminadas correctamente.");
+                                loadUserRewards();
+                            }
+                            else {
+                                alert("Hubo un problema con la solicitud para eliminar las recompensas.");
+                            }
+                        })
                         delete_image.setAttribute("src", "../../../assets/images/delete-icon-inactive.png");
+
+                        rewardsToDelete = [];
                     }
                 })
-            });*/
+            });
 
         </script>
     </main>
