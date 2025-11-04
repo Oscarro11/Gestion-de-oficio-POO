@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Reward;
+import com.example.demo.service.CookiesService;
 import com.example.demo.dto.RewardRequestDTO;
 import com.example.demo.dto.RewardResponseDTO;
 import com.example.demo.service.RewardService;
@@ -18,10 +19,13 @@ import java.util.ArrayList;
 @RestController
 @RequestMapping("api/rewards")
 public class RewardController {
+
+    private final CookiesService cookiesService;
     private final RewardService rewardService;
 
-    public RewardController(RewardService rewardService){
+    public RewardController(RewardService rewardService, CookiesService cookiesService){
         this.rewardService = rewardService;
+        this.cookiesService = cookiesService;
     }
 
     @PostMapping("/unvalidatedCreateReward")
@@ -63,8 +67,8 @@ public class RewardController {
     }
     
     @GetMapping("/getCurrentReward")
-    public ResponseEntity<RewardResponseDTO> getCurrentReward(@RequestBody Long id) {
-        return inspectRewardById(id);
+    public ResponseEntity<RewardResponseDTO> getCurrentReward(HttpSession activeSession) {
+        return inspectRewardById(cookiesService.getActiveRewardId(activeSession));
     }
 
     @PostMapping("/deleteRewards")

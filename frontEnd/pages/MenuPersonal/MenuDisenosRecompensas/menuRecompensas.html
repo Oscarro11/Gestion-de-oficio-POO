@@ -292,34 +292,28 @@
                                 div_reward_card.appendChild(div_reward_info);
                                 rewards_container.appendChild(div_reward_card);
 
-                                /*div_task_card.addEventListener('click', event => {
-                                    fetch("http://localhost:8080/api/tasks/inspectTask", {
+                                div_reward_card.addEventListener('click', event => {
+                                    fetch("http://localhost:8080/api/cookies/setActiveRewardId", {
                                         method: "POST",
                                         credentials: "include",
-                                        headers: {
+                                        headers:{
                                             'Content-Type': 'application/json'
                                         },
                                         body: JSON.stringify(item.id)
                                     })
                                     .then(async response => {
-                                        const test_text = await response.text();
-                                        if (test_text == "") {
-                                            return null;
+                                        if (await response.ok) {
+                                            console.log(`The task with name "${item.rewardname}" and id "${item.id}" has been set as the active Reward`);
+                                            window.location.href = "Detalle Recompensa.html";
                                         }
-                                        else{
-                                            return JSON.parse(test_text);  
-                                        }           
-                                    })
-                                    .then(data => {
-                                        if (data === null) {
-                                            alert(`La tarea de "${item.taskname}" se ha eliminado correctamente`);
-                                            loadUserTasks("taskname");
-                                        }
-                                        else{
-                                            window.location.href = "../Detalle Tarea.html";
+                                        else {
+                                            console.log("There was a problem with the request to set the active Reward.");
                                         }
                                     })
-                                })*/
+                                })
+
+                                
+                                
 
                             });
                         }

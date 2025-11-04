@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Detalles de la recompensa</title>
+  <link rel="stylesheet" href="Detalle Recompensa.css" />
+  <script src="../../../shared/components/navbarManager.js" defer></script>
+</head>
+<body>
+    <special-navbar></special-navbar>
+  <main class="main">
+    <section class="section-title">
+      <h2>Detalles de la recompensa</h2>
+    </section>
+<div class="task-box">
+    <article class="reward-card" id="rewardCard">
+      <div class="reward-row">
+        <label>Nombre</label>
+        <div class="value" id="rewardname">Nombre de tarea</div>
+      </div>
+
+      <div class="task-row">
+        <label>Descripción</label>
+        <div class="value" id="reward-description">
+          Descripción de la tarea aquí 
+        </div>
+      </div>
+      
+      <div class="task-row">
+        <label>Imagen de referencia</label>
+        <div class="value">
+          <img id="reward-image" src="" alt="Imagen de referencia" />
+        </div>
+      </div>
+
+
+      <button name = "back-button" onclick="window.location.href='menuRecompensas.html'" class="regresar">Regresar</button>
+      <button id = "edit-button" name = "edit-button" onclick="enableModifications()">Habilitar modificaciones</button>
+      <button id = "save-changes-button" name = "save-changes-button" disabled = "true">Guardar modificaciones</button>
+
+      <!--<div class="time-row">
+        <div>
+          <label>Hora inicio</label>
+          <div class="value" id="taskStart">--:--</div>
+        </div>
+        <div>
+          <label>Hora final</label>
+          <div class="value" id="taskEnd">--:--</div>
+        </div>
+      </div>
+      <div class="task-row priority-row">
+        <label>Prioridad</label>
+        "" usa una de estas clases: low, medium, high"""
+        <span class="priority low" id="taskPriority">Baja</span>
+        <a href="Pagina de Tareas.html" class="regresar">Regresar</a>-->
+      </div>
+    </article>
+    </div>
+    <script>
+      function enableModifications() {
+        const save_changes_button = document.getElementById("save-changes-button");
+        const edit_button = document.getElementById("edit-button")
+
+        const taskname_text = document.getElementById("taskname");
+        const task_duration = document.getElementById("task-duration");
+        const task_description = document.getElementById("task-description");
+
+        if (save_changes_button.disabled == true) {
+          save_changes_button.disabled = false;
+          taskname_text.disabled = false;
+          task_duration.disabled = false;
+          task_description.disabled = false;
+          
+          edit_button.textContent = "Deshabilitar y borrar modificaciones";
+        }
+        else{
+          save_changes_button.disabled = true;
+          taskname_text.disabled = true;
+          task_duration.disabled = true;
+          task_description.disabled = true;
+
+          edit_button.textContent = "Habilitar modificaciones";
+        }
+      }
+
+      window.onload = function(){
+        fetch('http://localhost:8080/api/rewards/getCurrentReward', {
+          method: 'GET',
+          credentials: "include"
+        })
+        .then(async response => {
+          return await response.json();
+        })
+        .then(data => {
+          const rewardname_text = document.getElementById("rewardname");
+          const description_text = document.getElementById("reward-description");
+          const reward_image = document.getElementById("reward-image");
+
+          rewardname_text.textContent = `${data.rewardname}`;
+          description_text.textContent = `${data.description}`;
+          reward_image.setAttribute("src", data.image_url);
+        })
+      }
+    </script>
+
+
+  </main>
+</body>
+</html>
