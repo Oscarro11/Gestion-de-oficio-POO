@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grupos</title>
-    <link rel="stylesheet" href="group.css">
+    <link rel="stylesheet" href="menuSeleccionWorkgroup.css">
     <script>
     class NavbarManager extends HTMLElement {
     constructor() {
@@ -189,25 +189,28 @@
     <special-navbar></special-navbar>
     <main class="dashboard-main">
         <section class="section-title">
-            <h1 class="dashboard-title">Grupos</h1>
+            <h1 class="dashboard-title">Grupos propios</h1>
         <div class= "dashboard-buttons">
             <div class="agregarbotton">
                 <img src="../../../assets/images/add-icon.png" alt="Agregar Icono" class="add-icon">
-                <input type="button" class="Agregar" value="Nuevo Grupo">
-                
+                <input type="button" class="Agregar" value="Nuevo Grupo" onclick="createWorkGroup()">
+            <!--
             </div>
             <div class="unirsebotton">
                 <img src="../../../assets/images/join-icon.png" alt="Unirse Icono" class="join-icon">
                 <input type="button" class="Unirse" value="Unirse a un Grupo">
             </div>
+            -->
             <div class="eliminarbotton">
                 <img src="../../../assets/images/delete-icon-inactive.png" alt="Eliminar Icono" class="delete-icon">
                 <input type="button" class="Eliminar" value="Eliminar">
             </div>
         </div>
     </section>
+
         <section class="section-tasks">
-            <div class="tasks-container">
+            <div class="tasks-container" id = "workGroupsContainer">
+                <!--
                 <a href ="../../MenuWorkspaces/Pagina de Tareas.html">
                 <div class="task-card yellow">
                     <div class="task-circle"></div>
@@ -234,8 +237,123 @@
                         <span class="task-desc">Grupo con amigos cercanos.</span>
                     </div>
                     <input type="button" class="edit-button" value="✏️">
+                -->
             </div> </a>
         </section>
+
+        <script>
+
+            window.onload = loadUserWorkGroups();
+
+            function loadUserWorkGroups() {
+                fetch("http://localhost:8080/api/workGroups/getUserWorkGroups", {
+                    method: "GET",
+                    credentials: "include"
+                })
+                .then(async response => {
+                    return await response.json();
+                })
+                .then(data => {
+                    const workGroups_container = document.getElementById("workGroupsContainer");
+
+                    while (workGroups_container.firstChild) {
+                        workGroups_container.removeChild(workGroups_container.firstChild);
+                    }
+
+                    if (!(Array.isArray(data))) {
+                        console.log("The data received from the server is not an array");
+                    }
+                    else {
+                        let data_array = Array.from(data);
+                        console.log(data_array);
+                        if (data_array.length == 0){
+                            const empty_title_message = document.createElement("h2");
+                            empty_title_message.textContent = "No tienes grupos de trabajo actualmente. ¿Por qué no pruebas a crear uno?";
+                            workGroups_container.appendChild(empty_title_message);
+                        } 
+                        else {
+                            data_array.sort((a, b) => a.workgroup_name.localeCompare(b.workgroup_name));
+
+                            data_array.forEach(item => {
+                                const div_workGroup_card = document.createElement("div");
+                                div_workGroup_card.classList = "task-card yellow";
+
+                                div_workGroup_card.addEventListener("click", event => {
+                                    fetch("http://localhost:8080/api/cookies/setActiveWorkGroup", {
+                                        method: "POST",
+                                        credentials: "include",
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: item.id
+                                    })
+                                    .then(async response => {
+                                        return response.json();
+                                    })
+                                    .then(data => {
+                                        console.log(data);
+                                    })
+                                })
+
+                                const div_workGroup_circle = document.createElement("div");
+                                div_workGroup_circle.classList = "task-circle";
+
+                                const div_workGroup_info = document.createElement("div");
+                                div_workGroup_info.classList = "task-info";
+
+                                const span_workGroup_title = document.createElement('span');
+                                span_workGroup_title.textContent = `${item.workgroup_name}`;
+
+                                div_workGroup_info.appendChild(span_workGroup_title);
+                                div_workGroup_card.appendChild(div_workGroup_circle);
+                                div_workGroup_card.appendChild(div_workGroup_info);
+                                workGroups_container.appendChild(div_workGroup_card);
+
+                            })
+                        }
+                    }
+                })
+            }
+
+            function createWorkGroup() {
+                let new_workGroup_name = prompt("Ingrese el nombre del nuevo grupo de trabajo");
+
+                if (new_workGroup_name == null){
+                    alert("Debe ingresar un nombre de grupo de trabajo para poder crearlo. Intentelo de nuevo");
+
+                } else {
+                    new_workGroup_name.trim();
+                    
+                    if (new_workGroup_name == "") {
+                        alert("Debe ingresar un nombre de grupo de trabajo con caracteres para poder crearlo. Intentelo de nuevo");
+
+                    } else {
+                        fetch("http://localhost:8080/api/workGroups/createWorkGroup", {
+                            method: "POST",
+                            credentials: "include",
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: new_workGroup_name
+                        })
+                        .then(async response => {
+                            return await response.text();
+                        })
+                        .then(data => {
+                            if (data) {
+                                alert("El nuevo grupo de trabajo se ha creado exitosamente");
+                                loadUserWorkGroups();
+                            }
+                            else {
+                                alert("Ya existe un grupo de trabajo con este nombre. Intentelo de nuevo");
+                            }
+                        })
+                    }
+
+                }
+            }
+
+        </script>
     </main>
 </body>
 </html>
