@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Añadir Miembro de la Familia</title>
+    <link rel="stylesheet" href="crearWorker.css">
+</head>
+<body>
+  <div class="container">
+    <a href="Principal Creacion Perfil.html" class="back-arrow">←</a>
+    
+    <h2>Añadir Trabajador al grupo de trabajo</h2>
+    
+    <form>
+      <div class="user">
+        <div class="user-icon">👤</div>
+        <!--
+        <input type="text" name="nombre" placeholder="Nombre del usuario">
+        -->
+      </div>
+
+      <fieldset>
+        <legend>¿Que clase de trabajador quieres crear?</legend>
+        <div class="roles">
+          <label for="usuario"><input type="radio" id="usuario" name="rol"> Usuario </label>
+          <label for="invitado"><input type="radio" id="invitado" name="rol"> Invitado </label>
+        </div>
+      </fieldset>
+
+      <section class="section-tasks">
+        <div id="worker-fields-container">
+
+        </div>
+      </section>
+
+      <button type="submit" id="submit-button">Crear</button>
+    </form>
+  </div>
+
+  
+
+  <script>
+    const fields_container = document.getElementById("worker-fields-container");
+    const submit_button = document.getElementById("submit-button");
+
+    submit_button.textContent = "No puede usarse";
+
+    function cargarDatosUsuario() {
+      
+      while (fields_container.firstChild) {
+          fields_container.removeChild(fields_container.firstChild);
+      }
+
+      fetch("http://localhost:8080/api/workGroups/getUnusedUsers", {
+        method: "GET",
+        credentials: "include"
+      })
+      .then(async response => {
+        return await response.json();
+      })
+      .then(data => {
+        if (!(Array.isArray(data))) {
+          console.log("The data received from the server is not an array");
+        } 
+
+        else {
+          let data_array = Array.from(data);
+          if (data_array.length == 0){
+            submit_button.disabled = true;
+            submit_button.textContent = "No puede usarse";
+            const empty_message = document.createElement("h5");
+            empty_message.textContent = "No hay usuarios disponibles para agregar como trabajadores al espacio de trabajo";
+            fields_container.append(empty_message);
+
+          }
+
+          else{
+            let dropdown = document.createElement("select");
+
+            data_array.forEach(item => {
+              const option = document.createElement("option");
+              option.value = item.username;
+              option.text = item.username;
+
+              dropdown.appendChild(option);
+            });
+
+            fields_container.appendChild(dropdown);
+            submit_button.setAttribute("disabled", false);
+            submit_button.textContent = "Crear";
+          }
+        }
+      })
+
+      
+    }
+
+    const user_option = document.getElementById("usuario");
+    const guest_option = document.getElementById("invitado");
+
+    user_option.addEventListener("click", event => {
+      cargarDatosUsuario();
+    });
+    
+
+  </script>
+</body>
+</html>

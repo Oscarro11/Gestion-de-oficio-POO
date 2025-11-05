@@ -66,4 +66,8 @@ public class TaskService {
     public void deleteUserTask(long id){
         taskRepository.deleteById(id);
     }
+
+    public LocalTime getTaskDurationById(long id){
+        return getTaskByID(id).getDuration();
+    }
 }

@@ -1,11 +1,13 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.WorkGroup;
+import com.example.demo.model.User;
+import com.example.demo.dto.UserResponseDTO;
 import com.example.demo.dto.WorkGroupRequestDTO;
 import com.example.demo.dto.WorkGroupResponseDTO;
 import com.example.demo.service.CookiesService;
 import com.example.demo.service.WorkGroupService;
-//import com.example.demo.service.UserService;
+import com.example.demo.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -18,14 +20,17 @@ import java.util.List;
 import java.util.ArrayList;
 import org.springframework.web.bind.annotation.GetMapping;
 
+
 @RestController
 @RequestMapping("api/workGroups")
 public class WorkGroupController {
     private final WorkGroupService workGroupService;
     private final CookiesService cookiesService;
+    private final UserService userService;
 
-    public WorkGroupController(WorkGroupService workGroupService, CookiesService cookiesService){
+    public WorkGroupController(WorkGroupService workGroupService, CookiesService cookiesService, UserService userService){
         this.workGroupService = workGroupService;
+        this.userService = userService;
         this.cookiesService = cookiesService;
     }
 
@@ -81,4 +86,23 @@ public class WorkGroupController {
         }
     }
 
+    @GetMapping("/getUnusedUsers")
+    public ResponseEntity<List<UserResponseDTO>> getUnusedUsers(HttpSession activeSession) {
+        List<User> users = userService.getUnusedUsersInWorkGroup(cookiesService.getActiveWorkGroupId(activeSession), cookiesService.getActiveUserId(activeSession));
+        List<UserResponseDTO> dtos = new ArrayList<UserResponseDTO>();
+
+        for (User user : users) {
+            UserResponseDTO dto = new UserResponseDTO();
+
+            dto.setEmail(user.getEmail());
+            dto.setId(user.getId());
+            dto.setPassword(user.getPassword());
+            dto.setUsername(user.getUsername());
+
+            dtos.add(dto);
+        }
+
+        return ResponseEntity.ok(dtos);
+    }
+    
 }

@@ -279,7 +279,7 @@
                                 div_workGroup_card.classList = "task-card yellow";
 
                                 div_workGroup_card.addEventListener("click", event => {
-                                    fetch("http://localhost:8080/api/cookies/setActiveWorkGroup", {
+                                    fetch("http://localhost:8080/api/cookies/setActiveWorkGroupId", {
                                         method: "POST",
                                         credentials: "include",
                                         headers: {
@@ -288,10 +288,12 @@
                                         body: item.id
                                     })
                                     .then(async response => {
-                                        return response.json();
-                                    })
-                                    .then(data => {
-                                        console.log(data);
+                                        if (await response.status == 200) {
+                                            console.log("The active WorkGroup Id was correctly assigned");
+                                            window.location.href = "menuActiveWorkGroup.html"
+                                        } else{
+                                            console.log("There were problems assigning the active WorkGroup Id");
+                                        }
                                     })
                                 })
 

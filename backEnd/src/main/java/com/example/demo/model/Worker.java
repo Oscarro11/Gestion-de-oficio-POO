@@ -19,7 +19,7 @@ import java.util.List;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "WORKERS")
-public abstract class Worker {
+public class Worker {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;

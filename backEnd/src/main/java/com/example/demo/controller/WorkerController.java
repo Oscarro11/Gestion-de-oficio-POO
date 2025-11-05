@@ -81,7 +81,7 @@ public class WorkerController {
     }
     
     
-    @GetMapping("/getWorkersByWorkGroupId")
+    @GetMapping("/getActiveWorkGroupWorkers")
     public ResponseEntity<List<WorkerResponseDTO>> getWorkersByWorkGroupId(HttpSession activeSession) {
         List<Worker> workers = workerService.getWorkersByWorkGroupId(cookiesService.getActiveWorkGroupId(activeSession));
         List<WorkerResponseDTO> worker_DTOs = new ArrayList<WorkerResponseDTO>();
@@ -114,6 +114,5 @@ public class WorkerController {
 
         return ResponseEntity.ok(worker_DTOs);
     }
-    
 
 }
