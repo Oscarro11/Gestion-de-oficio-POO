@@ -1,3 +1,5 @@
+/* Archivo completo: seleccionDeMenuPersonal.css */
+
 body {
     background: #FAF0DE;
     margin: 0;
@@ -5,11 +7,14 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
 }
+
 .logo {
     width: 168px;
     height: 88px;
     object-fit: contain;
 }
+
+/* Contenedor principal */
 .dashboard-main {
     display: flex;
     flex-direction: column;
@@ -17,6 +22,8 @@ body {
     justify-content: flex-start;
     min-height: 90vh;
 }
+
+/* Títulos */
 .dashboard-title {
     color: #232323;
     font-size: 3em;
@@ -32,57 +39,90 @@ body {
     margin-bottom: 32px;
     text-align: center;
 }
+
+/* Opciones: apiladas en filas (cada tarjeta en su propia "fila") */
 .dashboard-options {
     display: flex;
+    flex-direction: column; /* cada tarjeta en su fila */
     gap: 32px;
     justify-content: center;
+    align-items: center;
     margin-top: 24px;
 }
+
+/* Tarjeta: fondo, forma y comportamiento general */
 .dashboard-card {
-    width: 260px;
+    width: min(520px, 90%); /* ancho máximo razonable para tarjetas apiladas */
     background: radial-gradient(circle, #FF9039 0%, #FF6F20 100%);
     border-radius: 24px;
     box-shadow: 0 2px 16px rgba(0,0,0,0.07);
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 32px 16px 24px 16px;
+    /* El contenido interno (el <a>) manejará la orientación imagen/texto */
+    padding: 20px;
     text-decoration: none;
     transition: transform 0.2s, box-shadow 0.2s;
 }
+
+/* Enlace interno: imagen a la izquierda y texto a la derecha */
+.dashboard-card a {
+    text-decoration: none;
+    display: flex;
+    flex-direction: row;      /* imagen y texto uno al lado del otro */
+    gap: 24px;                /* espacio entre imagen y texto */
+    align-items: center;      /* centra verticalmente imagen y texto */
+    color: inherit;
+    width: 100%;
+    justify-content: flex-start;
+    box-sizing: border-box;
+}
+
+/* Icono/imagen de la tarjeta */
+.card-icon {
+    width: 120px;
+    height: auto;
+    margin: 0;        /* el gap ya separa la imagen del texto */
+    flex-shrink: 0;   /* que no se reduzca excesivamente */
+}
+
+/* Contenido textual: que ocupe el resto del espacio */
 .dashboard-card h2 {
     font-size: 2em;
     font-weight: 700;
     color: #333;
-    margin: 12px 0 8px 0;
+    margin: 0 0 8px 0;
+    text-align: left;
+    line-height: 1.05;
 }
 .dashboard-card p {
     font-size: 1em;
     color: #333;
-    margin: 0 0 24px 0;
-    text-align: center;
+    margin: 0;
+    text-align: left;
 }
-.card-icon {
-    width: 120px;
-    height: auto;
-    margin-bottom: 18px;
-}
+
+/* Variante para la tarjeta 'grupos' (si quieres la imagen a la derecha, descomenta) */
 .dashboard-card.grupos {
     background: radial-gradient(circle, #FFD139 0%, #FFB300 100%);
 }
+/* Si prefieres la imagen a la derecha en esta tarjeta, activa esta regla:
+.dashboard-card.grupos a {
+    flex-direction: row-reverse;
+}
+*/
+
+/* Efecto hover */
 .dashboard-card:hover {
     transform: translateY(-6px) scale(1.03);
     box-shadow: 0 8px 24px rgba(0,0,0,0.18);
 }
-.dashboard-card a {
-    text-decoration: none;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    color: inherit;
 
+/* Estilos para el enlace interno (asegurar consistencia) */
+.dashboard-card a > h2,
+.dashboard-card a > p {
+    display: block;
 }
+
+/* Responsivo: en pantallas pequeñas volvemos a apilar imagen encima del texto */
 @media (max-width: 670px) {
     .dashboard-main {
         margin: 0px;
@@ -91,11 +131,30 @@ body {
         justify-content: center;
         gap: 4px;
     }
+
     .dashboard-options {
-        display: flex;
-        flex-direction: column;
         gap: 12px;
     }
+
+    .dashboard-card {
+        width: 100%;
+        padding: 18px 14px;
+    }
+
+    .dashboard-card a {
+        flex-direction: column; /* imagen encima del texto en móvil */
+        gap: 12px;
+        align-items: center;
+    }
+
+    .card-icon {
+        width: 140px; /* un poco más grande y centrada en móvil si quieres */
+    }
+
+    .dashboard-card h2, .dashboard-card p {
+        text-align: center;
+    }
+
     .dashboard-subtitle {
         font-size: 1.1em;
         margin: 8px;
