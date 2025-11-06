@@ -36,7 +36,7 @@ body {
     letter-spacing: 1px;
     position: relative;
 }
-.botones {
+.dashboard-buttons {
     top: 32px;
     right: 32px;
     display: flex;
@@ -134,6 +134,9 @@ body {
 .section-title {
     width: 100%;
     margin-bottom: 2px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    letter-spacing: 1px;
+    position: relative;
 }
 .prize-list {
     list-style: none;
