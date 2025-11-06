@@ -40,11 +40,11 @@ body {
 }
 .dashboard-card {
     width: 260px;
-    background: radial-gradient(circle, #FF9039 0%, #FF6F20 100%);
+    background: radial-gradient(circle, #84caed 0%, #55a5ce 100%);
     border-radius: 24px;
     box-shadow: 0 2px 16px rgba(0,0,0,0.07);
     display: flex;
-    flex-direction: column;
+    flex-direction: column; 
     align-items: center;
     padding: 32px 16px 24px 16px;
     text-decoration: none;
@@ -68,7 +68,7 @@ body {
     margin-bottom: 18px;
 }
 .dashboard-card.grupos {
-    background: radial-gradient(circle, #FFD139 0%, #FFB300 100%);
+    background: radial-gradient(circle, #65db5a 0%, #44c238 100%);
 }
 .dashboard-card:hover {
     transform: translateY(-6px) scale(1.03);
