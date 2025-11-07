@@ -1,0 +1,201 @@
+body {
+    background: #FAF0DE;
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Contenedor principal */
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    min-height: 90vh;
+    width: 100%;
+    max-width: 670px;
+    margin: 0 auto;
+    padding: 32px 8px 40px 8px;
+    box-sizing: border-box;
+    gap: 24px;
+    flex-grow: 1;
+    border-radius: 16px;
+    margin-top: 32px;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 1;
+}
+
+.profile-title {
+    width: 100%;
+    text-align: center;
+    padding-bottom: 24px;
+    margin-bottom: 16px;
+    border-bottom: 2px solid #e9c69f; 
+}
+.circle {
+    display: flex;
+    background-color: #e9c69f;
+    width: 48px;
+    height: 48px;
+    padding: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.circle img {
+    opacity:0.4;
+}
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    justify-content: center;
+}
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 4px;   
+    padding: 0px, 16px;
+}
+.user-name {
+    color: #232323;
+    font-size: 2.1em;
+    font-weight: 900;
+    text-align: left;
+    margin-top: 0;
+    margin-bottom: 4px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    letter-spacing: 1px;
+    position: relative;
+}
+.user-email {
+    color: #555;
+    font-size: 1em;
+    font-weight: 400;
+    text-align: left;
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+.user-compartidos, .user-rewards, .user-tasks {
+    color: #555;
+    font-size: 1em;
+    font-weight: 400;
+    text-align: left;
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+.compartidos-title {
+    font-weight: bold;
+}
+.compartidos-card {
+    display: flex;
+    align-items: flex-start;
+    background: #FAF0DE;
+    border: 1.7px solid #e9c69f;
+    border-radius: 28px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 18px;
+    padding-right: 18px;
+    gap: 18px;
+    box-shadow: 0 2px 13px rgba(0,0,0,0.07);
+    transition: box-shadow 0.18s, transform 0.17s, background 0.16s;
+    cursor: pointer;
+    margin-bottom: 12px;
+}
+.compartidos-card:hover {
+    background-color: #ffe0b2;
+}
+.compartidos-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    margin-left: 0px;
+    min-width: 670px;
+}
+.texto-descripcion {
+    color: #555;
+    font-size: 1em;
+    font-weight: 400;
+    text-align: left;
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+.compartido-item {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    font-weight: 500;
+}
+.compartidos-card:hover {
+    box-shadow: 0 8px 32px rgba(110,110,110,0.13), 0 2px 8px rgba(80,80,80,0.09);
+    transform: translateY(-2px) scale(1.011);
+    background: #fffbe6;
+}
+
+
+@media (max-width: 720px) {
+    main {
+        padding: 24px 16px 32px 16px;
+        border-radius: 0;
+        margin-top: 16px;
+        margin-bottom: 16px;
+    }
+    .profile-header {
+        flex-direction: column;
+        gap: 16px;
+    }
+    .user-email, .user-compartidos {
+        font-size: 0.9em;
+    }
+    .user-email {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        max-width: 200px;
+    }
+    .user-info {
+        align-items: center;
+        text-align: center;
+    }
+    .circle {
+        width: 36px;
+        height: 36px;
+        padding: 36px;
+        border-radius: 50%;
+        justify-content: center;
+        align-items: center;
+    }
+    .camera-icon {
+        width: 20px;
+        height: 20px;
+    }
+    .compartidos-list {
+        min-width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+        max-width: 100%;
+    }
+    .user-compartidos {
+        font-size: 0.9em;
+        max-width: 100%;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        text-align: center;
+        width: 100%
+    }
+    .compartidos.card {
+        justify-content: center;
+    }
+    .compartido-item {
+        overflow: hidden;
+        margin-bottom: 24px;
+    }
+}

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Perfil de Usuario</title>
+    <link rel="stylesheet" href="PerfilUsuario.css">
+    <script src="../../shared/components/navbarManager.js" defer></script>
+</head>
+<body>
+    <special-navbar></special-navbar>
+    <main class="main">
+        <section class ="profile-title">
+            <div class="profile-header">
+                <div class="circle">
+                    <img src="../../assets/images/camera-icon.png" alt="Icono de usuario" class="camera-icon">
+                    <input type="file" id="profile-picture-input" accept="image/*" style="display: none;">
+                    <script>
+                        const circle = document.querySelector('.circle');
+                        const fileInput = document.getElementById('profile-picture-input');
+                        circle.addEventListener('click', () => {
+                            fileInput.click();
+                        });
+                        fileInput.addEventListener('change', (event) => {
+                            const file = event.target.files[0];
+                            if (file) {
+                                const reader = new FileReader();
+                                reader.onload = (e) => {
+                                    circle.style.backgroundImage = `url(${e.target.result})`;
+                                    circle.style.backgroundSize = 'cover';
+                                    circle.style.backgroundPosition = 'center';
+                                };
+                                reader.readAsDataURL(file);
+                                const cameraIcon = document.querySelector('.camera-icon');
+                                if (cameraIcon) {
+                                    cameraIcon.style.display = 'none';
+                                }
+                            }
+                        });
+                    </script>
+                </div>
+                <div class="user-info">
+                    <h1 class="user-name">Nombre del Usuario</h1>
+                    <script>
+                        window.onload = fetch("http://localhost:8080/api/Main/getActiveUserName", {
+                            method: "GET",
+                            credentials: "include"
+                        })
+                        .then(async response => {
+                            return await response.text();
+                        })
+                        .then(data => {
+                            document.querySelector(".user-name").innerHTML = data;
+                        });
+                        window.onload = fetch("http://localhost:8080/api/Main/getActiveUserEmail", {
+                            method: "GET",
+                            credentials: "include"
+                        })
+                        .then(async response => {
+                            return await response.text();
+                        })
+                        .then(data => {
+                            document.querySelector(".user-email").innerHTML = data;
+                        });
+                    </script>
+                    <h2 class="user-email">correo@ejemplo.com</h2>
+                </div>
+            </div>
+        </section>
+        <div class="user-compartidos">
+            <h2 class="compartidos-title">Grupos Compartidos</h2>
+            <div class="compartidos-list">
+                <div class="compartidos-card">
+                    <div class="compartido-item">Grupo 1</div>
+                    <p class="texto-descripcion">Descripción del Grupo 1</p>
+                </div>
+                <div class="compartidos-card">
+                    <div class="compartido-item">Grupo 2</div>
+                    <p class="texto-descripcion">Descripción del Grupo 2</p>
+                </div>
+                <div class="compartidos-card">
+                    <div class="compartido-item">Grupo 3</div>
+                    <p class="texto-descripcion">Descripción del Grupo 3</p>
+                </div>
+            </div>
+        </div>
+        <div class="user-tasks">
+            <h2 class="compartidos-title">Tareas Asignadas</h2>
+            <div class="compartidos-list">
+                <div class="compartidos-card">
+                    <div class="compartido-item">Tarea 1</div>
+                    <p class="texto-descripcion">Descripción de la Tarea 1</p>
+                </div>
+                <div class="compartidos-card">
+                    <div class="compartido-item">Tarea 2</div>
+                    <p class="texto-descripcion">Descripción de la Tarea 2</p>
+                </div>
+                <div class="compartidos-card">
+                    <div class="compartido-item">Tarea 3</div>
+                    <p class="texto-descripcion">Descripción de la Tarea 3</p>
+                </div>
+            </div>
+        </div>
+        <div class="user-rewards">
+            <h2 class="compartidos-title">Recompensas Obtenidas</h2>
+            <div class="compartidos-list">
+                <div class="compartidos-card">
+                    <div class="compartido-item">Recompensa 1</div>
+                    <p class="texto-descripcion">Descripción de la Recompensa 1</p>
+                </div>
+                <div class="compartidos-card">
+                    <div class="compartido-item">Recompensa 2</div>
+                    <p class="texto-descripcion">Descripción de la Recompensa 2</p>
+                </div>
+                <div class="compartidos-card">
+                    <div class="compartido-item">Recompensa 3</div>
+                    <p class="texto-descripcion">Descripción de la Recompensa 3</p>
+                </div>
+            </div>
+    </main>

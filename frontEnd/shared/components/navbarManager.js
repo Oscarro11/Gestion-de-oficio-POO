@@ -165,7 +165,7 @@ class NavbarManager extends HTMLElement {
         </div>
         <div class="nav-links">
           <a href="../../pages/Inicio/dashboard.html">Inicio</a>
-          <a href="profile.html">Perfil</a>
+          <a href="../../pages/Perfil/PerfilUsuario.html">Perfil</a>
           <a href="settings.html">Configuración</a>
           <a href="../../pages/Bienvenida/index.html">Cerrar Sesión</a>
         </div>
