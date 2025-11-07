@@ -64,4 +64,27 @@ public class UserService {
 
         return users;
     }
+
+    public List<String> getUnusedUserNamesInWorkGroup (long workGroup_id, long user_id){
+        List<User> users = getUnusedUsersInWorkGroup(workGroup_id, user_id);
+        List<String> names = new ArrayList<String>();
+
+        for (User user : users) {
+            names.add(user.getUsername());
+        }
+
+        return names;
+    }
+
+    public Long getUserIdByName(String username){
+        List<User> users = userRepository.findAll();
+
+        for (User user : users) {
+            if (user.getUsername().equals(username)) {
+                return user.getId();
+            }
+        }
+
+        return null;
+    }
 }

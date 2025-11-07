@@ -43,12 +43,17 @@ public class WorkerController {
     }
 
     @PostMapping("/createWorkUser")
-    public ResponseEntity<WorkUserResponseDTO> createWorkUser(@RequestBody WorkUserRequestDTO workUserRequestDTO, HttpSession activeSession){ 
+    public ResponseEntity<Boolean> createWorkUser(@RequestBody WorkUserRequestDTO workUserRequestDTO, HttpSession activeSession) {
+        return ResponseEntity.ok(workUserService.createWorkUser(cookiesService.getActiveUserId(activeSession), cookiesService.getActiveWorkGroupId(activeSession), workUserRequestDTO.getUser_name()));
+    }
+
+    @PostMapping("/unvalidatedCreateWorkUser")
+    public ResponseEntity<WorkUserResponseDTO> unvalidatedCreateWorkUser(@RequestBody WorkUserRequestDTO workUserRequestDTO, HttpSession activeSession){ 
         WorkUser workUser = workUserService.saveWorkUser(
-            cookiesService.getActiveUserId(activeSession),
-            cookiesService.getActiveWorkGroupId(activeSession),
-            workUserRequestDTO.getReference_id());
-        
+        cookiesService.getActiveUserId(activeSession),
+        cookiesService.getActiveWorkGroupId(activeSession),
+        workUserRequestDTO.getUser_name());
+    
         WorkUserResponseDTO dto = new WorkUserResponseDTO();
         dto.setId(workUser.getId());
         dto.setCreator_id(workUser.getCreator_Id());
@@ -61,8 +66,8 @@ public class WorkerController {
         return ResponseEntity.ok(dto);
     }
 
-    @PostMapping("/createWorkGuest")
-    public ResponseEntity<WorkGuestResponseDTO> createWorkGuest(@RequestBody WorkGuestRequestDTO workGuestRequestDTO, HttpSession activeSession){
+    @PostMapping("/saveWorkGuest")
+    public ResponseEntity<WorkGuestResponseDTO> unvalidatedCreateWorkGuest(@RequestBody WorkGuestRequestDTO workGuestRequestDTO, HttpSession activeSession){
         WorkGuest newWorkGuest = workGuestService.saveWorkGuest(
             cookiesService.getActiveUserId(activeSession), 
             cookiesService.getActiveWorkGroupId(activeSession), 

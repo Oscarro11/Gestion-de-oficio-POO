@@ -12,7 +12,7 @@
     
     <h2>Añadir Trabajador al grupo de trabajo</h2>
     
-    <form>
+    <form id="worker-fields-container">
       <div class="user">
         <div class="user-icon">👤</div>
         <!--
@@ -23,14 +23,14 @@
       <fieldset>
         <legend>¿Que clase de trabajador quieres crear?</legend>
         <div class="roles">
-          <label for="usuario"><input type="radio" id="usuario" name="rol"> Usuario </label>
+          <label for="usuario"><input type="radio" id="usuario" name="rol" checked> Usuario </label>
           <label for="invitado"><input type="radio" id="invitado" name="rol"> Invitado </label>
         </div>
       </fieldset>
 
       <section class="section-tasks">
         <div id="worker-fields-container">
-
+          <input type="text" id="worker-name" name="worker_name">
         </div>
       </section>
 
@@ -42,58 +42,14 @@
 
   <script>
     const fields_container = document.getElementById("worker-fields-container");
-    const submit_button = document.getElementById("submit-button");
+    const user_name_text = document.getElementById("worker-name");
 
-    submit_button.textContent = "No puede usarse";
+    function cargarDatosUsuario(){
+      user_name_text.placeholder = "Nombre de usuario a añadir";
+    }
 
-    function cargarDatosUsuario() {
-      
-      while (fields_container.firstChild) {
-          fields_container.removeChild(fields_container.firstChild);
-      }
-
-      fetch("http://localhost:8080/api/workGroups/getUnusedUsers", {
-        method: "GET",
-        credentials: "include"
-      })
-      .then(async response => {
-        return await response.json();
-      })
-      .then(data => {
-        if (!(Array.isArray(data))) {
-          console.log("The data received from the server is not an array");
-        } 
-
-        else {
-          let data_array = Array.from(data);
-          if (data_array.length == 0){
-            submit_button.disabled = true;
-            submit_button.textContent = "No puede usarse";
-            const empty_message = document.createElement("h5");
-            empty_message.textContent = "No hay usuarios disponibles para agregar como trabajadores al espacio de trabajo";
-            fields_container.append(empty_message);
-
-          }
-
-          else{
-            let dropdown = document.createElement("select");
-
-            data_array.forEach(item => {
-              const option = document.createElement("option");
-              option.value = item.username;
-              option.text = item.username;
-
-              dropdown.appendChild(option);
-            });
-
-            fields_container.appendChild(dropdown);
-            submit_button.setAttribute("disabled", false);
-            submit_button.textContent = "Crear";
-          }
-        }
-      })
-
-      
+    function cargarDatosInvitado(){
+      user_name_text.placeholder = "Nombre del nuevo invitado";
     }
 
     const user_option = document.getElementById("usuario");
@@ -102,7 +58,50 @@
     user_option.addEventListener("click", event => {
       cargarDatosUsuario();
     });
-    
+
+    guest_option.addEventListener("click", event => {
+      cargarDatosInvitado();
+    });
+
+    cargarDatosUsuario();
+
+    fields_container.addEventListener("submit", event => {
+      event.preventDefault();
+
+      let option = document.querySelector('input[name="rol"]:checked');
+
+      if (option.id == "usuario") {
+        const formData = new FormData(fields_container);
+        formData.delete("rol");
+        formData.append("user_name", formData.get("worker_name"));
+        formData.delete("worker_name");
+
+        const data = Object.fromEntries(formData);
+
+        fetch("http://localhost:8080/api/workers/createWorkUser", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+        .then(async response => {
+          return await response.json();
+        })
+        .then(data => {
+          console.log(data);
+          if (data) {
+            alert("El usuario se ha añadido al espacio de trabajo con exito");
+            window.location.href = "menuActiveWorkGroup.html";
+          }
+          else{
+            alert("Hubieron problemas con la creación del trabajador. Intentelo de nuevo");
+          }
+        })
+      }
+
+    })
 
   </script>
 </body>

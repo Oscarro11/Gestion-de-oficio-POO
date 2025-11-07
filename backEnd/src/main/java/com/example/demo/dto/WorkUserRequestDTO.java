@@ -3,20 +3,20 @@ package com.example.demo.dto;
 import com.fasterxml.jackson.annotation.JsonProperty    ;
 
 public class WorkUserRequestDTO{
-    @JsonProperty("reference_id")
-    private Long reference_id;
+    @JsonProperty("user_name")
+    private String user_name;
 
 
     public WorkUserRequestDTO() {}
 
-    public WorkUserRequestDTO(Long reference_id){
-        this.reference_id = reference_id;
+    public WorkUserRequestDTO(String user_name){
+        this.user_name = user_name;
     }
 
-    public Long getReference_id() {
-        return reference_id;
+    public String getUser_name() {
+        return user_name;
     }
-    public void setReference_id(Long reference_id) {
-        this.reference_id = reference_id;
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 }
