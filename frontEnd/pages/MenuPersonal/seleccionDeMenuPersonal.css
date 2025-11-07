@@ -100,15 +100,9 @@ body {
     text-align: left;
 }
 
-/* Variante para la tarjeta 'grupos' (si quieres la imagen a la derecha, descomenta) */
 .dashboard-card.grupos {
     background: radial-gradient(circle, #FFD139 0%, #FFB300 100%);
 }
-/* Si prefieres la imagen a la derecha en esta tarjeta, activa esta regla:
-.dashboard-card.grupos a {
-    flex-direction: row-reverse;
-}
-*/
 
 /* Efecto hover */
 .dashboard-card:hover {
