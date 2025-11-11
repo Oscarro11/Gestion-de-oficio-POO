@@ -47,4 +47,8 @@ public class WorkerService {
         return users_ids;
 
     } 
+
+    public void deleteWorker(long id){
+        workerRepository.deleteById(id);
+    }
 }

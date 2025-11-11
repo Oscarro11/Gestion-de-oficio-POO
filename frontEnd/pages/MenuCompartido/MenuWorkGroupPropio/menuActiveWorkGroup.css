@@ -169,6 +169,24 @@ body {
     opacity: 0.85;
     letter-spacing: 0.3px;
 }
+
+.task-card.selected {
+    background: #fff5cc;
+    border: 2px solid #d6a86c;
+    box-shadow: 0 4px 22px rgba(110, 90, 60, 0.18);
+    transform: scale(1.015);
+    transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.18s ease;
+}
+
+.task-card.selected .task-circle {
+    box-shadow: 0 0 0 4px rgba(217, 180, 130, 0.5);
+}
+
+.task-card.selected .task-title {
+    color: #5a421d;
+}
+
+
 @media (max-width: 670px) {
     .dashboard-main {
         margin: 0px;

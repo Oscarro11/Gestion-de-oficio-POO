@@ -254,11 +254,10 @@
                     return await response.json();
                 })
                 .then(data => {
-                    console.log(data);
-                    /*const task_container = document.getElementById("tasks-container");
+                    const workers_container = document.getElementById("workers-container");
                         
-                    while (task_container.firstChild) {
-                        task_container.removeChild(task_container.firstChild);
+                    while (workers_container.firstChild) {
+                        workers_container.removeChild(workers_container.firstChild);
                     }
 
                     if (!(Array.isArray(data))) {
@@ -269,10 +268,11 @@
                         console.log(data_array);
                         if (data_array.length == 0){
                             const empty_title_message = document.createElement("h2");
-                            empty_title_message.textContent = "No tienes tareas actualmente. ¿Por qué no pruebas a crear una?";
-                            task_container.appendChild(empty_title_message);
+                            empty_title_message.textContent = "Este espacio de trabajo no tiene trabajadores actualmente";
+                            workers_container.appendChild(empty_title_message);
                         } 
                         else {
+                            /*
                             switch (sort_type) {
                                 case "taskname":
                                     data_array.sort((a, b) => a.taskname.localeCompare(b.taskname));
@@ -285,40 +285,39 @@
                                 default:
                                     break;
                             }
+                            */
                                                     
                             data_array.forEach(item => {
-                                const div_task_info = document.createElement('div');
-                                div_task_info.classList = "task-info";
+                                const div_worker_info = document.createElement('div');
+                                div_worker_info.classList = "task-info";
 
-                                const div_task_circle = document.createElement('div');
-                                div_task_circle.classList = "task-circle";
+                                const div_worker_circle = document.createElement('div');
+                                div_worker_circle.classList = "task-circle";
 
-                                const div_task_card = document.createElement('div');
-                                
+                                const div_worker_card = document.createElement('div');
+                                div_worker_card.classList = "task-card blue";
+
+                                /*
                                 if (durationIsInRange(item.duration, '00:00:00', '00:15:00')) {
-                                    div_task_card.classList = "task-card yellow";
+                                    div_worker_card.classList = "task-card yellow";
                                 } else if (durationIsInRange(item.duration, '00:15:01', '01:00:00')) {
-                                    div_task_card.classList = "task-card pink";
+                                    div_worker_card.classList = "task-card pink";
                                 } else {
-                                    div_task_card.classList = "task-card blue";
+                                    div_wr_card.classList = "task-card blue";
                                 }
+                                */
 
-                                const span_task_title = document.createElement('span');
-                                span_task_title.textContent = `${item.taskname}`;
-                                span_task_title.classList = "task-title";
-                                div_task_info.appendChild(span_task_title);
+                                const span_worker_title = document.createElement('span');
+                                span_worker_title.textContent = `${item.worker_name}`;
+                                span_worker_title.classList = "task-title";
+                                div_worker_info.appendChild(span_worker_title);
 
-                                const span_task_desc = document.createElement('span');
-                                span_task_desc.textContent = `${item.description}`;
-                                span_task_desc.classList = "task-desc";
-                                div_task_info.appendChild(span_task_desc);
+                                div_worker_card.appendChild(div_worker_circle);
+                                div_worker_card.appendChild(div_worker_info);
+                                workers_container.appendChild(div_worker_card);
 
-                                div_task_card.appendChild(div_task_circle);
-                                div_task_card.appendChild(div_task_info);
-                                task_container.appendChild(div_task_card);
-
-                                div_task_card.addEventListener('click', event => {
-                                    fetch("http://localhost:8080/api/cookies/getDeleteTasksMode", {
+                                div_worker_card.addEventListener('click', event => {
+                                    fetch("http://localhost:8080/api/cookies/getDeleteWorkersMode", {
                                         method: "GET",
                                         credentials: "include",
                                     })
@@ -327,10 +326,10 @@
                                     })
                                     .then(data => {
                                         if (data == "true") {
-                                            addTaskToDeleteList(div_task_card, item.id);
+                                            addWorkerToDeleteList(div_worker_card, item.id);
                                         }
                                         else{
-                                            fetch("http://localhost:8080/api/cookies/setActiveTaskId", {
+                                            fetch("http://localhost:8080/api/cookies/setActiveWorkerId", {
                                                 method: "POST",
                                                 credentials: "include",
                                                 headers: {
@@ -340,11 +339,11 @@
                                             })
                                             .then(async response => {
                                                 if (await response.ok) {
-                                                    console.log(`The task with name "${item.taskname}" and id "${item.id}" has been set as the active Task`);
-                                                    window.location.href = "Detalle Tarea.html";
+                                                    console.log(`The worker with name "${item.worker_name}" and id "${item.id}" has been set as the active Worker`);
+                                                    //window.location.href = "Detalle Tarea.html";
                                                 }
                                                 else {
-                                                    console.log("Failed to set active task ID in cookies.");
+                                                    console.log("Failed to set active worker ID in cookies.");
                                                 }
                                             })
                                         }
@@ -353,29 +352,29 @@
 
                             });
                         }
-                    }
-                 */   
+                    }   
                 })
             }
 
-            /*
+            
             const delete_image = document.getElementById("delete-icon");
             const delete_button = document.getElementById("delete-button");
-            let tasksToDelete = [];
+            let workersToDelete = [];
 
-            function addTaskToDeleteList(card, new_id) {
-                if (tasksToDelete.includes(new_id)) {
-                    tasksToDelete = tasksToDelete.filter(id => id !== new_id);
+            function addWorkerToDeleteList(card, new_id) {
+
+                if (workersToDelete.includes(new_id)) {
+                    workersToDelete = workersToDelete.filter(id => id !== new_id);
                     card.classList.remove('selected');
                 } else {
-                    tasksToDelete.push(new_id);
+                    workersToDelete.push(new_id);
                     card.classList.add('selected');
                 }
             }
 
             delete_button.addEventListener("click", event => {
 
-                fetch("http://localhost:8080/api/cookies/switchDeleteTasksMode", {
+                fetch("http://localhost:8080/api/cookies/switchDeleteWorkersMode", {
                     method: "PUT",
                     credentials: "include"
                 })
@@ -384,33 +383,34 @@
                 })
                 .then(data => {
                     if (data){
-                        alert("Seleccione todas las tareas que desea eliminar, y vuelva a presionar este boton para confirmar su eliminación")
+                        alert("Seleccione todos los trabajadores que desea eliminar, y vuelva a presionar este boton para confirmar su eliminación")
                         delete_image.setAttribute("src", "../../../assets/images/delete-icon-active.png");
                     }  
                     else{
-                        fetch("http://localhost:8080/api/tasks/deleteTasks", {
+                        fetch("http://localhost:8080/api/workers/deleteWorkers", {
                             method: "POST",
                             credentials: "include",
                             headers: {
                                 'Content-Type': 'application/json'
                             },
-                            body: JSON.stringify(tasksToDelete)
+                            body: JSON.stringify(workersToDelete)
                         })
                         .then(async response => {
                             if (await response.ok){
-                                alert("Tareas eliminadas correctamente.");
-                                loadUserTasks("taskname");
+                                alert("Trabajadores eliminados correctamente.");
+                                loadWorkGroupWorkers();
+                                //loadUserTasks("taskname");
                             }
                             else{
-                                alert("Ha ocurrido un error al eliminar las tareas seleccionadas.");
+                                alert("Ha ocurrido un error al eliminar los Trabajadores seleccionados.");
                             }
                         })
                         delete_image.setAttribute("src", "../../../assets/images/delete-icon-inactive.png");
                     
-                        tasksToDelete = [];
+                        workersToDelete = [];
                     }
                 })
-            });*/
+            });
 
         </script>
     </main>

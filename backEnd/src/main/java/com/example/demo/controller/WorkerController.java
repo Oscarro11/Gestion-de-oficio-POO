@@ -17,9 +17,6 @@ import com.example.demo.service.CookiesService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,6 +115,15 @@ public class WorkerController {
         }
 
         return ResponseEntity.ok(worker_DTOs);
+    }
+
+    @PostMapping("/deleteWorkers")
+    public ResponseEntity<Boolean> deleteWorkers(@RequestBody List<Long> ids) {
+        for (Long id : ids) {
+            workerService.deleteWorker(id);
+        }
+        
+        return ResponseEntity.ok(true);
     }
 
 }
