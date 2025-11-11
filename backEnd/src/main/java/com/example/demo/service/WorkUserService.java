@@ -4,11 +4,9 @@ import com.example.demo.model.WorkUser;
 import com.example.demo.repository.WorkGroupRepository;
 import com.example.demo.repository.WorkUserRepository;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.service.UserService;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service

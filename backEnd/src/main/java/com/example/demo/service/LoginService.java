@@ -16,16 +16,16 @@ public class LoginService {
 
     public User createUserAccount(String username, String password, String email){
         List<User> usuarios = userRepository.findAll();
-        boolean used_mail = false;
+        boolean used_login_data = false;
 
         for (User user: usuarios){
-            if (user.getEmail().equals(email)){
-                used_mail = true;
+            if (user.getEmail().equals(email) || user.getUsername().equals(username)){
+                used_login_data = true;
                 break;
             }
         }
 
-        if (used_mail){
+        if (used_login_data){
             return null;
         }
         else{

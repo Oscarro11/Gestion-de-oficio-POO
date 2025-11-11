@@ -5,6 +5,7 @@ import com.example.demo.repository.WorkerRepository;
 import com.example.demo.model.WorkUser;
 
 import java.util.List;
+import java.util.ArrayList;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -47,6 +48,16 @@ public class WorkerService {
         return users_ids;
 
     } 
+
+    public List<String> getUsedNamesInWorkGroup(long workGroup_id){
+        List<String> names = new ArrayList<String>();
+        
+        for (Worker worker : getWorkersByWorkGroupId(workGroup_id)) {
+            names.add(worker.getName());
+        }
+
+        return names;
+    }
 
     public void deleteWorker(long id){
         workerRepository.deleteById(id);

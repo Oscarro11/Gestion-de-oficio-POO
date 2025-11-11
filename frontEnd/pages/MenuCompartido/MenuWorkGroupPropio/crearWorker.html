@@ -96,7 +96,38 @@
             window.location.href = "menuActiveWorkGroup.html";
           }
           else{
-            alert("Hubieron problemas con la creación del trabajador. Intentelo de nuevo");
+            alert("El usuario que ha ingresado no existe o ya se encuentra en uso. Intentelo de nuevo");
+          }
+        })
+      }
+
+      else{
+        const formData = new FormData(fields_container);
+        formData.delete("rol");
+        formData.append("guest_name", formData.get("worker_name"));
+        formData.delete("worker_name");
+
+        const data = Object.fromEntries(formData);
+
+        fetch("http://localhost:8080/api/workers/createWorkGuest", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+        .then(async response => {
+          return await response.json();
+        })
+        .then(data => {
+          console.log(data);
+          if (data) {
+            alert("El invitado se ha creado al espacio de trabajo con exito");
+            window.location.href = "menuActiveWorkGroup.html";
+          }
+          else{
+            alert("Este nombre de invitado ya se encuentra en uso. Intentelo de nuevo");
           }
         })
       }

@@ -15,11 +15,13 @@ public class WorkGuestService {
     private final WorkGroupRepository workGroupRepository;
     private final WorkGuestRepository workGuestRepository;
     private final UserRepository userRepository;
+    private final WorkerService workerService;
 
-    public WorkGuestService(WorkGuestRepository workGuestRepository, UserRepository userRepository, WorkGroupRepository workGroupRepository){
+    public WorkGuestService(WorkGuestRepository workGuestRepository, UserRepository userRepository, WorkGroupRepository workGroupRepository, WorkerService workerService){
         this.userRepository = userRepository;
         this.workGuestRepository = workGuestRepository;
         this.workGroupRepository = workGroupRepository;
+        this.workerService = workerService;
     }
 
     public List<WorkGuest> getAllWorkGuests(){
@@ -28,6 +30,18 @@ public class WorkGuestService {
 
     public WorkGuest getWorkGuestById(Long id){
         return workGuestRepository.getReferenceById(id);
+    }
+
+    public Boolean createWorkGuest(Long creator_id, Long workgroup_id, String guest_name){
+        List<String> names = workerService.getUsedNamesInWorkGroup(workgroup_id);
+
+        if (names.contains(guest_name)) {
+            return false;
+        }
+        else{
+            saveWorkGuest(creator_id, workgroup_id, guest_name);
+            return true;
+        }
     }
 
     public WorkGuest saveWorkGuest(Long creator_id, Long workgroup_id, String workGuestName){

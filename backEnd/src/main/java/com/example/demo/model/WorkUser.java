@@ -23,4 +23,8 @@ public class WorkUser extends Worker{
 
     public Long getReference_Id(){return reference.getId();}
 
+    @Override
+    public String getName() {
+        return reference.getUsername();
+    }
 }

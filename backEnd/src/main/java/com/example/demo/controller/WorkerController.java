@@ -63,7 +63,12 @@ public class WorkerController {
         return ResponseEntity.ok(dto);
     }
 
-    @PostMapping("/saveWorkGuest")
+    @PostMapping("/createWorkGuest")
+    public ResponseEntity<Boolean> createWorkGuest(@RequestBody WorkGuestRequestDTO workGuestRequestDTO, HttpSession activeSession) {
+        return ResponseEntity.ok(workGuestService.createWorkGuest(cookiesService.getActiveUserId(activeSession), cookiesService.getActiveWorkGroupId(activeSession), workGuestRequestDTO.getName()));
+    }
+
+    @PostMapping("/unvalidatedCreateWorkGuest")
     public ResponseEntity<WorkGuestResponseDTO> unvalidatedCreateWorkGuest(@RequestBody WorkGuestRequestDTO workGuestRequestDTO, HttpSession activeSession){
         WorkGuest newWorkGuest = workGuestService.saveWorkGuest(
             cookiesService.getActiveUserId(activeSession), 

@@ -26,6 +26,7 @@ public class WorkGuest extends Worker{
         return identificationCode;
     }
 
+    @Override
     public String getName() {
         return name;
     }

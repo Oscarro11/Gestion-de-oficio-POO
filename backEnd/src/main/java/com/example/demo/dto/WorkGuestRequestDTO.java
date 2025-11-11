@@ -3,7 +3,7 @@ package com.example.demo.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class WorkGuestRequestDTO {
-    @JsonProperty("name")
+    @JsonProperty("guest_name")
     private String name;
 
 
