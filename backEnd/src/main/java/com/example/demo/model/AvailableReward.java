@@ -59,6 +59,9 @@ public class AvailableReward {
     public void setStocks(int stocks) {
         this.stocks = stocks;
     }
+    public void addStocks(int amount) {
+        this.stocks += amount;
+    }
 
     public WorkGroup getSource() {
         return source;
@@ -68,4 +71,5 @@ public class AvailableReward {
     }
 
     public Long getSource_Id(){return source.getId();}
+    public Long getReference_Id(){return reference.getId();}
 }
