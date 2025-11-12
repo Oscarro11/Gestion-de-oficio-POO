@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.ArrayList;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @RestController
@@ -78,6 +81,11 @@ public class RewardController {
         }
         
         return ResponseEntity.ok(true);
+    }
+
+    @PostMapping("/getRewardById")
+    public ResponseEntity<RewardResponseDTO> getRewardById(@RequestBody Long id) {       
+        return inspectRewardById(id);
     }
     
     

@@ -224,6 +224,9 @@
         </div>
     </section>
         <section class="section-tasks">
+            <div class="prizes-container" id="rewards-container">
+
+            </div>
             <div class="tasks-container" id="workers-container">
             </div>
         </section>
@@ -232,6 +235,7 @@
 
             window.onload = setDeleteWorkersModeToFalse();
             window.onload = loadWorkGroupWorkers();
+            window.onload = loadWorkGroupRewards();
 
             function setDeleteWorkersModeToFalse(){
                 fetch("http://localhost:8080/api/cookies/setDeleteWorkersModeToFalse", {
@@ -356,6 +360,93 @@
                 })
             }
 
+            function loadWorkGroupRewards(){
+                fetch("http://localhost:8080/api/availableRewards/getActiveWorkGroupAvailableRewards", {
+                    method: "GET",
+                    credentials: "include"
+                })
+                .then(async response => {
+                    return await response.json();
+                })
+                .then(data => {
+                    const rewards_container = document.getElementById("rewards-container");
+                        
+                    while (rewards_container.firstChild) {
+                        rewards_container.removeChild(rewards_container.firstChild);
+                    }
+
+                    if (!(Array.isArray(data))) {
+                        console.log("The data received from the server is not an array");
+                    }
+                    else {
+                        let data_array = Array.from(data);
+
+                        if (data_array.length == 0) {
+                            const empty_title_message = document.createElement("h2");
+                            empty_title_message.textContent = "Este espacio de trabajo no tiene recompensas actualmente";
+                            rewards_container.appendChild(empty_title_message);
+                        }
+                        
+                        else{
+                            data_array.forEach((item, index) => {
+                                if (index % 4 == 0){
+                                    const row = document.createElement("div");
+                                    //row.classList.add("prize-item");
+                                    rewards_container.appendChild(row);
+                                }
+                                
+                                const currentRow = rewards_container.lastElementChild;
+
+                                const div_reward_info = document.createElement('div');
+                                div_reward_info.classList = "prize-item";
+
+                                const div_reward_card = document.createElement('div');
+                                div_reward_card.classList = "prizes-container";
+
+                                const number_span = document.createElement('span');
+                                number_span.textContent = `${item.stocks_quantity}X ${item.points_value}pts.`;
+
+                                fetch("http://localhost:8080/api/rewards/getRewardById", {
+                                    method: "POST",
+                                    credentials: "include",
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify(item.reference_id)
+                                })
+                                .then(async response => {
+                                    return await response.json();
+                                })
+                                .then(data => {
+                                    
+                                    const span_reward_title = document.createElement('span');
+                                    span_reward_title.textContent = `${data.rewardname}`;
+                                    span_reward_title.classList = "prize-title";
+                                    div_reward_info.appendChild(span_reward_title);
+
+                                    const span_reward_image = document.createElement('span');
+                                    const reward_image = document.createElement('img');
+                                    reward_image.src = `${data.image_url}`;
+                                    reward_image.height = 100;
+                                    reward_image.width = 100;
+                                    span_reward_image.appendChild(reward_image)
+                                    div_reward_info.appendChild(span_reward_image);
+
+                                    div_reward_card.appendChild(div_reward_info);
+                                })
+                                
+                                div_reward_info.appendChild(number_span);
+                                div_reward_card.appendChild(div_reward_info);
+                                currentRow.appendChild(div_reward_card);
+                            });
+
+                            
+                        }
+                        
+                    }
+                })
+                
+            }
             
             const delete_image = document.getElementById("delete-icon");
             const delete_button = document.getElementById("delete-button");
