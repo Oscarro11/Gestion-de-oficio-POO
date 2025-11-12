@@ -131,6 +131,21 @@ body {
     font-family: 'Segoe UI', Arial, sans-serif;
     letter-spacing: 0.5px;
 }
+.prize-points {
+    font-size: 0.95em;
+    font-weight: 600;
+    color: #8d7456;
+    margin: 8px 0 0 0;
+    padding-top: 8px;
+    border-top: 1px solid #e9c69f;
+}
+.prize-units {
+    font-size: 0.9em;
+    font-weight: 500;
+    color: #7a2421;
+    margin: 4px 0 0 0;
+    font-style: italic;
+}
 .section-title {
     width: 100%;
     margin-bottom: 2px;
