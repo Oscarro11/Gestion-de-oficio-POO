@@ -62,6 +62,9 @@ public class Worker {
     public void setRewardPoints(int rewardPoints) {
         this.rewardPoints = rewardPoints;
     }
+    public void addRewardPoints(int rewardPoints) {
+        this.rewardPoints += rewardPoints;
+    }
     
     public String getName(){return null;}
     public Long getCreator_Id(){return creator.getId();}

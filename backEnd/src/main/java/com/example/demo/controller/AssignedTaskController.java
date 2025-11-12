@@ -80,4 +80,9 @@ public class AssignedTaskController {
     public String changeAssignedTaskStatus(@RequestBody long assignedTask_id, @RequestBody int new_status){
         return assignedTaskService.changeAssignedTaskStatus(assignedTask_id, new_status);
     }
+
+    @PutMapping("/completeAssignedTask")
+    public void completeAssignedTask(@RequestBody long id) {
+        assignedTaskService.completeAssignedTask(id);
+    }
 }

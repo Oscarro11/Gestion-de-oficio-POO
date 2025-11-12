@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.model.AssignedTask;
 import com.example.demo.model.Task;
+import com.example.demo.model.Worker;
 import com.example.demo.repository.AssignedTaskRepository;
 import com.example.demo.repository.TaskRepository;
 import com.example.demo.repository.WorkerRepository;
@@ -95,5 +96,12 @@ public class AssignedTaskService {
     public List<AssignedTask> getAssignedTasksByWorkGroupId(long workGroup_id){
         return assignedTaskRepository.findByReference_Id(workGroup_id);
     }
-    
+
+    public void completeAssignedTask(long id){
+        AssignedTask assignedTask = assignedTaskRepository.findById(id).get();
+        Worker worker = assignedTask.getWorker();
+
+        worker.addRewardPoints(assignedTask.getReward_points());
+        deleteAssignedTaskById(id);
+    }
 }

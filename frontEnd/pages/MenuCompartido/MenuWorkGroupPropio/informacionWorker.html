@@ -308,6 +308,17 @@ customElements.define('special-navbar', NavbarManager);
         })
       }
 
+      function getYouTubeVideoId(url) {
+        const match = url.match(/(?:v=|\/)([0-9A-Za-z_-]{11})(?:[?&]|$)/);
+        return match ? match[1] : null;
+      }
+
+      function convertYoutubeVideoToEmbed(url){
+        const id = getYouTubeVideoId(url);
+        if (!id) return null;
+        return `https://www.youtube.com/embed/${id}`;
+      }
+
       function getWorkerAssignedTasks() {
         fetch("http://localhost:8080/api/assignedTasks/getActiveWorkerAssignedTasks", {
           method: "GET",
@@ -337,6 +348,9 @@ customElements.define('special-navbar', NavbarManager);
             }
             else{
               data_array.forEach(item => {
+                const wrapper = document.createElement("div");
+                wrapper.classList.add("card-wrapper");
+
                 const div_task_card = document.createElement("div");
                 div_task_card.classList = "task-card pink";
 
@@ -354,7 +368,12 @@ customElements.define('special-navbar', NavbarManager);
                 span_task_time.classList = "task-time";
                 span_task_time.textContent = `${item.startline.substring(0,5)} - ${item.endline.substring(0,5)}`;
 
+                const subcard_info = document.createElement("div");
+                subcard_info.classList.add("subcard");
+                
+                /*
                 const span_task_desc = document.createElement("span");
+                */
 
                 fetch("http://localhost:8080/api/tasks/getTaskById", {
                   method: "POST",
@@ -368,20 +387,77 @@ customElements.define('special-navbar', NavbarManager);
                   return await response.json();
                 })
                 .then(data => {
-                  console.log(data);
+                  const subcard_description = document.createElement("label");
+                  subcard_description.textContent = `${data.description}`;
 
-                  span_task_desc.classList = "task-desc";
-                  span_task_desc.textContent = `${data.description}`;
+                  const subcard_video = document.createElement("iframe");
+                  subcard_video.width = "560";
+                  subcard_video.height = "315";
+                  subcard_video.frameborder = "0";
+                  subcard_video.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+                  subcard_video.allowFullscreen = true;
+              
+                  subcard_video.src = convertYoutubeVideoToEmbed(data.referenceVideo);
+
+                  const subcard_status = document.createElement("label");
+                  var status = "";
+
+                  switch (item.status) {
+                    case 0:
+                      status = "Pendiente";
+                      break;
+
+                    case 1:
+                      status = "En progreso";
+                      break;
+
+                    case 2:
+                      status = "En problemas, se necesita ayuda";
+                      break;
+
+                    case 3:
+                      status = "Terminada, pendiente de revisión";
+                      break;
+
+                    case 4:
+                      status = "Completada";
+                      break;
+                  
+                    default:
+                      break;
+                  }
+
+                  subcard_status.textContent = status;
+
+                  subcard_info.appendChild(subcard_description);
+                  subcard_info.appendChild(subcard_video);
+                  subcard_info.appendChild(subcard_status);
                 })
                 
+                div_task_card.addEventListener("click", event => {
+                  document.querySelectorAll(".subcard.active").forEach(openSub => {
+                    if (openSub !==  subcard_info) {
+                      openSub.classList.remove("active");
+                      openSub.style.maxHeight = "0px";
+                    }
+                  });
+
+                  subcard_info.classList.toggle("active");
+                  requestAnimationFrame(() => {
+                    subcard_info.style.maxHeight = subcard_info.scrollHeight + "px";
+                  });
+                })
+
                 div_task_info.appendChild(span_task_title);
                 div_task_info.appendChild(span_task_time);
-                div_task_info.appendChild(span_task_desc);
 
                 div_task_card.appendChild(div_task_circle);
                 div_task_card.appendChild(div_task_info);
 
-                task_container.appendChild(div_task_card);
+                wrapper.appendChild(div_task_card);
+                wrapper.appendChild(subcard_info);
+
+                task_container.appendChild(wrapper);
               });
               
             }
