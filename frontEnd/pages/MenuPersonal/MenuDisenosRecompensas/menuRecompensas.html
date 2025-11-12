@@ -290,6 +290,17 @@
                                 div_reward_card.appendChild(div_reward_info);
                                 rewards_container.appendChild(div_reward_card);
 
+                                // Fixed distribution of the card
+                                div_reward_card.style.display = "flex";
+                                div_reward_card.style.justifyContent = "space-between";
+                                div_reward_card.style.alignItems = "center";
+                                div_reward_card.style.padding = "10px";
+                                div_reward_card.style.marginBottom = "10px";
+                                div_reward_card.style.border = "1px solid #ccc";
+                                div_reward_card.style.borderRadius = "5px";
+                                div_reward_card.style.cursor = "pointer";
+                                
+
                                 div_reward_card.addEventListener('click', event => {
 
                                     fetch("http://localhost:8080/api/cookies/getDeleteRewardsMode", {
@@ -340,6 +351,8 @@
                 if (rewardsToDelete.includes(new_id)) {
                     rewardsToDelete = rewardsToDelete.filter(id => id !== new_id);
                     card.classList.remove('selected');
+                    // Visual selection
+                    card.style.border = "1px solid #ccc";
                 } else {
                     rewardsToDelete.push(new_id);
                     card.classList.add('selected');
