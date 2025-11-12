@@ -289,6 +289,10 @@
                         descElement.className = "prize-description";
                         descElement.textContent = item.description;
                         contentDiv.appendChild(descElement);
+                        
+                        if (item.description.length > 100){
+                            descElement.textContent = item.description.substring(0, 100) + "...";
+                        }
 
                         // Contenedor de imagen
                         const imageContainer = document.createElement('div');
@@ -299,6 +303,9 @@
                         imageElement.src = item.image_url;
                         imageElement.alt = item.rewardname;
                         imageContainer.appendChild(imageElement);
+
+                        // Prize container al 100%
+                        rewardCard.style.width = "100%";
 
                         // Checkbox de selección
                         const checkboxDiv = document.createElement('div');
