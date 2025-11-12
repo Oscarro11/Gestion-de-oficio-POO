@@ -28,26 +28,13 @@ public class AssignedTaskController {
     }
 
     @PostMapping("/createAssignedTask")
-    public ResponseEntity<AssignedTaskResponseDTO> createAssignedTask(@RequestBody AssignedTaskRequestDTO assignedTaskRequestDTO) {
-        AssignedTask assignedTask = assignedTaskService.saveAssignedTask(
+    public ResponseEntity<Boolean> createAssignedTask(@RequestBody AssignedTaskRequestDTO assignedTaskRequestDTO) {
+        return ResponseEntity.ok(assignedTaskService.createAssignedTask(
             assignedTaskRequestDTO.getReference_Task_id(), 
             assignedTaskRequestDTO.getReward_points(), 
             assignedTaskRequestDTO.getStartline(),
-            assignedTaskRequestDTO.getEndline(), 
             assignedTaskRequestDTO.getWorker_id(),
-            assignedTaskRequestDTO.getName());
-        
-        AssignedTaskResponseDTO assignedTaskDTO = new AssignedTaskResponseDTO();
-        assignedTaskDTO.setId(assignedTask.getId());
-        assignedTaskDTO.setStartline(assignedTask.getAssign_time());
-        assignedTaskDTO.setEndline(assignedTask.getEnd_time());
-        assignedTaskDTO.setName(assignedTask.getName());
-        assignedTaskDTO.setReference_id(assignedTask.getReference_Id());
-        assignedTaskDTO.setReward_points(assignedTask.getReward_points());
-        assignedTaskDTO.setStatus(assignedTask.getStatus());
-        assignedTaskDTO.setWorker_id(assignedTask.getWorker_Id());
-
-        return ResponseEntity.ok(assignedTaskDTO);
+            assignedTaskRequestDTO.getName()));
     }
     
     @GetMapping("/getAssignedTasksByWorkerId")

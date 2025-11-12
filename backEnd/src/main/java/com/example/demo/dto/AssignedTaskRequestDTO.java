@@ -12,10 +12,7 @@ public class AssignedTaskRequestDTO {
     private Long reference_Task_id;
 
     @JsonProperty("startline")
-    private LocalTime startline;
-
-    @JsonProperty("endline")
-    private LocalTime endline; 
+    private LocalTime startline; 
 
     @JsonProperty("worker_id")
     private Long worker_id;
@@ -28,7 +25,6 @@ public class AssignedTaskRequestDTO {
     public AssignedTaskRequestDTO(String name, long reference_Task_id, LocalTime startline, LocalTime endline, Long collaborator_id, int reward_points){
         this.reference_Task_id = reference_Task_id;
         this.startline = startline;
-        this.endline = endline;
         this.worker_id = collaborator_id;
         this.reward_points = reward_points;
         this.name = name;
@@ -40,13 +36,6 @@ public class AssignedTaskRequestDTO {
     public void setWorker_id(Long collaborator_id) {
         this.worker_id = collaborator_id;
     }
-
-   public LocalTime getEndline() {
-       return endline;
-   }
-   public void setEndline(LocalTime endline) {
-       this.endline = endline;
-   }
 
     public Long getReference_Task_id() {
         return reference_Task_id;

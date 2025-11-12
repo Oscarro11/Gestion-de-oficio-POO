@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.model.AssignedTask;
+import com.example.demo.model.Task;
 import com.example.demo.repository.AssignedTaskRepository;
 import com.example.demo.repository.TaskRepository;
 import com.example.demo.repository.WorkerRepository;
@@ -8,6 +9,7 @@ import com.example.demo.repository.WorkerRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
+import java.time.Duration;
 import java.util.List;
 
 @Service
@@ -24,6 +26,35 @@ public class AssignedTaskService {
 
     public List<AssignedTask> getAllAssignedTasks(){
         return assignedTaskRepository.findAll();
+    }
+
+    public boolean createAssignedTask(long task_id, int reward_points, LocalTime assign_time, long worker_id, String name){
+        boolean timesCollide = false;
+        Task task = taskRepository.findById(task_id).get();
+        Duration duration = Duration.ofSeconds(task.getDuration().toSecondOfDay());
+
+        LocalTime endTime = assign_time.plus(duration);
+        if (endTime.isBefore(assign_time)) {
+            return false;
+        }
+
+        List<AssignedTask> listAssignedTasks = assignedTaskRepository.findByWorker_Id(worker_id);
+
+        for (AssignedTask assignedTask : listAssignedTasks) {
+            if (assignedTask.getAssign_time().isBefore(endTime) && assign_time.isBefore(assignedTask.getEnd_time())) {
+                timesCollide = true;
+                break;
+            }
+        }
+
+        if (timesCollide) {
+            return false;
+        }
+        else{
+            saveAssignedTask(task_id, reward_points, assign_time, endTime, worker_id, name);
+            return true;
+        }
+        
     }
 
     public AssignedTask saveAssignedTask(long task_id, int reward_points, LocalTime assign_time, LocalTime end_time, long worker_id, String name){
