@@ -190,37 +190,29 @@
     <main class="main-content">
         <section class="section-title">
             <h1 class="dashboard-title">Plantillas de recompensa</h1>
-        <div class= "dashboard-buttons">
-            <a class="agregarbotton" href="Nueva Recompensa.html">
-                <img src="../../../assets/images/add-icon.png" alt="Agregar Icono" class="add-icon">
-                <input type="button" class="Agregar" value="Agregar">
-            </a>
-            <!--
-            <div class="editarbotton">
-                <img src="../../../assets/images/edit-icon.png" alt="Editar Icono" class="edit-icon">
-                <input type="button" class="Editar" value="Editar">
-            </div>
-            -->
-            <div class="eliminarbotton" id="delete-icon-div">
-                <img src="../../../assets/images/delete-icon-inactive.png" alt="Eliminar Icono" class="delete-icon" id="delete-icon">
-                <input type="button" class="Eliminar" value="Eliminar" id="delete-button">
-            </div>
-        </div>    
-        </div>
-    </section>
+            <div class="dashboard-buttons">
+                <a class="agregarbotton" href="Nueva Recompensa.html">
+                    <img src="../../../assets/images/add-icon.png" alt="Agregar Icono" class="add-icon">
+                    <input type="button" class="Agregar" value="Agregar">
+                </a>
+                <div class="eliminarbotton" id="delete-icon-div">
+                    <img src="../../../assets/images/delete-icon-inactive.png" alt="Eliminar Icono" class="delete-icon" id="delete-icon">
+                    <input type="button" class="Eliminar" value="Eliminar" id="delete-button">
+                </div>
+            </div>    
+        </section>
+        
         <section class="section-rewards">
             <div class="prizes-container" id="prizes-container">
-        </div>
+                <!-- Las recompensas se cargarán aquí dinámicamente -->
+            </div>
         </section>
 
         <script>
-
-            window.onload = setDeleteRewardsModeToFalse();
-            window.onload = loadUserRewards();
-
-            function durationIsInRange(duration, startTime, endTime){
-                return duration >= startTime && duration <= endTime;
-            }
+            window.onload = function() {
+                setDeleteRewardsModeToFalse();
+                loadUserRewards();
+            };
 
             function setDeleteRewardsModeToFalse(){
                 fetch("http://localhost:8080/api/cookies/setDeleteRewardsModeToFalse", {
@@ -230,8 +222,12 @@
                 .then(async response => {
                     if (await response.ok){
                         console.log("delete mode set to false");
-                    };
+                        document.body.classList.remove('delete-mode');
+                    }
                 })
+                .catch(error => {
+                    console.log("Error setting delete mode:", error);
+                });
             }
 
             function loadUserRewards(){
@@ -243,103 +239,121 @@
                     return await response.json();
                 })
                 .then(data => {
-                    const rewards_container = document.getElementById("prizes-container");
-                        
-                    while (rewards_container.firstChild) {
-                        rewards_container.removeChild(rewards_container.firstChild);
-                    }
+                    displayRewards(data);
+                })
+                .catch(error => {
+                    console.log("Error loading rewards:", error);
+                });
+            }
 
-                    if (!(Array.isArray(data))) {
-                        console.log("The data received from the server is not an array");
-                    }
-                    else {
-                        let data_array = Array.from(data);
-                        console.log(data_array);
-                        if (data_array.length == 0){
-                            const empty_title_message = document.createElement("h2");
-                            empty_title_message.textContent = "No tienes recompensas actualmente. ¿Por qué no pruebas a crear una?";
-                            rewards_container.appendChild(empty_title_message);
-                        } 
-                        else {
-                                                    
-                            data_array.forEach(item => {
-                                const div_reward_info = document.createElement('div');
-                                div_reward_info.classList = "prize-item";
+            function displayRewards(data) {
+                const rewards_container = document.getElementById("prizes-container");
+                
+                // Limpiar contenedor
+                while (rewards_container.firstChild) {
+                    rewards_container.removeChild(rewards_container.firstChild);
+                }
 
-                                const div_reward_card = document.createElement('div');
-                                div_reward_card.classList = "prizes-container";
+                if (!Array.isArray(data)) {
+                    console.log("The data received from the server is not an array");
+                    return;
+                }
 
-                                const span_reward_title = document.createElement('span');
-                                span_reward_title.textContent = `${item.rewardname}`;
-                                span_reward_title.classList = "prize-title";
-                                div_reward_info.appendChild(span_reward_title);
+                let data_array = Array.from(data);
+                console.log(data_array);
+                
+                if (data_array.length == 0){
+                    const empty_title_message = document.createElement("h2");
+                    empty_title_message.textContent = "No tienes recompensas actualmente. ¿Por qué no pruebas a crear una?";
+                    empty_title_message.className = "empty-message";
+                    rewards_container.appendChild(empty_title_message);
+                } else {
+                    data_array.forEach(item => {
+                        // Crear tarjeta de recompensa
+                        const rewardCard = document.createElement('div');
+                        rewardCard.className = "prize-item";
+                        rewardCard.dataset.rewardId = item.id;
 
-                                const span_reward_desc = document.createElement('span');
-                                span_reward_desc.textContent = `${item.description}`;
-                                span_reward_desc.classList = "prize-info";
-                                div_reward_info.appendChild(span_reward_desc);
+                        // Contenedor de texto
+                        const contentDiv = document.createElement('div');
+                        contentDiv.className = "prize-content";
 
-                                const span_reward_image = document.createElement('span');
-                                const reward_image = document.createElement('img');
-                                reward_image.src = `${item.image_url}`;
-                                reward_image.height = 100;
-                                reward_image.width = 100;
-                                span_reward_image.appendChild(reward_image)
-                                div_reward_info.appendChild(span_reward_image);
+                        // Título
+                        const titleElement = document.createElement('h3');
+                        titleElement.className = "prize-title";
+                        titleElement.textContent = item.rewardname;
+                        contentDiv.appendChild(titleElement);
 
-                                div_reward_card.appendChild(div_reward_info);
-                                rewards_container.appendChild(div_reward_card);
+                        // Descripción
+                        const descElement = document.createElement('p');
+                        descElement.className = "prize-description";
+                        descElement.textContent = item.description;
+                        contentDiv.appendChild(descElement);
 
-                                // Fixed distribution of the card
-                                div_reward_card.style.display = "flex";
-                                div_reward_card.style.justifyContent = "space-between";
-                                div_reward_card.style.alignItems = "center";
-                                div_reward_card.style.padding = "10px";
-                                div_reward_card.style.marginBottom = "10px";
-                                div_reward_card.style.border = "1px solid #ccc";
-                                div_reward_card.style.borderRadius = "5px";
-                                div_reward_card.style.cursor = "pointer";
-                                
+                        // Contenedor de imagen
+                        const imageContainer = document.createElement('div');
+                        imageContainer.className = "prize-image-container";
 
-                                div_reward_card.addEventListener('click', event => {
+                        const imageElement = document.createElement('img');
+                        imageElement.className = "prize-image";
+                        imageElement.src = item.image_url;
+                        imageElement.alt = item.rewardname;
+                        imageContainer.appendChild(imageElement);
 
-                                    fetch("http://localhost:8080/api/cookies/getDeleteRewardsMode", {
-                                        method: "GET",
-                                        credentials: "include"
+                        // Checkbox de selección
+                        const checkboxDiv = document.createElement('div');
+                        checkboxDiv.className = "prize-checkbox";
+                        checkboxDiv.innerHTML = `
+                            <svg class="prize-checkmark" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                            </svg>
+                        `;
+
+                        // Ensamblar la tarjeta
+                        rewardCard.appendChild(contentDiv);
+                        rewardCard.appendChild(imageContainer);
+                        rewardCard.appendChild(checkboxDiv);
+
+                        // Agregar al contenedor
+                        rewards_container.appendChild(rewardCard);
+
+                        // Event listener para click
+                        rewardCard.addEventListener('click', event => {
+                            fetch("http://localhost:8080/api/cookies/getDeleteRewardsMode", {
+                                method: "GET",
+                                credentials: "include"
+                            })
+                            .then(async response => {
+                                return await response.text();
+                            })
+                            .then(data => {
+                                if (data == "true"){
+                                    handleRewardClick(rewardCard, item.id);
+                                } else {
+                                    fetch("http://localhost:8080/api/cookies/setActiveRewardId", {
+                                        method: "POST",
+                                        credentials: "include",
+                                        headers:{
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify(item.id)
                                     })
                                     .then(async response => {
-                                        return await response.text();
+                                        if (await response.ok) {
+                                            console.log(`The reward with name "${item.rewardname}" and id "${item.id}" has been set as the active Reward`);
+                                            window.location.href = "Detalle Recompensa.html";
+                                        } else {
+                                            console.log("There was a problem with the request to set the active Reward.");
+                                        }
                                     })
-                                    .then(data => {
-                                        if (data == "true"){
-                                            handleRewardClick(div_reward_card, item.id);
-                                        }
-                                        else{
-                                            fetch("http://localhost:8080/api/cookies/setActiveRewardId", {
-                                                method: "POST",
-                                                credentials: "include",
-                                                headers:{
-                                                    'Content-Type': 'application/json'
-                                                },
-                                                body: JSON.stringify(item.id)
-                                            })
-                                            .then(async response => {
-                                                if (await response.ok) {
-                                                    console.log(`The reward with name "${item.rewardname}" and id "${item.id}" has been set as the active Reward`);
-                                                    window.location.href = "Detalle Recompensa.html";
-                                                }
-                                                else {
-                                                    console.log("There was a problem with the request to set the active Reward.");
-                                                }
-                                            })
-                                        }
-                                    });
-                                })
+                                }
+                            })
+                            .catch(error => {
+                                console.log("Error checking delete mode:", error);
                             });
-                        }
-                    }
-                    
-                })
+                        });
+                    });
+                }
             }
 
             const delete_image = document.getElementById("delete-icon");
@@ -351,8 +365,6 @@
                 if (rewardsToDelete.includes(new_id)) {
                     rewardsToDelete = rewardsToDelete.filter(id => id !== new_id);
                     card.classList.remove('selected');
-                    // Visual selection
-                    card.style.border = "1px solid #ccc";
                 } else {
                     rewardsToDelete.push(new_id);
                     card.classList.add('selected');
@@ -369,34 +381,38 @@
                 })
                 .then(data => {
                     if (data){
-                        alert("Seleccione todas las recompensas que desea eliminar, y vuelva a presionar este boton para confirmar la eliminacion.")
+                        alert("Seleccione todas las recompensas que desea eliminar, y vuelva a presionar este botón para confirmar la eliminación.");
                         delete_image.setAttribute("src", "../../../assets/images/delete-icon-active.png");
-                    }  
-                    else{
-                        fetch("http://localhost:8080/api/rewards/deleteRewards", {
-                            method: "POST",
-                            credentials: "include",
-                            headers:{
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(rewardsToDelete)
-                        })
-                        .then(async response => {
-                            if (await response.ok) {
-                                alert("Recompensas eliminadas correctamente.");
-                                loadUserRewards();
-                            }
-                            else {
-                                alert("Hubo un problema con la solicitud para eliminar las recompensas.");
-                            }
-                        })
+                        document.body.classList.add('delete-mode');
+                    } else {
+                        if (rewardsToDelete.length > 0) {
+                            fetch("http://localhost:8080/api/rewards/deleteRewards", {
+                                method: "POST",
+                                credentials: "include",
+                                headers:{
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(rewardsToDelete)
+                            })
+                            .then(async response => {
+                                if (await response.ok) {
+                                    alert("Recompensas eliminadas correctamente.");
+                                    rewardsToDelete = [];
+                                    loadUserRewards();
+                                } else {
+                                    alert("Hubo un problema con la solicitud para eliminar las recompensas.");
+                                }
+                            })
+                        }
                         delete_image.setAttribute("src", "../../../assets/images/delete-icon-inactive.png");
-
+                        document.body.classList.remove('delete-mode');
                         rewardsToDelete = [];
                     }
                 })
+                .catch(error => {
+                    console.log("Error toggling delete mode:", error);
+                });
             });
-
         </script>
     </main>
 </body>
