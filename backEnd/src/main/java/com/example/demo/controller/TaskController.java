@@ -18,7 +18,8 @@ import java.util.ArrayList;
 import org.springframework.web.bind.annotation.GetMapping;
 
 
-  
+
+
 @RestController
 @RequestMapping("api/tasks")
 public class TaskController {
@@ -85,6 +86,10 @@ public class TaskController {
         return inspectTaskById(cookiesService.getActiveTaskId(activeSession));
     }
     
+    @PostMapping("/getTaskById")
+    public ResponseEntity<TaskResponseDTO> getTaskById(@RequestBody Long id){
+        return inspectTaskById(id);
+    }
 
     private ResponseEntity<TaskResponseDTO> inspectTaskById(long id){
         Task task = taskService.getTaskByID(id);
@@ -95,6 +100,7 @@ public class TaskController {
         dto.setDescription(task.getDescription());
         dto.setDuration(task.getDuration());
         dto.setReferenceVideo(task.getVideoReference());
+        dto.setId(task.getId());
 
         return ResponseEntity.ok(dto);
         

@@ -14,6 +14,7 @@ import com.example.demo.service.WorkGuestService;
 import com.example.demo.service.UserService;
 import com.example.demo.service.CookiesService;
 
+import org.hibernate.Hibernate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
@@ -130,5 +131,35 @@ public class WorkerController {
         
         return ResponseEntity.ok(true);
     }
+
+    @GetMapping("/getActiveWorker")
+    public ResponseEntity<WorkerResponseDTO> getActiveWorker(HttpSession activeSession) {
+        Worker worker = workerService.getWorkerById(cookiesService.getActiveWorkerId(activeSession));
+        WorkerResponseDTO dto = new WorkerResponseDTO();
+
+        dto.setCreator_id(worker.getCreator_Id());
+        dto.setId(worker.getId());
+        dto.setReward_points_quantity(worker.getRewardPoints());
+        dto.setWorker_name(worker.getName());
+        dto.setWorkGroup_id(worker.getWorkGroup_Id());
+        
+        Class<?> temp = Hibernate.getClass(worker);
+
+        switch (temp.getSimpleName()) {
+            case "WorkUser":
+                dto.setWorker_type(1);
+                break;
+
+            case "WorkGuest":
+                dto.setWorker_type(2);
+                break;
+        
+            default:
+                break;
+        }
+
+        return ResponseEntity.ok(dto);
+    }
+    
 
 }

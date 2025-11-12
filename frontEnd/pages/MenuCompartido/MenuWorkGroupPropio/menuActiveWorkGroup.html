@@ -351,7 +351,7 @@
                                             .then(async response => {
                                                 if (await response.ok) {
                                                     console.log(`The worker with name "${item.worker_name}" and id "${item.id}" has been set as the active Worker`);
-                                                    //window.location.href = "Detalle Tarea.html";
+                                                    window.location.href = "informacionWorker.html";
                                                 }
                                                 else {
                                                     console.log("Failed to set active worker ID in cookies.");
