@@ -430,7 +430,7 @@ customElements.define('special-navbar', NavbarManager);
                   subcard_status.textContent = status;
 
                   subcard_info.appendChild(subcard_description);
-                  subcard_info.appendChild(subcard_video);
+                  //subcard_info.appendChild(subcard_video);
                   subcard_info.appendChild(subcard_status);
                 })
                 
@@ -448,14 +448,175 @@ customElements.define('special-navbar', NavbarManager);
                   });
                 })
 
+                const label_status = document.createElement("label");
+                label_status.textContent = "Use los siguientes botones para cambiar el status de la tarea como desee";
+
+                const table_status = document.createElement("table");
+                
+                const row1 = document.createElement("tr");
+                const row2 = document.createElement("tr");
+                const row3 = document.createElement("tr");
+
+                const button_pendiente = document.createElement("button");
+                button_pendiente.textContent = "Pendiente";
+                button_pendiente.addEventListener("click", event => {
+                    fetch("http://localhost:8080/api/assignedTasks/changeAssignedTaskStatus", {
+                        method: "POST",
+                        credentials: "include",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            "task_id": item.id,
+                            "type": 0
+                        })
+                    })
+                    .then(async response => {
+                        return await response.text();
+                    })
+                    .then(data => {
+                        alert(data);
+                    })
+                })
+
+                const button_en_progreso = document.createElement("button");
+                button_en_progreso.textContent = "En progreso";
+                button_en_progreso.addEventListener("click", event => {
+                    fetch("http://localhost:8080/api/assignedTasks/changeAssignedTaskStatus", {
+                        method: "POST",
+                        credentials: "include",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            "task_id": item.id,
+                            "type": 1
+                        })
+                    })
+                    .then(async response => {
+                        return await response.text();
+                    })
+                    .then(data => {
+                        alert(data);
+                    })
+                })
+
+                const button_en_problemas = document.createElement("button");
+                button_en_problemas.textContent = "En problemas";
+                button_en_problemas.addEventListener("click", event => {
+                    fetch("http://localhost:8080/api/assignedTasks/changeAssignedTaskStatus", {
+                        method: "POST",
+                        credentials: "include",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            "task_id": item.id,
+                            "type": 2
+                        })
+                    })
+                    .then(async response => {
+                        return await response.text();
+                    })
+                    .then(data => {
+                        alert(data);
+                    })
+                })
+
+                const button_listo_revision = document.createElement("button");
+                button_listo_revision.textContent = "Listo para revision";
+                button_listo_revision.addEventListener("click", event => {
+                    fetch("http://localhost:8080/api/assignedTasks/changeAssignedTaskStatus", {
+                        method: "POST",
+                        credentials: "include",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            "task_id": item.id,
+                            "type": 3
+                        })
+                    })
+                    .then(async response => {
+                        return await response.text();
+                    })
+                    .then(data => {
+                        alert(data);
+                    })
+                })
+
+                const button_completado = document.createElement("button");
+                button_completado.textContent = "Completado";
+                button_completado.addEventListener("click", event => {
+                    fetch("http://localhost:8080/api/assignedTasks/changeAssignedTaskStatus", {
+                        method: "POST",
+                        credentials: "include",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            "task_id": item.id,
+                            "type": 4
+                        })
+                    })
+                    .then(async response => {
+                        return await response.text();
+                    })
+                    .then(data => {
+                        alert(data);
+                    })
+                })
+
+                const completedButton = document.createElement("button");
+                completedButton.textContent = "Completar tarea";
+                completedButton.addEventListener("click", event => {
+                  
+                  if(confirm("¿Esta seguro de que quiere marcar como completada la tarea?")){
+                    fetch("http://localhost:8080/api/assignedTasks/completeAssignedTask", {
+                      method: "PUT",
+                      credentials: "include",
+                      headers: {
+                        'Content-Type': 'application/json'
+                      },
+                      body: item.id
+                    })
+                    .then(async response => {
+                      if (await response.status == 200) {
+                        alert("La tarea se ha completado exitosamente, y se han asignado los puntos correspondientes al trabajador que la hizo");
+                      } 
+                      else{
+                        console.log("Hubo un problema realizando la completacion de la tarea");
+                      }
+                    })
+                  }
+                  
+                })  
+
+
+                row1.appendChild(button_pendiente);
+                row1.appendChild(button_en_progreso);
+                row2.appendChild(button_en_problemas);
+                row2.appendChild(button_listo_revision);
+                row3.appendChild(button_completado);
+
+                table_status.appendChild(row1);
+                table_status.appendChild(row2);
+                table_status.appendChild(row3);
+
                 div_task_info.appendChild(span_task_title);
                 div_task_info.appendChild(span_task_time);
 
                 div_task_card.appendChild(div_task_circle);
                 div_task_card.appendChild(div_task_info);
 
+                subcard_info.appendChild(label_status);
+                subcard_info.appendChild(table_status);
+
+                subcard_info.appendChild(completedButton);
+
                 wrapper.appendChild(div_task_card);
                 wrapper.appendChild(subcard_info);
+                
 
                 task_container.appendChild(wrapper);
               });
