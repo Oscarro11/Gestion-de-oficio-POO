@@ -1,3 +1,20 @@
+:root{
+    --max-page-width: 670px;
+    --prize-padding: 20px;
+    --prize-gap: 20px;
+    --prize-image-w: 100px;
+
+    /* Variables para botones (se conservan y puedes modificarlas) */
+    --btn-border-color: #e9c69f;
+    --btn-hover-border-color: #8d7456;
+    --btn-add-color: darkgreen;
+    --btn-delete-color: #7a2421;
+    --btn-default-color: rgb(74,74,74);
+}
+
+/* Reset / global */
+* { box-sizing: border-box; }
+
 body {
     background: #FAF0DE;
     margin: 0;
@@ -143,15 +160,31 @@ body {
     transform: scale(1.015);
 }
 
-/* Contenedor de texto - permite overflow controlado */
+/* Contenedor de texto: ocupa el resto del espacio respetando la imagen */
 .prize-content {
-    flex: 1;
+    flex: 1 1 auto;
     display: flex;
     flex-direction: column;
     gap: 6px;
-    min-width: 0; /* Importante para que funcione el text overflow */
+    min-width: 0; /* crucial para que text-overflow funcione */
     overflow: hidden;
+    /* Restamos imagen + gap para evitar invasión */
+    max-width: calc(100% - (var(--prize-image-w) + var(--prize-gap)));
+    box-sizing: border-box;
 }
+
+/* Protección contra palabras larguísimas */
+.prize-content,
+.prize-title,
+.prize-description,
+.prize-info {
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+}
+
 
 /* Título de la recompensa */
 .prize-title {
@@ -160,7 +193,6 @@ body {
     color: #232323;
     margin: 0;
     letter-spacing: 0.5px;
-    /* Evitar desbordamiento - una línea con ... */
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -169,7 +201,6 @@ body {
 .prize-item.selected .prize-title {
     color: #5a421d;
 }
-
 /* Descripción de la recompensa */
 .prize-description {
     font-size: 0.875em;
@@ -184,11 +215,13 @@ body {
     text-overflow: ellipsis;
 }
 
-/* Contenedor de imagen - tamaño fijo */
+/* Imagen: ancho fijo */
 .prize-image-container {
     flex-shrink: 0;
-    width: 100px;
-    height: 100px;
+    width: var(--prize-image-w);
+    height: var(--prize-image-w);
+    min-width: var(--prize-image-w);
+    min-height: var(--prize-image-w);
 }
 
 .prize-image {
