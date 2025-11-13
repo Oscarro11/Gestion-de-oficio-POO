@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espacio de trabajo</title>
+    <link rel="stylesheet" href="menuActiveWorkGroup.css">
+    <script>
+    class NavbarManager extends HTMLElement {
+    constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+    }
+
+    connectedCallback() {
+        this.shadowRoot.innerHTML = `
+        <style>
+            * {
+            box-sizing: border-box;
+            }
+            body {
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+            }
+            .nav {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            background-color: rgba(250, 240, 222, 0.95);
+            height: auto;
+            overflow-x: auto;
+            border-bottom: 1px solid #e9c69f;
+            z-index: 100;
+            }
+            .nav-header {
+            display: inline;
+            }
+            .logo {
+            width: 168px;
+            height: 88px;
+            object-fit: contain;
+            vertical-align: middle;
+            }
+            .nav-title {
+            display: inline-block;
+            font-size: 22px;
+            color: #7e6842;
+            padding: 10px 10px 10px 10px;
+            font-weight: bold;
+            }
+            .nav-btn {
+            display: none;
+            }
+            #nav-check {
+            display: none;
+            }
+            .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 28px;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+            }
+            .nav-links a {
+            text-decoration: none;
+            color: #7e6842;
+            font-weight: 600;
+            padding: 8px 2px;
+            font-size: 1.07em;
+            border-bottom: 2px solid transparent;
+            transition: color 0.2s, border-bottom 0.2s;
+            position: relative;
+            }
+            .nav-links a.active,
+            .nav-links a:hover {
+                color: #8d7456;
+                border-bottom: 2px solid #8d7456;
+            }
+            @media (max-width: 600px) {
+            .nav {
+                min-height: 50px;
+                padding: 0;
+                position: relative;
+                padding-bottom: 12px;
+                padding-top: 12px;
+                margin-bottom: 12px;
+            }
+            .logo {
+                height: 38px;
+                margin-left: 10px;
+            }
+            .nav-btn {
+                display: block;
+                position: relative;
+                right: 8px;
+                top: 0;
+                height: auto;
+                z-index: 1100;
+                margin-right: 10px;
+            }
+            .nav-btn label span {
+                display: block;
+                width: 24px;
+                height: 3px;
+                background: #7e6842;
+                margin-top: 5px;
+                margin-bottom: 5px;
+                border-radius: 2px;
+                transition: all 0.3s;
+            }
+            .nav-links {
+                flex-direction: column;
+                align-items: stretch;  
+                justify-content: flex-start;
+                position: fixed;
+                left: 0;
+                right: 0;            
+                top: 63px;
+                width: 100vw;
+                background: #f8f0df; 
+                height: 0;
+                overflow-y: hidden;
+                transition: height 0.3s cubic-bezier(.4,0,.2,1);
+                box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+                z-index: 2000;
+                padding: 0;
+                gap: 0;
+                border-bottom: 0;
+            }
+            .nav-links a {
+                width: 100%;
+                font-size: 1.08em;
+                padding: 16px 24px;
+                border-radius: 0;
+                border-bottom: 1px solid #e9c69f;
+                background: none;
+                color: #7e6842;     
+                text-align: left;    
+                background-color: rgba(250, 240, 222, 0.95);
+            }
+            #nav-check:not(:checked) ~ .nav-links {
+                height: 0;
+                padding: 0;
+                border: none;
+            }
+            #nav-check:checked ~ .nav-links {
+                height: calc(100vh - 50px);
+                padding: 12px 0;
+                overflow-y: auto;
+                box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+            }
+            }
+        </style>
+        <div class="nav">
+            <img src="../../../assets/images/Logo.png" alt="Logo" class="logo">
+            <input type="checkbox" id="nav-check">
+            <div class="nav-header"></div>
+            <div class="nav-btn">
+            <label for="nav-check">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+            </div>
+            <div class="nav-links">
+            <a href="../../../pages/Inicio/dashboard.html">Inicio</a>
+            <a href="../../../pages/Perfil/PerfilUsuario.html">Perfil</a>
+            <a href="settings.html">Configuración</a>
+            <a href="../../../pages/Bienvenida/index.html">Cerrar Sesión</a>
+            </div>
+        </div>
+        `;
+    }
+    }
+
+    customElements.define('special-navbar', NavbarManager);
+    </script>
+</head>
+<body>
+    <special-navbar></special-navbar>
+    <main class="dashboard-main">
+        <section class="section-title">
+            <h1 class="dashboard-title">Espacio de trabajo de "usuario"</h1>
+    </section>
+        <section class="section-tasks">
+            <div class="prizes-container" id="rewards-container">
+
+            </div>
+            <div class="tasks-container" id="tasks-container">
+            </div>
+        </section>
+
+        <script>
+
+            window.onload = loadWorkerTasks();
+            window.onload = loadWorkGroupRewards();
+
+            function getYouTubeVideoId(url) {
+                const match = url.match(/(?:v=|\/)([0-9A-Za-z_-]{11})(?:[?&]|$)/);
+                return match ? match[1] : null;
+            }
+
+            function convertYoutubeVideoToEmbed(url){
+                const id = getYouTubeVideoId(url);
+                if (!id) return null;
+                return `https://www.youtube.com/embed/${id}`;
+            }
+
+            function loadWorkerTasks(){
+                fetch("http://localhost:8080/api/assignedTasks/getActiveWorkerAssignedTasks", {
+                    method: "GET",
+                    credentials: "include"
+                })
+                .then(async response => {
+                    return await response.json();
+                })
+                .then(data => {
+                    const tasks_container = document.getElementById("tasks-container");
+                        
+                    while (tasks_container.firstChild) {
+                        tasks_container.removeChild(tasks_container.firstChild);
+                    }
+
+                    if (!(Array.isArray(data))) {
+                        console.log("The data received from the server is not an array");
+                    }
+                    else {
+                        let data_array = Array.from(data);
+                        data_array.forEach(item => {
+                        const wrapper = document.createElement("div");
+                        wrapper.classList.add("card-wrapper");
+
+                        const div_task_card = document.createElement("div");
+                        div_task_card.classList = "task-card pink";
+
+                        const div_task_circle = document.createElement("div");
+                        div_task_circle.classList = "task-circle";
+
+                        const div_task_info = document.createElement("div");
+                        div_task_info.classList = "task-info";
+
+                        const span_task_title = document.createElement("span");
+                        span_task_title.classList = "task-title";
+                        span_task_title.textContent = `${item.name}`;
+
+                        const span_task_time = document.createElement("span");
+                        span_task_time.classList = "task-time";
+                        span_task_time.textContent = `${item.startline.substring(0,5)} - ${item.endline.substring(0,5)}`;
+
+                        const subcard_info = document.createElement("div");
+                        subcard_info.classList.add("subcard");
+                        
+                        /*
+                        const span_task_desc = document.createElement("span");
+                        */
+
+                        fetch("http://localhost:8080/api/tasks/getTaskById", {
+                        method: "POST",
+                        credentials: "include",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(item.id)
+                        })
+                        .then(async response => {
+                        return await response.json();
+                        })
+                        .then(data => {
+                        const subcard_description = document.createElement("label");
+                        subcard_description.textContent = `${data.description}`;
+
+                        const subcard_video = document.createElement("iframe");
+                        subcard_video.width = "560";
+                        subcard_video.height = "315";
+                        subcard_video.frameborder = "0";
+                        subcard_video.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+                        subcard_video.allowFullscreen = true;
+                    
+                        subcard_video.src = convertYoutubeVideoToEmbed(data.referenceVideo);
+
+                        const subcard_status = document.createElement("label");
+                        var status = "";
+
+                        switch (item.status) {
+                            case 0:
+                            status = "Pendiente";
+                            break;
+
+                            case 1:
+                            status = "En progreso";
+                            break;
+
+                            case 2:
+                            status = "En problemas, se necesita ayuda";
+                            break;
+
+                            case 3:
+                            status = "Terminada, pendiente de revisión";
+                            break;
+
+                            case 4:
+                            status = "Completada";
+                            break;
+                        
+                            default:
+                            break;
+                        }
+
+                        subcard_status.textContent = `Status de la tarea: ${status}`;
+
+                        subcard_info.appendChild(subcard_description);
+                        subcard_info.appendChild(subcard_video);
+                        subcard_info.appendChild(subcard_status);
+                        })
+                        
+                        div_task_card.addEventListener("click", event => {
+                        document.querySelectorAll(".subcard.active").forEach(openSub => {
+                            if (openSub !==  subcard_info) {
+                            openSub.classList.remove("active");
+                            openSub.style.maxHeight = "0px";
+                            }
+                        });
+
+                            subcard_info.classList.toggle("active");
+                            requestAnimationFrame(() => {
+                                subcard_info.style.maxHeight = subcard_info.scrollHeight + "px";
+                            });
+                        });
+
+                        const label_status = document.createElement("label");
+                        label_status.textContent = "Use los siguientes botones para cambiar el status de la tarea como desee";
+
+                        const table_status = document.createElement("table");
+                        
+                        const row1 = document.createElement("tr");
+                        const row2 = document.createElement("tr");
+                        const row3 = document.createElement("tr");
+
+                        const button_pendiente = document.createElement("button");
+                        button_pendiente.textContent = "Pendiente";
+                        button_pendiente.addEventListener("click", event => {
+                            fetch("http://localhost:8080/api/assignedTasks/changeAssignedTaskStatus", {
+                                method: "POST",
+                                credentials: "include",
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    "task_id": item.id,
+                                    "type": 0
+                                })
+                            })
+                            .then(async response => {
+                                return await response.text();
+                            })
+                            .then(data => {
+                                alert(data);
+                            })
+                        })
+
+                        const button_en_progreso = document.createElement("button");
+                        button_en_progreso.textContent = "En progreso";
+                        button_en_progreso.addEventListener("click", event => {
+                            fetch("http://localhost:8080/api/assignedTasks/changeAssignedTaskStatus", {
+                                method: "POST",
+                                credentials: "include",
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    "task_id": item.id,
+                                    "type": 1
+                                })
+                            })
+                            .then(async response => {
+                                return await response.text();
+                            })
+                            .then(data => {
+                                alert(data);
+                            })
+                        })
+
+                        const button_en_problemas = document.createElement("button");
+                        button_en_problemas.textContent = "En problemas";
+                        button_en_problemas.addEventListener("click", event => {
+                            fetch("http://localhost:8080/api/assignedTasks/changeAssignedTaskStatus", {
+                                method: "POST",
+                                credentials: "include",
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    "task_id": item.id,
+                                    "type": 2
+                                })
+                            })
+                            .then(async response => {
+                                return await response.text();
+                            })
+                            .then(data => {
+                                alert(data);
+                            })
+                        })
+
+                        const button_listo_revision = document.createElement("button");
+                        button_listo_revision.textContent = "Listo para revision";
+                        button_listo_revision.addEventListener("click", event => {
+                            fetch("http://localhost:8080/api/assignedTasks/changeAssignedTaskStatus", {
+                                method: "POST",
+                                credentials: "include",
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    "task_id": item.id,
+                                    "type": 3
+                                })
+                            })
+                            .then(async response => {
+                                return await response.text();
+                            })
+                            .then(data => {
+                                alert(data);
+                            })
+                        })
+
+                        const button_completado = document.createElement("button");
+                        button_completado.textContent = "Completado";
+                        button_completado.addEventListener("click", event => {
+                            fetch("http://localhost:8080/api/assignedTasks/changeAssignedTaskStatus", {
+                                method: "POST",
+                                credentials: "include",
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    "task_id": item.id,
+                                    "type": 4
+                                })
+                            })
+                            .then(async response => {
+                                return await response.text();
+                            })
+                            .then(data => {
+                                alert(data);
+                            })
+                        })
+
+                        row1.appendChild(button_pendiente);
+                        row1.appendChild(button_en_progreso);
+                        row2.appendChild(button_en_problemas);
+                        row2.appendChild(button_listo_revision);
+                        row3.appendChild(button_completado);
+
+                        table_status.appendChild(row1);
+                        table_status.appendChild(row2);
+                        table_status.appendChild(row3);
+
+                        div_task_info.appendChild(span_task_title);
+                        div_task_info.appendChild(span_task_time);
+
+                        div_task_card.appendChild(div_task_circle);
+                        div_task_card.appendChild(div_task_info);
+
+                        subcard_info.appendChild(label_status);
+                        subcard_info.appendChild(table_status);
+
+                        wrapper.appendChild(div_task_card);
+                        wrapper.appendChild(subcard_info);
+
+                        tasks_container.appendChild(wrapper);
+
+                        });
+                    };
+                });
+            }        
+         
+        
+
+            function loadWorkGroupRewards(){
+                fetch("http://localhost:8080/api/availableRewards/getActiveWorkGroupAvailableRewards", {
+                    method: "GET",
+                    credentials: "include"
+                })
+                .then(async response => {
+                    return await response.json();
+                })
+                .then(data => {
+                    const rewards_container = document.getElementById("rewards-container");
+                        
+                    while (rewards_container.firstChild) {
+                        rewards_container.removeChild(rewards_container.firstChild);
+                    }
+
+                    if (!(Array.isArray(data))) {
+                        console.log("The data received from the server is not an array");
+                    }
+                    else {
+                        let data_array = Array.from(data);
+
+                        if (data_array.length == 0) {
+                            const empty_title_message = document.createElement("h2");
+                            empty_title_message.textContent = "Este espacio de trabajo no tiene recompensas actualmente";
+                            rewards_container.appendChild(empty_title_message);
+                        }
+                        
+                        else{
+                            data_array.forEach((item, index) => {
+                                if (index % 4 == 0){
+                                    const row = document.createElement("div");
+                                    //row.classList.add("prize-item");
+                                    rewards_container.appendChild(row);
+                                }
+                                
+                                const currentRow = rewards_container.lastElementChild;
+
+                                const div_reward_info = document.createElement('div');
+                                div_reward_info.classList = "prize-item";
+
+                                const div_reward_card = document.createElement('div');
+                                div_reward_card.classList = "prizes-container";
+
+                                const number_span = document.createElement('span');
+                                number_span.textContent = `${item.stocks_quantity}X ${item.points_value}pts.`;
+
+                                fetch("http://localhost:8080/api/rewards/getRewardById", {
+                                    method: "POST",
+                                    credentials: "include",
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify(item.reference_id)
+                                })
+                                .then(async response => {
+                                    return await response.json();
+                                })
+                                .then(data => {
+                                    
+                                    const span_reward_title = document.createElement('span');
+                                    span_reward_title.textContent = `${data.rewardname}`;
+                                    span_reward_title.classList = "prize-title";
+                                    div_reward_info.appendChild(span_reward_title);
+
+                                    const span_reward_image = document.createElement('span');
+                                    const reward_image = document.createElement('img');
+                                    reward_image.src = `${data.image_url}`;
+                                    reward_image.height = 100;
+                                    reward_image.width = 100;
+                                    span_reward_image.appendChild(reward_image)
+                                    div_reward_info.appendChild(span_reward_image);
+
+                                    div_reward_card.appendChild(div_reward_info);
+                                })
+                                
+                                div_reward_info.appendChild(number_span);
+                                div_reward_card.appendChild(div_reward_info);
+                                currentRow.appendChild(div_reward_card);
+                            });
+
+                            
+                        }
+                        
+                    }
+                })
+                
+            }
+
+        </script>
+    </main>
+</body>
+</html>

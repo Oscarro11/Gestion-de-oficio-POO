@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/assignedTasks")
@@ -77,8 +78,15 @@ public class AssignedTaskController {
     }
 
     @PostMapping("/changeAssignedTaskStatus")
-    public String changeAssignedTaskStatus(@RequestBody long assignedTask_id, @RequestBody int new_status){
-        return assignedTaskService.changeAssignedTaskStatus(assignedTask_id, new_status);
+    public String changeAssignedTaskStatus(@RequestBody Map<String, Object> body){
+        long task_id = -1;
+
+        if (body.get("task_id") instanceof Number) {
+            task_id = ((Number) body.get("task_id")).longValue();
+        }
+        int new_status = (Integer) body.get("type");
+
+        return assignedTaskService.changeAssignedTaskStatus(task_id, new_status);
     }
 
     @PutMapping("/completeAssignedTask")
