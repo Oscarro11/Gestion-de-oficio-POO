@@ -1,9 +1,12 @@
 package com.example.demo.service;
 
 import com.example.demo.model.WorkGroup;
+import com.example.demo.model.WorkUser;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.WorkGroupRepository;
+import com.example.demo.repository.WorkUserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +14,12 @@ import org.springframework.stereotype.Service;
 public class WorkGroupService {
     private final WorkGroupRepository workGroupRepository;
     private final UserRepository userRepository;
+    private final WorkUserRepository workUserRepository;
 
-    public WorkGroupService(WorkGroupRepository workGroupRepository, UserRepository userRepository){
+    public WorkGroupService(WorkGroupRepository workGroupRepository, UserRepository userRepository, WorkUserRepository workUserRepository){
         this.workGroupRepository = workGroupRepository;
         this.userRepository = userRepository;
+        this.workUserRepository = workUserRepository;
     }
 
     public List<WorkGroup> getAllWorkGroups(){
@@ -55,5 +60,17 @@ public class WorkGroupService {
         newWorkGroup.setName(name);
         
         return workGroupRepository.save(newWorkGroup);
+    }
+
+    
+    public List<WorkGroup> getWorkerWorkGroups(Long id){
+        List<WorkUser> workUsers = workUserRepository.findByReference_Id(id);
+        List<WorkGroup> workGroups = new ArrayList<WorkGroup>();
+
+        for (WorkUser workUser: workUsers) {
+            workGroups.add(workUser.getWorkGroup());
+        }
+
+        return workGroups;
     }
 }

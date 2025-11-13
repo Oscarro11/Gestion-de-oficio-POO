@@ -6,16 +6,20 @@ import com.example.demo.model.WorkUser;
 
 import java.util.List;
 import java.util.ArrayList;
+
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
 @Service
 public class WorkerService {
     private final WorkerRepository workerRepository;
     private final UserService userService;
+    private final CookiesService cookiesService;
 
-    public WorkerService(WorkerRepository workerRepository, UserService userService){
+    public WorkerService(WorkerRepository workerRepository, UserService userService, CookiesService cookiesService){
         this.workerRepository = workerRepository;
         this.userService = userService;
+        this.cookiesService = cookiesService;
     }
 
     public List<Worker> getAllWorkers(){
@@ -57,6 +61,26 @@ public class WorkerService {
         }
 
         return names;
+    }
+
+    public Long getActiveWorkerIdFromUser(long workGroup_id, long user_id){
+        List<Worker> workers = workerRepository.findByWorkGroup_Id(workGroup_id);
+        Long worker_id = null;
+
+        for (Worker worker : workers) {
+            Class<?> temp = Hibernate.getClass(worker);
+
+            if (temp.getSimpleName().equals("WorkUser")) {
+                WorkUser workUser = (WorkUser) worker;
+
+                if (workUser.getReference_Id() == user_id && workUser.getWorkGroup_Id() == workGroup_id) {
+                    worker_id = workUser.getId();
+                    break;
+                }
+            }
+        }
+
+        return worker_id;
     }
 
     public void deleteWorker(long id){

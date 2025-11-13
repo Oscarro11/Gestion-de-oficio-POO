@@ -21,6 +21,9 @@ import jakarta.servlet.http.HttpSession;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @RestController
@@ -159,6 +162,12 @@ public class WorkerController {
         }
 
         return ResponseEntity.ok(dto);
+    }
+    
+    @PutMapping("/setActiveWorkerFromUser")
+    public void setActiveWorkerFromUser(HttpSession activeSession) {
+        Long workerId = workerService.getActiveWorkerIdFromUser(cookiesService.getActiveWorkGroupId(activeSession), cookiesService.getActiveUserId(activeSession));
+        cookiesService.setActiveWorkerId(activeSession, workerId);
     }
     
 

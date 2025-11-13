@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 import java.util.ArrayList;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -98,6 +100,24 @@ public class WorkGroupController {
             dto.setId(user.getId());
             dto.setPassword(user.getPassword());
             dto.setUsername(user.getUsername());
+
+            dtos.add(dto);
+        }
+
+        return ResponseEntity.ok(dtos);
+    }
+    
+    @GetMapping("/getWorkerWorkGroups")
+    public ResponseEntity<List<WorkGroupResponseDTO>> getWorkerWorkGroups(HttpSession activeSession) {
+        List<WorkGroup> workGroups = workGroupService.getWorkerWorkGroups(cookiesService.getActiveUserId(activeSession));
+        List<WorkGroupResponseDTO> dtos = new ArrayList<WorkGroupResponseDTO>();
+
+        for (WorkGroup workGroup: workGroups) {
+            WorkGroupResponseDTO dto = new WorkGroupResponseDTO();
+
+            dto.setId(workGroup.getId());
+            dto.setAdministrator_id(workGroup.getAdministrator_Id());
+            dto.setWorkgroup_name(workGroup.getName());
 
             dtos.add(dto);
         }
