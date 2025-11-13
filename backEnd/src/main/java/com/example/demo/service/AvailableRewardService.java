@@ -2,9 +2,11 @@ package com.example.demo.service;
 
 import com.example.demo.model.AvailableReward;
 import com.example.demo.model.Reward;
+import com.example.demo.model.Worker;
 import com.example.demo.repository.AvailableRewardRepository;
 import com.example.demo.repository.RewardRepository;
 import com.example.demo.repository.WorkGroupRepository;
+import com.example.demo.repository.WorkerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,11 +16,13 @@ public class AvailableRewardService {
     private final AvailableRewardRepository availableRewardRepository;
     private final RewardRepository rewardRepository;
     private final WorkGroupRepository workGroupRepository;
+    private final WorkerRepository workerRepository;
 
-    public AvailableRewardService(AvailableRewardRepository availableRewardRepository, RewardRepository rewardRepository, WorkGroupRepository workGroupRepository){
+    public AvailableRewardService(AvailableRewardRepository availableRewardRepository, RewardRepository rewardRepository, WorkGroupRepository workGroupRepository, WorkerRepository workerRepository){
         this.availableRewardRepository = availableRewardRepository;
         this.rewardRepository = rewardRepository;
         this.workGroupRepository = workGroupRepository;
+        this.workerRepository = workerRepository;
     }
     
     public List<AvailableReward> getAllAvailableRewards(){
@@ -40,6 +44,7 @@ public class AvailableRewardService {
         for (AvailableReward availableReward : availableRewards) {
             if (availableReward.getReference_Id() == reference_id && availableReward.getPoints_cost() == points_value) {
                 availableReward.addStocks(stocks_quantity);
+                availableRewardRepository.save(availableReward);
                 updatedAvailableReward = true;
                 break;
             }
@@ -62,5 +67,30 @@ public class AvailableRewardService {
         availableReward.setStocks(stocks_quantity);
 
         return availableRewardRepository.save(availableReward);
+    }
+
+    public boolean reclaimAvailableReward(Long reward_id, Long worker_id) {
+        AvailableReward availableReward = availableRewardRepository.findById(worker_id).get();
+        Worker worker = workerRepository.findById(worker_id).get();
+
+        if (availableReward.getPoints_cost() > worker.getRewardPoints()) {
+            return false;
+        }
+        else{
+            worker.substractRewardPoints(availableReward.getPoints_cost());
+            workerRepository.save(worker);
+            availableReward.removeStocks(1);
+            availableRewardRepository.save(availableReward);
+
+            return true;
+        }
+        
+    }
+
+    public void checkAvailableRewardStocks(Long reward_id){
+        AvailableReward availableReward = availableRewardRepository.findById(reward_id).get();
+        if (availableReward.getStocks() == 0) {
+            availableRewardRepository.deleteById(reward_id);
+        }
     }
 }

@@ -15,6 +15,9 @@ import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 
 
@@ -51,7 +54,18 @@ public class AvailableRewardController {
     }
     
     @PostMapping("/createAvailableReward")
-    public ResponseEntity<Boolean> postMethodName(@RequestBody AvailableRewardRequestDTO availableRewardRequestDTO, HttpSession activeSession) {
+    public ResponseEntity<Boolean> createAvailableReward(@RequestBody AvailableRewardRequestDTO availableRewardRequestDTO, HttpSession activeSession) {
         return ResponseEntity.ok(availableRewardService.createAvailableReward(availableRewardRequestDTO.getReference_id(), cookiesService.getActiveWorkGroupId(activeSession), availableRewardRequestDTO.getPoints_value(), availableRewardRequestDTO.getStocks_quantity()));
     }
+
+    @PostMapping("/reclaimAvailableReward")
+    public ResponseEntity<Boolean> reclaimAvailableReward(@RequestBody Long reward_id, HttpSession activeSession) {
+        return ResponseEntity.ok(availableRewardService.reclaimAvailableReward(reward_id, cookiesService.getActiveWorkerId(activeSession)));
+    }
+
+    @PutMapping("/checkAvailableRewardStocks")
+    public void checkAvailableRewardStocks(@RequestBody Long reward_id) {
+        availableRewardService.checkAvailableRewardStocks(reward_id);
+    }
+    
 }

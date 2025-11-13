@@ -62,6 +62,9 @@ public class AvailableReward {
     public void addStocks(int amount) {
         this.stocks += amount;
     }
+    public void removeStocks(int amount) {
+        this.stocks -= amount;
+    }
 
     public WorkGroup getSource() {
         return source;

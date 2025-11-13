@@ -559,6 +559,35 @@
                                     div_reward_info.appendChild(span_reward_image);
 
                                     div_reward_card.appendChild(div_reward_info);
+
+                                    const button = document.createElement("button");
+                                    button.classList.add("prize-button");
+                                    button.textContent = "Reclamar";
+                                    button.addEventListener("click", event => {
+                                        event.stopPropagation();
+                                        
+                                        fetch("http://localhost:8080/api/availableRewards/reclaimAvailableReward", {
+                                            method: "POST",
+                                            credentials: "include",
+                                            headers: {
+                                                'Content-Type': 'application/json'
+                                            },
+                                            body: item.id
+                                        })
+                                        .then(async response => {
+                                            return await response.text();
+                                        })
+                                        .then(data2 => {
+                                            if (data2 == "true") {
+                                                alert(`¡Felicidades, ahora puede reclamar un ${data.rewardname}!`);
+                                            }
+                                            else {
+                                                alert(`No tiene suficientes puntos para reclamar esta recompensa`);
+                                            }
+                                        })
+                                    })
+
+                                    div_reward_info.appendChild(button);
                                 })
                                 
                                 div_reward_info.appendChild(number_span);
