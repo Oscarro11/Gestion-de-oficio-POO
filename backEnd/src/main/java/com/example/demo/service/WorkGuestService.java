@@ -56,4 +56,26 @@ public class WorkGuestService {
         return workGuestRepository.save(savedWorkGuest);
     }
 
+    /*public boolean findWorkGuestByCode(String identificationCode){
+        if (getWorkGuestByCode(identificationCode) == null) {
+            return false;
+        }
+        else{
+            return true;
+        }
+    }*/
+
+    public WorkGuest getWorkGuestByCode(String identificationCode){
+        List<WorkGuest> workGuests = workGuestRepository.findAll();
+        WorkGuest foundWorkGuest = null;
+
+        for (WorkGuest workGuest : workGuests) {
+            if (workGuest.getIdentificationCode().equals(identificationCode)) {
+                foundWorkGuest = workGuest;
+                break;
+            }
+        }
+
+        return foundWorkGuest;
+    }
 }

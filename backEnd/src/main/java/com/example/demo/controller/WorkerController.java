@@ -169,6 +169,18 @@ public class WorkerController {
         Long workerId = workerService.getActiveWorkerIdFromUser(cookiesService.getActiveWorkGroupId(activeSession), cookiesService.getActiveUserId(activeSession));
         cookiesService.setActiveWorkerId(activeSession, workerId);
     }
-    
 
+    @PostMapping("/setActiveWorkerFromGuest")
+    public ResponseEntity<Boolean> setActiveWorkerFromGuest(@RequestBody String identificationCode, HttpSession activeSession) {
+        WorkGuest workGuest = workGuestService.getWorkGuestByCode(identificationCode);
+
+        if (workGuest == null) {
+            return ResponseEntity.ok(false);
+        }
+        else{
+            cookiesService.setActiveWorkerId(activeSession, workGuest.getId());
+            cookiesService.setActiveWorkGroupId(activeSession, workGuest.getWorkGroup_Id());
+            return ResponseEntity.ok(true);
+        }
+    }
 }
