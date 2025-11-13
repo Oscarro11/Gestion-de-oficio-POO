@@ -584,6 +584,23 @@
                                             else {
                                                 alert(`No tiene suficientes puntos para reclamar esta recompensa`);
                                             }
+
+                                            fetch("http://localhost:8080/api/availableRewards/checkAvailableRewardStocks", {
+                                                method: "PUT",
+                                                credentials: "include",
+                                                headers: {
+                                                    'Content-Type': 'application/json'
+                                                },
+                                                body: item.id
+                                            })
+                                            .then(async response => {
+                                                if (await response.status == 200) {
+                                                    loadWorkGroupRewards();
+                                                }
+                                                else{
+                                                    console.log("There was a problem with checking the available reward");
+                                                }
+                                            })
                                         })
                                     })
 

@@ -1,3 +1,20 @@
+:root{
+    --max-page-width: 670px;
+    --prize-padding: 20px;
+    --prize-gap: 20px;
+    --prize-image-w: 100px;
+
+    /* Variables para botones (se conservan y puedes modificarlas) */
+    --btn-border-color: #e9c69f;
+    --btn-hover-border-color: #8d7456;
+    --btn-add-color: darkgreen;
+    --btn-delete-color: #7a2421;
+    --btn-default-color: rgb(74,74,74);
+}
+
+/* Reset / global */
+* { box-sizing: border-box; }
+
 body {
     background: #FAF0DE;
     margin: 0;
@@ -143,15 +160,31 @@ body {
     transform: scale(1.015);
 }
 
-/* Contenedor de texto - permite overflow controlado */
+/* Contenedor de texto: ocupa el resto del espacio respetando la imagen */
 .prize-content {
-    flex: 1;
+    flex: 1 1 auto;
     display: flex;
     flex-direction: column;
     gap: 6px;
-    min-width: 0; /* Importante para que funcione el text overflow */
+    min-width: 0; /* crucial para que text-overflow funcione */
     overflow: hidden;
+    /* Restamos imagen + gap para evitar invasión */
+    max-width: calc(100% - (var(--prize-image-w) + var(--prize-gap)));
+    box-sizing: border-box;
 }
+
+/* Protección contra palabras larguísimas */
+.prize-content,
+.prize-title,
+.prize-description,
+.prize-info {
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+}
+
 
 /* Título de la recompensa */
 .prize-title {
@@ -160,11 +193,147 @@ body {
     color: #232323;
     margin: 0;
     letter-spacing: 0.5px;
-    /* Evitar desbordamiento - una línea con ... */
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+.prize-item.selected .prize-title {
+    color: #5a421d;
+}
+/* Descripción de la recompensa */
+.prize-description {
+    font-size: 0.875em;
+    color: #4a4a4a;
+    margin: 0;
+    line-height: 1.4;
+    /* Limitar a 2 líneas con ... */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Imagen: ancho fijo */
+.prize-image-container {
+    flex-shrink: 0;
+    width: var(--prize-image-w);
+    height: var(--prize-image-w);
+    min-width: var(--prize-image-w);
+    min-height: var(--prize-image-w);
+}
+
+.prize-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    object-fit: cover;
+    display: block;
+}
+
+/* Checkbox de selección */
+.prize-checkbox {
+    display: none;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid #e9c69f;
+    background: white;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+/* Mostrar checkbox cuando está en modo eliminar */
+body.delete-mode .prize-checkbox {
+    display: flex;
+}
+
+.prize-item.selected .prize-checkbox {
+    background: #d6a86c;
+    border-color: #8d7456;
+    box-shadow: 0 0 0 4px rgba(217,180,130,0.5);
+}
+
+.prize-checkmark {
+    display: none;
+    width: 100%;
+    height: 100%;
+    padding: 2px;
+    color: white;
+}
+
+.prize-item.selected .prize-checkmark {
+    display: block;
+}
+
+.section-title {
+    width: 100%;
+    margin-bottom: 2px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    letter-spacing: 1px;
+    position: relative;
+}
+
+.prize-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Mensaje vacío */
+.empty-message {
+    text-align: center;
+    color: #232323;
+    font-size: 1.1em;
+    padding: 40px 20px;
+}
+
+/* Responsive */
+@media (max-width: 670px) {
+    .main-content {
+        margin: 0px;
+        padding: 16px 32px 16px 32px;
+    }
+    
+    .main-content h1 {
+        font-size: 1.8em;
+        padding: 16px;
+        text-align: center;
+    }
+    
+    .main-content .botones {
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: center;
+        padding-bottom: 32px;
+    }
+    
+    .prize-item {
+        gap: 12px;
+        padding: 16px;
+    }
+    
+    .prize-image-container {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .prize-title {
+        font-size: 1.05em;
+    }
+    
+    .prize-description {
+        font-size: 0.8em;
+    }
+}
+
 
 .prize-item.selected .prize-title {
     color: #5a421d;
