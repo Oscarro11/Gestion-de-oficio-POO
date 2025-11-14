@@ -13,9 +13,11 @@
         <section class ="profile-title">
             <div class="profile-header">
                 <div class="circle">
-                    <img src="../../assets/images/camera-icon.png" alt="Icono de usuario" class="camera-icon">
-                    <input type="file" id="profile-picture-input" accept="image/*" style="display: none;">
+                    <img src="../../assets/images/person-icon.png" alt="Icono de usuario" class="camera-icon">
+                    <!--img src="../../assets/images/camera-icon.png" alt="Icono de usuario" class="camera-icon"-->
+                    <!--input type="file" id="profile-picture-input" accept="image/*" style="display: none;"-->
                     <script>
+                        /*
                         const circle = document.querySelector('.circle');
                         const fileInput = document.getElementById('profile-picture-input');
                         circle.addEventListener('click', () => {
@@ -37,84 +39,190 @@
                                 }
                             }
                         });
+                        */
                     </script>
                 </div>
                 <div class="user-info">
                     <h1 class="user-name">Nombre del Usuario</h1>
-                    <script>
-                        window.onload = fetch("http://localhost:8080/api/Main/getActiveUserName", {
-                            method: "GET",
-                            credentials: "include"
-                        })
-                        .then(async response => {
-                            return await response.text();
-                        })
-                        .then(data => {
-                            document.querySelector(".user-name").innerHTML = data;
-                        });
-                        window.onload = fetch("http://localhost:8080/api/Main/getActiveUserEmail", {
-                            method: "GET",
-                            credentials: "include"
-                        })
-                        .then(async response => {
-                            return await response.text();
-                        })
-                        .then(data => {
-                            document.querySelector(".user-email").innerHTML = data;
-                        });
-                    </script>
                     <h2 class="user-email">correo@ejemplo.com</h2>
                 </div>
             </div>
         </section>
         <div class="user-compartidos">
-            <h2 class="compartidos-title">Grupos Compartidos</h2>
-            <div class="compartidos-list">
-                <div class="compartidos-card">
-                    <div class="compartido-item">Grupo 1</div>
-                    <p class="texto-descripcion">Descripción del Grupo 1</p>
-                </div>
-                <div class="compartidos-card">
-                    <div class="compartido-item">Grupo 2</div>
-                    <p class="texto-descripcion">Descripción del Grupo 2</p>
-                </div>
-                <div class="compartidos-card">
-                    <div class="compartido-item">Grupo 3</div>
-                    <p class="texto-descripcion">Descripción del Grupo 3</p>
-                </div>
+            <h2 class="compartidos-title" id="compartidos-title">Grupos Propios</h2>
+            <div class="compartidos-list" id="grupos-propios">
             </div>
         </div>
         <div class="user-tasks">
-            <h2 class="compartidos-title">Tareas Asignadas</h2>
-            <div class="compartidos-list">
-                <div class="compartidos-card">
-                    <div class="compartido-item">Tarea 1</div>
-                    <p class="texto-descripcion">Descripción de la Tarea 1</p>
-                </div>
-                <div class="compartidos-card">
-                    <div class="compartido-item">Tarea 2</div>
-                    <p class="texto-descripcion">Descripción de la Tarea 2</p>
-                </div>
-                <div class="compartidos-card">
-                    <div class="compartido-item">Tarea 3</div>
-                    <p class="texto-descripcion">Descripción de la Tarea 3</p>
-                </div>
+            <h2 class="compartidos-title" id="ajenos-title">Grupos en los que esta asignado</h2>
+            <div class="compartidos-list" id="grupos-ajenos">
             </div>
         </div>
         <div class="user-rewards">
-            <h2 class="compartidos-title">Recompensas Obtenidas</h2>
-            <div class="compartidos-list">
-                <div class="compartidos-card">
-                    <div class="compartido-item">Recompensa 1</div>
-                    <p class="texto-descripcion">Descripción de la Recompensa 1</p>
-                </div>
-                <div class="compartidos-card">
-                    <div class="compartido-item">Recompensa 2</div>
-                    <p class="texto-descripcion">Descripción de la Recompensa 2</p>
-                </div>
-                <div class="compartidos-card">
-                    <div class="compartido-item">Recompensa 3</div>
-                    <p class="texto-descripcion">Descripción de la Recompensa 3</p>
-                </div>
+            <h2 class="compartidos-title" id="tareas-asignadas-title">Tareas Asignadas</h2>
+            <div class="compartidos-list" id="tareas-asignadas">
             </div>
+
+        <script>
+            window.onload = loadUserTitle();
+            window.onload = loadUserWorkGroups();
+            window.onload = loadUserWorkGroups2();
+            window.onload = loadUserAssignedTasks();
+
+            function loadUserTitle() {
+                fetch("http://localhost:8080/api/Main/getActiveUser", {
+                    method: "GET",
+                    credentials: "include"
+                })
+                .then(async response => {
+                    return await response.json();
+                })
+                .then(data => {
+                    document.querySelector(".user-name").innerHTML = data.username;
+                    document.querySelector(".user-email").innerHTML = data.email;
+                })
+            }
+            
+            function loadUserWorkGroups() {
+                fetch("http://localhost:8080/api/workGroups/getUserWorkGroups", {
+                    method: "GET",
+                    credentials: "include"
+                })
+                .then(async response => {
+                    return response.json();
+                })
+                .then(data => {
+                    if (!Array.isArray(data)) {
+                        console.log("The received data was not an array");
+                    }
+                    else{
+                        const workGroupsPropios_container = document.getElementById("grupos-propios");
+                        let data_array = Array.from(data);
+
+                        if (data_array.length === 0) {
+                            const empty_title = document.getElementById("compartidos-title")
+                            empty_title.textContent = "El usuario no tiene grupos de trabajo propios";
+                        }
+                        else{                            
+                            let cont = 1;
+                            data_array.forEach(item => {
+                                const compartidos_card = document.createElement("div");
+                                compartidos_card.classList.add("compartidos-card");
+
+                                const compartidos_item = document.createElement("div");
+                                compartidos_item.classList.add("compartido-item");
+                                compartidos_item.textContent = `Grupo ${cont}`;
+
+                                const compartidos_nombre = document.createElement("p");
+                                compartidos_nombre.classList.add("texto-descripcion");
+                                compartidos_nombre.textContent = `${item.workgroup_name}`;
+
+                                compartidos_card.appendChild(compartidos_item);
+                                compartidos_card.appendChild(compartidos_nombre);
+                                workGroupsPropios_container.appendChild(compartidos_card);
+
+                                cont = cont + 1;
+                            });
+                        }
+                    }
+                })
+            }
+
+            function loadUserWorkGroups2() {
+                fetch("http://localhost:8080/api/workGroups/getWorkerWorkGroups", {
+                    method: "GET",
+                    credentials: "include"
+                })
+                .then(async response => {
+                    return response.json();
+                })
+                .then(data => {
+                    if (!Array.isArray(data)) {
+                        console.log("The received data was not an array");
+                    }
+                    else{
+                        const workGroupsAjenos_container = document.getElementById("grupos-ajenos");
+                        let data_array = Array.from(data);
+
+                        if (data_array.length == 0) {
+                            const empty_title = document.getElementById("ajenos-title")
+                            empty_title.textContent = "El usuario no esta asignado a ningun otro grupo de trabajo";
+                        }
+                        else{                            
+                            let cont = 1;
+                            data_array.forEach(item => {
+                                const compartidos_card = document.createElement("div");
+                                compartidos_card.classList.add("compartidos-card");
+
+                                const compartidos_item = document.createElement("div");
+                                compartidos_item.classList.add("compartido-item");
+                                compartidos_item.textContent = `Grupo ${cont}`;
+
+                                const compartidos_nombre = document.createElement("p");
+                                compartidos_nombre.classList.add("texto-descripcion");
+                                compartidos_nombre.textContent = `${item.workgroup_name}`;
+
+                                compartidos_card.appendChild(compartidos_item);
+                                compartidos_card.appendChild(compartidos_nombre);
+                                workGroupsAjenos_container.appendChild(compartidos_card);
+
+                                cont = cont + 1;
+                            });
+                        }
+                    }
+                })
+            }
+
+            function loadUserAssignedTasks() {
+                fetch("http://localhost:8080/api/Main/getUserAssignedTasks", {
+                    method: "GET",
+                    credentials: "include"
+                })
+                .then(async response => {
+                    return response.json();
+                })
+                .then(data => {
+                    if (!Array.isArray(data)) {
+                        console.log("The received data was not an array");
+                    }
+                    else{
+                        const assignedTasks_container = document.getElementById("tareas-asignadas");
+                        let data_array = Array.from(data);
+
+                        if (data_array.length == 0) {
+                            const empty_title = document.getElementById("tareas-asignadas-title");
+                            empty_title.textContent = "El usuario no tiene ninguna tarea asignada de momento";
+                        }
+                        else{                            
+                            let cont = 1;
+                            data_array.forEach(item => {
+                                const compartidos_card = document.createElement("div");
+                                compartidos_card.classList.add("compartidos-card");
+
+                                const compartidos_item = document.createElement("div");
+                                compartidos_item.classList.add("compartido-item");
+                                compartidos_item.textContent = `Tarea ${cont}`;
+
+                                const compartidos_nombre = document.createElement("p");
+                                compartidos_nombre.classList.add("texto-descripcion");
+                                compartidos_nombre.textContent = `${item.name}`;
+
+                                const duracion = document.createElement("p");
+                                duracion.classList.add("texto-descripcion");
+                                duracion.textContent = `${item.startline}`.substring(0,5) + ` - ` + `${item.endline}`.substring(0,5);
+
+                                compartidos_card.appendChild(compartidos_item);
+                                compartidos_card.appendChild(compartidos_nombre);
+                                compartidos_card.appendChild(duracion);
+                                assignedTasks_container.appendChild(compartidos_card);
+
+                                cont = cont + 1;
+                            });
+                        }
+                    }
+                })
+            }
+                
+            
+        </script>
     </main>

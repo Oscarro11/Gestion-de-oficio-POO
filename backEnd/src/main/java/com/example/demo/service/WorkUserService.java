@@ -32,6 +32,10 @@ public class WorkUserService {
         return workUserRepository.getReferenceById(id);
     }
 
+    public List<WorkUser> getWorkUserByReferenceId(Long id){
+        return workUserRepository.findByReference_Id(id);
+    }
+
     public Boolean createWorkUser(Long creator_id, Long workgroup_id, String worker_name){
         List<String> names = userService.getUnusedUserNamesInWorkGroup(workgroup_id, creator_id);
 
