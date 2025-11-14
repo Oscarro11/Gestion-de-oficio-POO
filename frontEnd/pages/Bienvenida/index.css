@@ -196,6 +196,7 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     gap: 44px;
+    margin-top: 64px;
 }
 .header-text {
     flex: 1 1 0;

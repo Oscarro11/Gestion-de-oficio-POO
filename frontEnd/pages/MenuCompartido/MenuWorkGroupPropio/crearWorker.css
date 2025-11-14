@@ -1,108 +1,171 @@
-body {
-    background: #FFF8EE;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    margin: 0;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-image:
-        radial-gradient(circle 18px at 30px 35px, rgba(233, 198, 159, 0.28) 90%, transparent 100%),
-        radial-gradient(circle 11px at 90px 70px, rgba(233, 198, 159, 0.20) 90%, transparent 100%),
-        radial-gradient(circle 24px at 60px 110px, rgba(216, 176, 124, 0.18) 90%, transparent 100%),
-        radial-gradient(circle 15px at 120px 40px, rgba(233, 198, 159, 0.17) 90%, transparent 100%),
-        radial-gradient(circle 10px at 150px 90px, rgba(216, 176, 124, 0.15) 90%, transparent 100%),
-        radial-gradient(circle 22px at 200px 60px, rgba(233, 198, 159, 0.18) 90%, transparent 100%);
-    background-size: 220px 140px;
-} 
-.container {
-    width: 320px;
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    position: relative;
-    overflow: hidden;
-}
-.back-arrow {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    font-size: 30px;
-    text-decoration: none;
-    color: #1d71f2;
-    font-weight: bold;
-    z-index: 2;
-}
-.back-arrow:hover {
-    color: #0b4fb3;
+:root {
+    --max-page-width: 670px;
+    --prize-padding: 20px;
+    --prize-gap: 20px;
+    --prize-image-w: 100px;
+
+    /* Variables para botones (se conservan y puedes modificarlas) */
+    --btn-border-color: #e9c69f;
+    --btn-hover-border-color: #8d7456;
+    --btn-add-color: darkgreen;
+    --btn-delete-color: #7a2421;
+    --btn-default-color: rgb(74,74,74);
 }
 
-h2 {
-    font-size: 18px;
-    margin-bottom: 20px;
-    text-align: center;
+body {
+    background: #FAF0DE;
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    min-height: 90vh;
+    width: 100%;
+    max-width: var(--max-page-width);
+    margin: 0 auto;
+    padding: 32px 8px 40px 8px;
+    box-sizing: border-box;
+    gap: 24px;
+    flex-grow: 1;
+    border-radius: 16px;
+    margin-top: 32px;
+    margin-bottom: 40px;
     position: relative;
     z-index: 1;
+}
+.section-title {
+    width: 100%;
+    text-align: center;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    border-bottom: 2px solid var(--btn-border-color);
+}
+a {
+    text-decoration: none;
+    color: #222;
+    font-size: 3em;
+    font-weight: 600;
+    top: 16px;
+    left: 16px;
+}
+.circle {
+    display: flex;
+    background-color: #e9c69f;
+    width: 48px;
+    height: 48px;
+    padding: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+
 }
 .user {
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin: 15px 0;
-    position: relative;
-    z-index: 1;
-}
-.user-icon {
-    width: 50px;
-    height: 50px;
-    background: #fdd835;
-    border-radius: 50%;
-    display: flex;
     justify-content: center;
-    align-items: center;
-    font-size: 24px;
+    opacity: 0.4;
 }
-.user input {
-    flex: 1;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 fieldset {
-    border: none;
-    margin: 15px 0;
-    padding: 0;
-    position: relative;
-    z-index: 1;
+    border: 2px solid var(--btn-border-color);
+    border-radius: 8px;
+    padding: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 16px;
+    margin-bottom: 16px;
 }
-legend {
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-.roles label {
+.add-person-section {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    margin: 5px 0;
+    justify-content: center;
+    gap: 16px;
+    width: 100%;
+    margin-bottom: 16px;
+    margin-top: 16px;
 }
-input[type="radio"] {
-    accent-color: #1d71f2;
+input[type="text"] {
+    width: calc(100% - 12px);
+    padding: 12px 0px;
+    font-size: 1em;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+}
+input[type="text"]:focus {
+    outline: none;
+    border-color: var(--btn-border-color);
+    box-shadow: 0 0 5px rgba(233, 198, 159, 0.5);
+}
+input[type="text"].worker-name {
+    padding-left: 12px;
 }
 button {
-    width: 100%;
-    padding: 12px;
+    background: green;
+    color: #fff;
     border: none;
+    padding: 12px 24px;
+    font-size: 1em;
     border-radius: 8px;
-    background: #a7d84c;
-    color: white;
-    font-size: 16px;
     cursor: pointer;
-    position: relative;
-    z-index: 1;
+    transition: background-color 0.3s;
+    width: 100%;
+    font-weight: 600;
 }
 button:hover {
-    background: #8fc13a;
+    background-color: darkgreen;
+}
+.container {
+    width: 100%;
+    position: relative;
+}
+.worker-name {
+    font-size: 1.2em;
+    font-weight: 600;
+    border: 2px solid #ccc;
+}
+
+.section-tasks {
+    max-width: 670px;
+    width: 100%;
+}
+legend {
+    font-size: 1.2em;
+    font-weight: 700;
+    margin-bottom: 8px;
+    margin-top: 8px;
+}
+label {
+    font-size: 1em;
+    margin-right: 16px;
+    cursor: pointer;
+}
+input[type="radio"] {
+    margin-right: 8px;
+    /* Añadir color*/
+    accent-color: #1f1bff;
+    cursor: pointer;
+}
+@media (max-width: 700px) {
+    .main {
+        padding: 32px;
+        border-radius: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    .section-tasks {
+        max-width: 100%;
+    }
+
 }
