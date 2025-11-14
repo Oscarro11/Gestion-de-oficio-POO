@@ -6,39 +6,50 @@ public class WorkerResponseDTO {
     @JsonProperty("id")
     protected long id;
 
-    @JsonProperty("worker_type")
-    protected int worker_type;
+    @JsonProperty("workerType")
+    protected int workerType;
 
-    @JsonProperty("creator_id")
-    protected long creator_id;
+    @JsonProperty("creatorId")
+    protected long creatorId;
 
-    @JsonProperty("workGroup_id")
-    protected long workGroup_id;
+    @JsonProperty("workGroupId")
+    protected long workGroupId;
 
-    @JsonProperty("reward_points_quantity")
-    protected int reward_points_quantity;
+    @JsonProperty("rewardPointsQuantity")
+    protected int rewardPointsQuantity;
 
-    @JsonProperty("worker_name")
-    protected String worker_name;
+    @JsonProperty("workerName")
+    protected String workerName;
+
+    @JsonProperty("datosAdicionales")
+    protected String datosAdicionales;
 
 
     public WorkerResponseDTO() {}
 
-    public WorkerResponseDTO(long id, long creator_id, long workGroup_id, int reward_points_quantity, int worker_type, String worker_name) {
+    public WorkerResponseDTO(long id, long creatorId, long workGroupId, int rewardPointsQuantity, int workerType, String workerName, String datosAdicionales) {
         this.id = id;
-        this.creator_id = creator_id;
-        this.workGroup_id = workGroup_id;
-        this.reward_points_quantity = reward_points_quantity;
-        this.worker_type = worker_type;
-        this.worker_name = worker_name;
+        this.creatorId = creatorId;
+        this.workGroupId = workGroupId;
+        this.rewardPointsQuantity = rewardPointsQuantity;
+        this.workerType = workerType;
+        this.workerName = workerName;
+        this.datosAdicionales = datosAdicionales;
     }
 
 
-    public long getCreator_id() {
-        return creator_id;
+    public long getCreatorId() {
+        return creatorId;
     }
-    public void setCreator_id(long creator_id) {
-        this.creator_id = creator_id;
+    public void setCreatorId(long creatorId) {
+        this.creatorId = creatorId;
+    }
+
+    public String getDatosAdicionales() {
+        return datosAdicionales;
+    }
+    public void setDatosAdicionales(String datosAdicionales) {
+        this.datosAdicionales = datosAdicionales;
     }
 
     public long getId() {
@@ -47,32 +58,32 @@ public class WorkerResponseDTO {
     public void setId(long id) {
         this.id = id;
     }
-
-    public int getReward_points_quantity() {
-        return reward_points_quantity;
+    
+    public int getRewardPointsQuantity() {
+        return rewardPointsQuantity;
     }
-    public void setReward_points_quantity(int reward_points_quantity) {
-        this.reward_points_quantity = reward_points_quantity;
-    }
-
-    public long getWorkGroup_id() {
-        return workGroup_id;
-    }
-    public void setWorkGroup_id(long workGroup_id) {
-        this.workGroup_id = workGroup_id;
+    public void setRewardPointsQuantity(int rewardPointsQuantity) {
+        this.rewardPointsQuantity = rewardPointsQuantity;
     }
 
-    public int getWorker_type() {
-        return worker_type;
+    public long getWorkGroupId() {
+        return workGroupId;
     }
-    public void setWorker_type(int worker_type) {
-        this.worker_type = worker_type;
+    public void setWorkGroupId(long workGroupId) {
+        this.workGroupId = workGroupId;
+    }
+    
+    public String getWorkerName() {
+        return workerName;
+    }
+    public void setWorkerName(String workerName) {
+        this.workerName = workerName;
     }
 
-    public String getWorker_name() {
-        return worker_name;
+    public int getWorkerType() {
+        return workerType;
     }
-    public void setWorker_name(String worker_name) {
-        this.worker_name = worker_name;
+    public void setWorkerType(int workerType) {
+        this.workerType = workerType;
     }
 }

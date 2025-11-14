@@ -319,7 +319,7 @@
                                 */
 
                                 const span_worker_title = document.createElement('span');
-                                span_worker_title.textContent = `${item.worker_name}`;
+                                span_worker_title.textContent = `${item.workerName}`;
                                 span_worker_title.classList = "task-title";
                                 div_worker_info.appendChild(span_worker_title);
 
@@ -350,7 +350,7 @@
                                             })
                                             .then(async response => {
                                                 if (await response.ok) {
-                                                    console.log(`The worker with name "${item.worker_name}" and id "${item.id}" has been set as the active Worker`);
+                                                    console.log(`The worker with name "${item.workerName}" and id "${item.id}" has been set as the active Worker`);
                                                     window.location.href = "informacionWorker.html";
                                                 }
                                                 else {

@@ -17,9 +17,9 @@ public class WorkUserResponseDTO extends WorkerResponseDTO{
         long reference_id)
         {
             this.id = id;
-            this.creator_id = creator_id;
-            this.workGroup_id = workGroup_id;
-            this.reward_points_quantity = reward_points_quantity;
+            this.creatorId = creator_id;
+            this.workGroupId = workGroup_id;
+            this.rewardPointsQuantity = reward_points_quantity;
             this.reference_id = reference_id;
         }
 

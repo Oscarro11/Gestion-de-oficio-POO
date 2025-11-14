@@ -57,12 +57,12 @@ public class WorkerController {
     
         WorkUserResponseDTO dto = new WorkUserResponseDTO();
         dto.setId(workUser.getId());
-        dto.setCreator_id(workUser.getCreator_Id());
-        dto.setReward_points_quantity(workUser.getRewardPoints());
-        dto.setWorkGroup_id(workUser.getWorkGroup_Id());
+        dto.setCreatorId(workUser.getCreator_Id());
+        dto.setRewardPointsQuantity(workUser.getRewardPoints());
+        dto.setWorkGroupId(workUser.getWorkGroup_Id());
         dto.setReference_id(workUser.getReference_Id());
-        dto.setWorker_name(userService.getUserNameById(workUser.getReference_Id()));
-        dto.setWorker_type(1);
+        dto.setWorkerName(userService.getUserNameById(workUser.getReference_Id()));
+        dto.setWorkerType(1);
 
         return ResponseEntity.ok(dto);
     }
@@ -80,13 +80,13 @@ public class WorkerController {
             workGuestRequestDTO.getName());
         
         WorkGuestResponseDTO dto = new WorkGuestResponseDTO();
-        dto.setCreator_id(newWorkGuest.getCreator_Id());
+        dto.setCreatorId(newWorkGuest.getCreator_Id());
         dto.setIdentification_code(newWorkGuest.getIdentificationCode());
-        dto.setWorker_name(newWorkGuest.getName());
+        dto.setWorkerName(newWorkGuest.getName());
         dto.setId(newWorkGuest.getId());
-        dto.setReward_points_quantity(newWorkGuest.getRewardPoints());
-        dto.setWorkGroup_id(newWorkGuest.getWorkGroup_Id());
-        dto.setWorker_type(2);
+        dto.setRewardPointsQuantity(newWorkGuest.getRewardPoints());
+        dto.setWorkGroupId(newWorkGuest.getWorkGroup_Id());
+        dto.setWorkerType(2);
 
         return ResponseEntity.ok(dto);
     }
@@ -101,19 +101,21 @@ public class WorkerController {
             WorkerResponseDTO dto = new WorkerResponseDTO();
 
             dto.setId(worker.getId());
-            dto.setCreator_id(worker.getCreator_Id());
-            dto.setReward_points_quantity(worker.getRewardPoints());
-            dto.setWorkGroup_id(worker.getWorkGroup_Id());
+            dto.setCreatorId(worker.getCreator_Id());
+            dto.setRewardPointsQuantity(worker.getRewardPoints());
+            dto.setWorkGroupId(worker.getWorkGroup_Id());
 
             switch (worker) {
                 case WorkUser workUser:
-                    dto.setWorker_type(1);
-                    dto.setWorker_name(userService.getUserNameById(workUser.getReference_Id()));
+                    dto.setWorkerType(1);
+                    dto.setWorkerName(userService.getUserNameById(workUser.getReference_Id()));
+                    dto.setDatosAdicionales(userService.getUserById(workUser.getReference_Id()).getEmail());
                     break;
 
                 case WorkGuest workGuest:
-                    dto.setWorker_type(2);
-                    dto.setWorker_name(workGuest.getName());
+                    dto.setWorkerType(2);
+                    dto.setWorkerName(workGuest.getName());
+                    dto.setDatosAdicionales(workGuest.getIdentificationCode());
                     break;
             
                 default:
@@ -140,21 +142,24 @@ public class WorkerController {
         Worker worker = workerService.getWorkerById(cookiesService.getActiveWorkerId(activeSession));
         WorkerResponseDTO dto = new WorkerResponseDTO();
 
-        dto.setCreator_id(worker.getCreator_Id());
+        dto.setCreatorId(worker.getCreator_Id());
         dto.setId(worker.getId());
-        dto.setReward_points_quantity(worker.getRewardPoints());
-        dto.setWorker_name(worker.getName());
-        dto.setWorkGroup_id(worker.getWorkGroup_Id());
+        dto.setRewardPointsQuantity(worker.getRewardPoints());
+        dto.setWorkerName(worker.getName());
+        dto.setWorkGroupId(worker.getWorkGroup_Id());
         
         Class<?> temp = Hibernate.getClass(worker);
 
         switch (temp.getSimpleName()) {
             case "WorkUser":
-                dto.setWorker_type(1);
+                WorkUser workUser = workUserService.getWorkUserById(cookiesService.getActiveWorkerId(activeSession));
+                dto.setWorkerType(1);
+                dto.setDatosAdicionales(userService.getUserNameById(workUser.getReference_Id()));
                 break;
 
             case "WorkGuest":
-                dto.setWorker_type(2);
+                dto.setWorkerType(2);
+                dto.setDatosAdicionales(workGuestService.getWorkGuestById(cookiesService.getActiveWorkerId(activeSession)).getIdentificationCode());
                 break;
         
             default:

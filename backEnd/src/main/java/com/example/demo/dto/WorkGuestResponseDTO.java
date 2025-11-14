@@ -17,9 +17,9 @@ public class WorkGuestResponseDTO extends WorkerResponseDTO{
         String identification_code)
         {
             this.id = id;
-            this.creator_id = creator_id;
-            this.workGroup_id = workGroup_id;
-            this.reward_points_quantity = reward_points_quantity;
+            this.creatorId = creator_id;
+            this.workGroupId = workGroup_id;
+            this.rewardPointsQuantity = reward_points_quantity;
             this.identification_code = identification_code;
     }
 

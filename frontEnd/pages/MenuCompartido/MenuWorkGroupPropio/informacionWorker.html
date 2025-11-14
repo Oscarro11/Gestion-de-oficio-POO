@@ -224,6 +224,9 @@ customElements.define('special-navbar', NavbarManager);
         <li> 
           <label id="puntos-recompensa"></label> 
         </li>
+        <li>
+          <label id="dato-adicional"></label>
+        </li>
       </ul>
     </section>
 
@@ -285,26 +288,30 @@ customElements.define('special-navbar', NavbarManager);
           return await response.json();
         })
         .then(data => {
+          console.log(data);
           const texto_nombre = document.getElementById("nombre");
           const texto_tipo_trabajador = document.getElementById("tipo-de-trabajador");
           const texto_puntos = document.getElementById("puntos-recompensa");
+          const texto_dato_adicional = document.getElementById("dato-adicional");
 
-          texto_nombre.textContent = `Nombre: ${data.worker_name}`;
+          texto_nombre.textContent = `Nombre: ${data.workerName}`;
 
-          switch (data.worker_type) {
+          switch (data.workerType) {
             case 1:
               texto_tipo_trabajador.textContent = "Tipo de trabajador: usuario con cuenta en el sistema";
+              texto_dato_adicional.textContent = `Correo del usuario: ${data.datosAdicionales}`;
               break;
           
             case 2:
               texto_tipo_trabajador.textContent = "Tipo de trabajador: invitado";
+              texto_dato_adicional.textContent = `Codigo de invitado: ${data.datosAdicionales}`;
               break;
 
             default:
               break;
           }
 
-          texto_puntos.textContent = `Cantidad de puntos: ${data.reward_points_quantity}`;
+          texto_puntos.textContent = `Cantidad de puntos: ${data.rewardPointsQuantity}`;
         })
       }
 
