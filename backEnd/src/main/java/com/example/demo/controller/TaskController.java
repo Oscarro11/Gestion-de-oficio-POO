@@ -10,12 +10,9 @@ import jakarta.servlet.http.HttpSession;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.ArrayList;
-import org.springframework.web.bind.annotation.GetMapping;
 
 
 
@@ -73,11 +70,26 @@ public class TaskController {
 
     @PostMapping("/deleteTasks")
     public ResponseEntity<Boolean> deleteTasks(@RequestBody List<Long> ids) {
+        boolean tasksCanBeDeleted = true;
+
         for (Long id : ids) {
-            taskService.deleteUserTask(id);
+            if (!taskService.checkDeleteUserTask(id)) {
+                tasksCanBeDeleted = false;
+                break;
+            }
         }
-        
-        return ResponseEntity.ok(true);
+
+        if (!tasksCanBeDeleted) {
+            return ResponseEntity.ok(false);
+        }
+        else{
+
+            for (Long id : ids) {
+                taskService.deleteUserTask(id);
+            }
+
+            return ResponseEntity.ok(true);
+        }
     }
     
 

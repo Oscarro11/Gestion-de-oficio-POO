@@ -9,5 +9,6 @@ import java.util.List;
 public interface AvailableRewardRepository extends JpaRepository<AvailableReward, Long>{
     
     List<AvailableReward> findBySource_Id(Long source_Id);
+    List<AvailableReward> findByReference_Id(Long reference_Id);
 
 }

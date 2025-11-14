@@ -1,9 +1,12 @@
 package com.example.demo.service;
 
+import com.example.demo.model.AvailableReward;
 import com.example.demo.model.Task;
+import com.example.demo.model.AssignedTask;
 //import com.example.demo.model.User;
 import com.example.demo.repository.TaskRepository;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.repository.AssignedTaskRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,10 +17,12 @@ import java.time.LocalTime;
 public class TaskService {
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
+    private final AssignedTaskRepository assignedTaskRepository;
     
-    public TaskService(TaskRepository taskRepository, UserRepository userRepository){
+    public TaskService(TaskRepository taskRepository, UserRepository userRepository, AssignedTaskRepository assignedTaskRepository){
         this.taskRepository = taskRepository;
         this.userRepository = userRepository;
+        this.assignedTaskRepository = assignedTaskRepository;
     }
 
     public List<Task> getAllTasks(){
@@ -61,6 +66,12 @@ public class TaskService {
         task.setCreator(userRepository.getReferenceById(creator_id));
 
         return taskRepository.save(task);
+    }
+
+    public boolean checkDeleteUserTask(long id){
+        List<AssignedTask> availableTasks = assignedTaskRepository.findByReference_Id(id);
+
+        return availableTasks.size() == 0;
     }
 
     public void deleteUserTask(long id){

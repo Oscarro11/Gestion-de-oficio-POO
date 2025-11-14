@@ -368,7 +368,6 @@
             }
 
             delete_button.addEventListener("click", event => {
-
                 fetch("http://localhost:8080/api/cookies/switchDeleteTasksMode", {
                     method: "PUT",
                     credentials: "include"
@@ -380,28 +379,34 @@
                     if (data){
                         alert("Seleccione todas las tareas que desea eliminar, y vuelva a presionar este boton para confirmar su eliminación")
                         delete_image.setAttribute("src", "../../../assets/images/delete-icon-active.png");
+                        document.body.classList.add('delete-mode');
                     }  
-                    else{
-                        fetch("http://localhost:8080/api/tasks/deleteTasks", {
-                            method: "POST",
-                            credentials: "include",
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(tasksToDelete)
-                        })
-                        .then(async response => {
-                            if (await response.ok){
-                                alert("Tareas eliminadas correctamente.");
-                                loadUserTasks("taskname");
-                            }
-                            else{
-                                alert("Ha ocurrido un error al eliminar las tareas seleccionadas.");
-                            }
-                        })
+                    else{ 
+                        if (tasksToDelete.length > 0) {
+                            fetch("http://localhost:8080/api/tasks/deleteTasks", {
+                                method: "POST",
+                                credentials: "include",
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(tasksToDelete)
+                            })
+                            .then(async response => {
+                                return await response.text();
+                            })
+                            .then(data => {
+                                if (data == "true"){
+                                    alert("Tareas eliminadas correctamente.");
+                                }
+                                else{
+                                    alert("Ha ocurrido un error al eliminar las tareas seleccionadas.");
+                                }
+                            })
+                        }
                         delete_image.setAttribute("src", "../../../assets/images/delete-icon-inactive.png");
-                    
+                        document.body.classList.remove('delete-mode');
                         tasksToDelete = [];
+                        loadUserTasks("taskname");
                     }
                 })
             });

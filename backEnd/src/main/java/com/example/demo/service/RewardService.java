@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Reward;
+import com.example.demo.model.AvailableReward;
+import com.example.demo.repository.AvailableRewardRepository;
 import com.example.demo.repository.RewardRepository;
 import com.example.demo.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -10,11 +12,13 @@ import java.util.List;
 @Service
 public class RewardService {
     private final RewardRepository rewardRepository;
+    private final AvailableRewardRepository availableRewardRepository;
     private final UserRepository userRepository;
 
-    public RewardService(RewardRepository rewardRepository, UserRepository userRepository){
+    public RewardService(RewardRepository rewardRepository, UserRepository userRepository, AvailableRewardRepository availableRewardRepository){
         this.rewardRepository = rewardRepository;
         this.userRepository = userRepository;
+        this.availableRewardRepository = availableRewardRepository;
     }
 
     public List<Reward> getAllRewards(){
@@ -59,8 +63,13 @@ public class RewardService {
         return rewardRepository.save(reward);
     }
 
+    public boolean checkDeleteUserReward(long id){
+        List<AvailableReward> availableRewards = availableRewardRepository.findByReference_Id(id);
+
+        return availableRewards.size() == 0;
+    }
+
     public void deleteUserReward(long id){
         rewardRepository.deleteById(id);
     }
-    
 }

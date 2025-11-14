@@ -402,18 +402,20 @@
                                 body: JSON.stringify(rewardsToDelete)
                             })
                             .then(async response => {
-                                if (await response.ok) {
+                                return await response.text();
+                            })
+                            .then(data => {
+                                if (data == "true") {
                                     alert("Recompensas eliminadas correctamente.");
-                                    rewardsToDelete = [];
-                                    loadUserRewards();
                                 } else {
-                                    alert("Hubo un problema con la solicitud para eliminar las recompensas.");
+                                    alert("La seleccion de recompensas no puede eliminarse, debido a que se encuentra en uso en otros grupos de trabajo.");
                                 }
                             })
                         }
                         delete_image.setAttribute("src", "../../../assets/images/delete-icon-inactive.png");
                         document.body.classList.remove('delete-mode');
                         rewardsToDelete = [];
+                        loadUserRewards();
                     }
                 })
                 .catch(error => {

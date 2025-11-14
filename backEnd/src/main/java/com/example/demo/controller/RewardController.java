@@ -76,11 +76,26 @@ public class RewardController {
 
     @PostMapping("/deleteRewards")
     public ResponseEntity<Boolean> deleteRewards(@RequestBody List<Long> ids) {
+        boolean rewardsCanBeDeleted = true;
+
         for (Long id : ids) {
-            rewardService.deleteUserReward(id);
+            if (!rewardService.checkDeleteUserReward(id)) {
+                rewardsCanBeDeleted = false;
+                break;
+            }
         }
-        
-        return ResponseEntity.ok(true);
+
+        if (!rewardsCanBeDeleted) {
+            return ResponseEntity.ok(false);
+        }
+        else{
+
+            for (Long id : ids) {
+                rewardService.deleteUserReward(id);
+            }
+
+            return ResponseEntity.ok(true);
+        }
     }
 
     @PostMapping("/getRewardById")
